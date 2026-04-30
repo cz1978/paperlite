@@ -90,6 +90,44 @@ PAPERLITE_LLM_MODEL=
 - `/agent/rag/index`、`/agent/ask`：手动元数据 RAG。
 - `/zotero/status`、`/zotero/items`、`/zotero/export`：Zotero 元数据流。
 
+## OpenClaw / QClaw / Hermes 对接路径
+
+OpenClaw、QClaw、Hermes 是外部 agent。PaperLite 不把它们安装到本仓库里，只提供它们可连接的 REST/MCP 路径。
+
+克隆后的通用路径：
+
+```text
+<你的目录>/paperlite
+```
+
+如果外部 agent 要填 PaperLite 服务地址：
+
+```text
+Docker Compose: http://127.0.0.1:8000
+本地 Python:   http://127.0.0.1:8768
+```
+
+如果外部 agent 要填 manifest URL：
+
+```text
+http://127.0.0.1:8000/agent/manifest
+http://127.0.0.1:8000/.well-known/paperlite.json
+```
+
+如果外部 agent 支持 MCP，先安装可选 MCP 依赖：
+
+```bash
+cd paperlite
+python -m pip install -e ".[mcp]"
+```
+
+MCP 配置里常用这两个字段：
+
+```text
+working_dir: <你的目录>/paperlite/paperlite
+command: python -m paperlite.mcp_server
+```
+
 ## 常用检查
 
 ```bash

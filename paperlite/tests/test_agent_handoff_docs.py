@@ -53,6 +53,12 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "不下载 PDF" in readme_zh
     assert "不在页面加载时自动调用 LLM 或 RAG" in readme_zh
     assert "127.0.0.1:8000" in readme_zh
+    assert "OpenClaw / QClaw / Hermes 对接路径" in readme_zh
+    assert "PaperLite 不把它们安装到本仓库里" in readme_zh
+    assert "http://127.0.0.1:8000/agent/manifest" in readme_zh
+    assert "http://127.0.0.1:8000/.well-known/paperlite.json" in readme_zh
+    assert "command: python -m paperlite.mcp_server" in readme_zh
+    assert "working_dir: <你的目录>/paperlite/paperlite" in readme_zh
 
     assert "## Design Shape" in package_readme
     assert "`daily_export.py` owns daily date resolution" in package_readme
