@@ -13,7 +13,7 @@ Do not tell users to open `/daily` for agent tasks. Do not finish with a `/daily
 
 ## Choose MCP Or HTTP
 
-Default agent use is MCP stdio. It does not need Docker, does not start `/daily`, and does not require a running HTTP server. Install the package, then let the host agent launch `python -m paperlite.mcp_server`.
+Default agent use is MCP stdio. It does not need Docker, does not start `/daily`, and does not require a running HTTP server. Agent-only MCP setup must not run `docker compose up --build`; install the package, then let the host agent launch `python -m paperlite.mcp_server`.
 
 If the host can fetch GitHub repositories and install MCP servers from natural language, this prompt is enough:
 

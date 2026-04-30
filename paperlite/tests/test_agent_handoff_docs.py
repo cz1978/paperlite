@@ -214,6 +214,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "PaperLite's built-in LLM endpoints are optional fallback tools" in skill_doc
     assert "Default agent use is MCP stdio. It does not need Docker" in skill_doc
     assert "does not require a running HTTP server" in skill_doc
+    assert "Agent-only MCP setup must not run `docker compose up --build`" in skill_doc
     assert "`/daily/crawl` and `/daily/cache` are JSON API endpoints" in skill_doc
     assert "把 PaperLite MCP 安装好" in skill_doc
     assert "Use Docker only when the host needs HTTP endpoints or a human browser UI" in skill_doc
