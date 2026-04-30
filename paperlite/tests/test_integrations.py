@@ -1,3 +1,6 @@
+import tomllib
+from pathlib import Path
+
 from fastapi.testclient import TestClient
 
 from paperlite import mcp_server
@@ -5,11 +8,19 @@ from paperlite.api import create_app
 from paperlite.integrations import agent_manifest, agent_result_policy
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def project_version() -> str:
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    return str(pyproject["project"]["version"])
+
+
 def test_agent_manifest_declares_reserved_interfaces():
     manifest = agent_manifest("http://paperlite.local")
 
     assert manifest["name"] == "paperlite"
-    assert manifest["version"] == "0.2.7"
+    assert manifest["version"] == project_version()
     assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily/cache?format=json"
     assert manifest["interfaces"]["human_ui"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_research"
@@ -112,6 +123,7 @@ def test_agent_manifest_rest_endpoint():
     response = client.get("/agent/manifest")
 
     assert response.status_code == 200
+    assert response.json()["version"] == project_version()
     assert response.json()["interfaces"]["rest"]["agent_translate"].endswith("/agent/translate")
     assert response.json()["interfaces"]["rest"]["agent_context"].endswith("/agent/context")
     assert response.json()["interfaces"]["rest"]["agent_research"].endswith("/agent/research")
@@ -127,12 +139,23 @@ def test_well_known_manifest_endpoint():
     response = client.get("/.well-known/paperlite.json")
 
     assert response.status_code == 200
+    assert response.json()["version"] == project_version()
     assert response.json()["capabilities"]
+
+
+def test_openapi_version_matches_project_version():
+    client = TestClient(create_app())
+
+    response = client.get("/openapi.json")
+
+    assert response.status_code == 200
+    assert response.json()["info"]["version"] == project_version()
 
 
 def test_mcp_agent_manifest_tool():
     manifest = mcp_server.paper_agent_manifest("http://paperlite.local")
 
+    assert manifest["version"] == project_version()
     assert manifest["interfaces"]["mcp"]["command"] == "python -m paperlite.mcp_server"
     assert "Hermes-style agents" in manifest["compatible_with"]
     assert "paper_translate" in manifest["interfaces"]["mcp"]["tools"]

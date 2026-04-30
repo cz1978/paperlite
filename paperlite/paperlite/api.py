@@ -29,6 +29,7 @@ from paperlite.storage import (
     record_preference_query,
 )
 from paperlite.translation import translate_paper
+from paperlite.version import package_version
 from paperlite.zotero import ZoteroNotConfiguredError, ZoteroRequestError, create_zotero_items, zotero_status
 
 __all__ = [
@@ -71,7 +72,7 @@ def create_app() -> FastAPI:
         start_schedule_loop()
         yield
 
-    app = FastAPI(title="PaperLite", version="0.2.7", lifespan=lifespan)
+    app = FastAPI(title="PaperLite", version=package_version(), lifespan=lifespan)
     app.include_router(daily_router)
     app.include_router(ops_router)
     app.include_router(library_router)

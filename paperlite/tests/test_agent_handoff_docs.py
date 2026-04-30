@@ -404,6 +404,9 @@ def test_deployment_templates_are_present_and_localhost_bound():
     assert "python -m paperlite.cli catalog validate --format markdown" in ci
     assert "docker build -t paperlite-ci-smoke:local ." in ci
     assert "ruff check paperlite tests" in ci
+    assert "CHANGELOG.md" in ci
+    assert "README.zh-CN.md" in ci
+    assert "SKILL.md" in ci
     assert "TODO.md" not in ci
     assert ".env" in dockerignore
     assert "TODO.md" in dockerignore

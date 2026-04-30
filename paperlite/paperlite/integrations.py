@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from paperlite.llm import embedding_status, llm_status
+from paperlite.version import package_version
 
 
 def agent_result_policy() -> dict[str, Any]:
@@ -163,7 +164,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.7",
+        "version": package_version(),
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily/cache?format=json",
