@@ -1,19 +1,55 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable
 from typing import Any
 
+from paperlite.daily_crawl import create_daily_crawl, run_daily_crawl
 from paperlite.daily_export import daily_cache_export_papers, daily_date_range
 from paperlite.integrations import agent_result_policy
 from paperlite.llm import complete_chat, create_embeddings, embedding_status
 from paperlite.models import Paper
+from paperlite.registry import list_sources
+from paperlite.runner import split_keys
 from paperlite.storage import (
     daily_cache_papers_for_rag,
+    get_crawl_run,
     get_paper_embedding,
     paper_embedding_hash,
     paper_embedding_text,
     upsert_paper_embedding,
 )
+from paperlite.taxonomy import discipline_record, load_taxonomy, taxonomy_key_for_discipline
+
+RESEARCH_DEFAULT_LIMIT = 15
+RESEARCH_MAX_LIMIT = 50
+RESEARCH_SOURCE_LIMIT = 15
+RESEARCH_CACHE_LIMIT_PER_SOURCE = 500
+
+_RESEARCH_QUERY_HINTS: tuple[tuple[str, str], ...] = (
+    ("新能源材料", "renewable energy"),
+    ("可再生能源材料", "renewable energy"),
+    ("材料里的电池", "battery"),
+    ("材料中的电池", "battery"),
+    ("材料 电池", "battery"),
+    ("电池材料", "battery"),
+    ("储能材料", "energy storage"),
+    ("催化材料", "catalyst"),
+    ("高分子材料", "polymer"),
+    ("聚合物材料", "polymer"),
+    ("半导体材料", "semiconductor"),
+    ("陶瓷材料", "ceramic"),
+    ("光伏材料", "photovoltaic"),
+    ("battery materials", "battery"),
+    ("energy storage materials", "energy storage"),
+    ("catalyst materials", "catalyst"),
+    ("polymer materials", "polymer"),
+    ("semiconductor materials", "semiconductor"),
+    ("ceramic materials", "ceramic"),
+    ("photovoltaic materials", "photovoltaic"),
+)
+
+_BROAD_MATERIAL_TOPICS = {"材料", "材料科学", "纳米材料", "materials", "material science", "materials science"}
 
 
 def parse_paper(value: dict[str, Any] | Paper) -> Paper:
@@ -275,6 +311,111 @@ def _clean_query(value: str | None) -> str | None:
     return text or None
 
 
+def _scope_text(value: str | None) -> str:
+    return " ".join(str(value or "").replace("_", " ").replace("-", " ").strip().lower().split())
+
+
+def _compact_scope_text(value: str | None) -> str:
+    return _scope_text(value).replace(" ", "")
+
+
+def _resolve_research_discipline(topic: str | None, discipline: str | None) -> str:
+    if discipline:
+        key = taxonomy_key_for_discipline(discipline)
+        if key != "unclassified":
+            return key
+    text = _scope_text(topic)
+    compact_text = _compact_scope_text(topic)
+    if not text and not compact_text:
+        return "unclassified"
+    aliases = sorted(load_taxonomy().discipline_aliases.items(), key=lambda item: len(item[0]), reverse=True)
+    for alias, canonical in aliases:
+        compact_alias = alias.replace(" ", "")
+        if (alias and alias in text) or (compact_alias and compact_alias in compact_text):
+            key = taxonomy_key_for_discipline(canonical)
+            if key != "unclassified":
+                return key
+    return "unclassified"
+
+
+def _derive_research_query(topic: str | None, q: str | None) -> str | None:
+    explicit = _clean_query(q)
+    if explicit:
+        return explicit
+    raw_topic = str(topic or "").strip()
+    if raw_topic in _BROAD_MATERIAL_TOPICS or _scope_text(raw_topic) in _BROAD_MATERIAL_TOPICS:
+        return None
+    text = _scope_text(raw_topic)
+    compact_text = _compact_scope_text(raw_topic)
+    for phrase, query in _RESEARCH_QUERY_HINTS:
+        clean_phrase = _scope_text(phrase)
+        compact_phrase = _compact_scope_text(phrase)
+        if clean_phrase in text or compact_phrase in compact_text:
+            return query
+    return None
+
+
+def resolve_research_scope(
+    *,
+    topic: str | None = None,
+    discipline: str | None = None,
+    q: str | None = None,
+    date_value: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+) -> dict[str, Any]:
+    start, end = _date_scope(date_value=date_value, date_from=date_from, date_to=date_to)
+    discipline_key = _resolve_research_discipline(topic, discipline)
+    record = discipline_record(discipline_key)
+    return {
+        "topic": str(topic or "").strip() or None,
+        "date_from": start,
+        "date_to": end,
+        "discipline": discipline_key if discipline_key != "unclassified" else None,
+        "discipline_label": record["label"] if discipline_key != "unclassified" else None,
+        "discipline_name": record["name"] if discipline_key != "unclassified" else None,
+        "q": _derive_research_query(topic, q),
+        "resolved": discipline_key != "unclassified",
+    }
+
+
+def _source_list(value: str | Iterable[str] | None) -> list[str]:
+    if value is None or value == "":
+        return []
+    return split_keys(value)
+
+
+def _research_source_selection(
+    *,
+    discipline: str,
+    source: str | Iterable[str] | None,
+    source_limit: int,
+) -> dict[str, Any]:
+    requested = _source_list(source)
+    if requested:
+        return {
+            "source_keys": requested,
+            "source_count": len(requested),
+            "source_strategy": "requested",
+            "truncated": False,
+        }
+    latest = [
+        item
+        for item in list_sources(discipline=discipline)
+        if item.get("supports_latest") and str(item.get("status") or "active") == "active"
+    ]
+    core = [item for item in latest if item.get("core")]
+    selected = core or latest
+    limit = _bounded_int(source_limit, default=RESEARCH_SOURCE_LIMIT, minimum=1, maximum=50)
+    keys = [str(item.get("name") or "") for item in selected[:limit] if item.get("name")]
+    return {
+        "source_keys": keys,
+        "source_count": len(keys),
+        "source_strategy": "active_core_latest" if core else "active_latest",
+        "truncated": len(selected) > len(keys),
+    }
+
+
 def _papers_for_rag_scope(
     *,
     start: str,
@@ -304,6 +445,250 @@ def _papers_for_rag_scope(
         limit_per_source=limit_per_source,
         path=cache_path,
     )
+
+
+def _research_cache_papers(
+    *,
+    scope: dict[str, Any],
+    source: str | Iterable[str] | None,
+    limit_per_source: int,
+    cache_path: str | None,
+) -> list[Paper]:
+    return daily_cache_export_papers(
+        date_from=str(scope["date_from"]),
+        date_to=str(scope["date_to"]),
+        discipline=scope.get("discipline"),
+        source=source,
+        q=scope.get("q"),
+        limit_per_source=limit_per_source,
+        path=cache_path,
+    )
+
+
+def _research_crawl_warnings(run: dict[str, Any] | None) -> tuple[list[str], list[dict[str, Any]]]:
+    if not run:
+        return [], []
+    warnings = [str(item) for item in run.get("warnings") or [] if item]
+    source_warnings: list[dict[str, Any]] = []
+    for item in run.get("source_results") or []:
+        source_key = str(item.get("source_key") or "")
+        error = str(item.get("error") or "").strip()
+        item_warnings = [str(value) for value in item.get("warnings") or [] if value]
+        if error or item_warnings:
+            source_warnings.append(
+                {
+                    "source": source_key,
+                    "endpoint": item.get("endpoint_key"),
+                    "error": error or None,
+                    "warnings": item_warnings,
+                }
+            )
+            if error:
+                warnings.append(f"{source_key}: {error}")
+            warnings.extend(f"{source_key}: {warning}" for warning in item_warnings)
+    return list(dict.fromkeys(warnings)), source_warnings
+
+
+def _research_paper_item(
+    paper: Paper,
+    *,
+    scope: dict[str, Any],
+    display_names: dict[str, str],
+) -> dict[str, Any]:
+    payload = _citation_paper(paper)
+    source_name = str(paper.source or "")
+    venue = paper.venue or paper.journal or display_names.get(source_name) or source_name
+    abstract = _clip(paper.abstract, limit=480)
+    reason_bits = []
+    if scope.get("discipline_label"):
+        reason_bits.append(f"matches {scope['discipline_label']}")
+    if scope.get("q"):
+        reason_bits.append(f"matches query: {scope['q']}")
+    reason = "; ".join(reason_bits) or "matches requested PaperLite scope"
+    return {
+        "paper": payload,
+        "title": paper.title,
+        "source": source_name,
+        "source_display": display_names.get(source_name) or source_name,
+        "venue": venue,
+        "date": paper.published_at.date().isoformat() if paper.published_at else None,
+        "url": paper.url,
+        "doi": paper.doi,
+        "reason": reason,
+        "short_title_zh": "",
+        "summary_or_point": abstract or "摘要未提供；请宿主 agent 基于标题、期刊/来源和分类给出一句元数据要点。",
+        "abstract_available": bool(abstract),
+    }
+
+
+def _research_next_actions(*, total: int, limit: int, scope: dict[str, Any], warnings: list[str]) -> list[str]:
+    actions: list[str] = []
+    if total > limit:
+        actions.append("Ask whether to use the host model to rank/select highlights from the returned scope.")
+        actions.append("Ask for an extra keyword to narrow the current scope before listing more papers.")
+    if not total:
+        actions.append("Check crawl warnings and consider widening the date range or choosing a source.")
+    if warnings:
+        actions.append("Mention crawl/source warnings instead of presenting the result as complete.")
+    if not scope.get("q"):
+        actions.append("If the user wants a subtopic, ask for a keyword such as battery, catalyst, polymer, or imaging.")
+    return actions
+
+
+def paper_research(
+    *,
+    topic: str | None = None,
+    discipline: str | None = None,
+    q: str | None = None,
+    date_value: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    source: str | Iterable[str] | None = None,
+    limit: int = RESEARCH_DEFAULT_LIMIT,
+    crawl_if_missing: bool = True,
+    source_limit: int = RESEARCH_SOURCE_LIMIT,
+    limit_per_source: int = RESEARCH_DEFAULT_LIMIT,
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    scope = resolve_research_scope(
+        topic=topic,
+        discipline=discipline,
+        q=q,
+        date_value=date_value,
+        date_from=date_from,
+        date_to=date_to,
+    )
+    selected_limit = _bounded_int(limit, default=RESEARCH_DEFAULT_LIMIT, minimum=1, maximum=RESEARCH_MAX_LIMIT)
+    selected_crawl_limit = _bounded_int(limit_per_source, default=RESEARCH_DEFAULT_LIMIT, minimum=1, maximum=500)
+    if not scope["resolved"]:
+        return {
+            "status": "error",
+            "error": "research_scope_unresolved",
+            "scope": scope,
+            "papers": [],
+            "total_count": 0,
+            "returned_count": 0,
+            "warnings": ["research_scope_unresolved"],
+            "next_actions": ["Ask the user for a PaperLite discipline or call paper_sources to inspect available disciplines."],
+            "result_contract": agent_result_policy(),
+        }
+
+    read_limit = max(RESEARCH_CACHE_LIMIT_PER_SOURCE, selected_limit)
+    before = _research_cache_papers(
+        scope=scope,
+        source=source,
+        limit_per_source=read_limit,
+        cache_path=cache_path,
+    )
+    crawl_triggered = False
+    crawl_error: str | None = None
+    crawl_run: dict[str, Any] | None = None
+    selected_sources: dict[str, Any] = {
+        "source_keys": _source_list(source),
+        "source_count": len(_source_list(source)),
+        "source_strategy": "requested" if source else "not_selected",
+        "truncated": False,
+    }
+    warnings: list[str] = []
+    source_warnings: list[dict[str, Any]] = []
+    if not before and crawl_if_missing:
+        selected_sources = _research_source_selection(
+            discipline=str(scope["discipline"]),
+            source=source,
+            source_limit=source_limit,
+        )
+        if selected_sources["source_keys"]:
+            crawl_triggered = True
+            try:
+                run = create_daily_crawl(
+                    date_from=str(scope["date_from"]),
+                    date_to=str(scope["date_to"]),
+                    discipline=str(scope["discipline"]),
+                    source=selected_sources["source_keys"],
+                    limit_per_source=selected_crawl_limit,
+                    db_path=cache_path,
+                )
+                if not run.get("reused") and run.get("status") == "queued":
+                    run_daily_crawl(str(run["run_id"]), db_path=cache_path)
+                crawl_run = get_crawl_run(str(run["run_id"]), path=cache_path) or run
+            except ValueError as exc:
+                crawl_error = str(exc)
+                warnings.append(crawl_error)
+        else:
+            warnings.append("no_latest_capable_sources_found")
+
+    after = _research_cache_papers(
+        scope=scope,
+        source=source,
+        limit_per_source=read_limit,
+        cache_path=cache_path,
+    )
+    crawl_warnings, source_warnings = _research_crawl_warnings(crawl_run)
+    warnings.extend(crawl_warnings)
+    if crawl_error:
+        warnings.append(crawl_error)
+    if not after:
+        warnings.append("research_no_cached_papers")
+    display_names = {
+        str(item.get("name") or ""): str(item.get("display_name") or item.get("name") or "")
+        for item in list_sources()
+    }
+    selected_papers = after[:selected_limit]
+    remaining = max(0, len(after) - len(selected_papers))
+    unique_warnings = list(dict.fromkeys(warnings))
+    return {
+        "status": "ok",
+        "topic": scope.get("topic"),
+        "scope": scope,
+        "cache": {
+            "before_count": len(before),
+            "after_count": len(after),
+            "used_existing": bool(before),
+        },
+        "crawl": {
+            "triggered": crawl_triggered,
+            "run": crawl_run,
+            "error": crawl_error,
+            "source_keys": selected_sources["source_keys"],
+            "source_count": selected_sources["source_count"],
+            "source_strategy": selected_sources["source_strategy"],
+            "sources_truncated": selected_sources["truncated"],
+            "source_warnings": source_warnings,
+            "warnings": crawl_warnings,
+        },
+        "total_count": len(after),
+        "returned_count": len(selected_papers),
+        "remaining_count": remaining,
+        "overflow": {
+            "limit": selected_limit,
+            "has_more": remaining > 0,
+            "message": (
+                f"Returned the first {selected_limit} papers; {remaining} more match. "
+                "Ask whether to AI-rank highlights or add keywords before returning more."
+                if remaining
+                else "Returned all matching papers."
+            ),
+        },
+        "papers": [
+            _research_paper_item(paper, scope=scope, display_names=display_names)
+            for paper in selected_papers
+        ],
+        "result_contract": {
+            **agent_result_policy(),
+            "host_agent_rendering": (
+                "Use the host model for the final Chinese answer: state discipline/source/date scope, "
+                "translate every returned title briefly, provide one concise point per paper, and say "
+                "'摘要未提供' when abstracts are missing."
+            ),
+        },
+        "warnings": unique_warnings,
+        "next_actions": _research_next_actions(
+            total=len(after),
+            limit=selected_limit,
+            scope=scope,
+            warnings=unique_warnings,
+        ),
+    }
 
 
 def _search_cached_embeddings(

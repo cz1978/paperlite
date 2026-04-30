@@ -6,6 +6,7 @@ from paperlite.agent import paper_agent_context as run_paper_agent_context
 from paperlite.agent import paper_ask as run_paper_ask
 from paperlite.agent import paper_explain as run_paper_explain
 from paperlite.agent import paper_rag_index as run_paper_rag_index
+from paperlite.agent import paper_research as run_paper_research
 from paperlite.ai_filter import DEFAULT_AI_FILTER_QUERY, filter_paper as run_filter_paper
 from paperlite.core import enrich_paper
 from paperlite.core import export as export_paper_metadata
@@ -255,6 +256,34 @@ def paper_agent_context(
     )
 
 
+def paper_research(
+    topic: str | None = None,
+    discipline: str | None = None,
+    q: str | None = None,
+    date: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    source: str | list[str] | None = None,
+    limit: int = 15,
+    crawl_if_missing: bool | str = True,
+    source_limit: int = 15,
+    limit_per_source: int = 15,
+) -> dict[str, Any]:
+    return run_paper_research(
+        topic=topic,
+        discipline=discipline,
+        q=q,
+        date_value=date,
+        date_from=date_from,
+        date_to=date_to,
+        source=source,
+        limit=_bounded_limit(limit, default=15, maximum=50),
+        crawl_if_missing=_as_bool(crawl_if_missing),
+        source_limit=_bounded_limit(source_limit, default=15, maximum=50),
+        limit_per_source=_bounded_limit(limit_per_source, default=15, maximum=500),
+    )
+
+
 def paper_filter(
     paper: dict,
     query: str | None = None,
@@ -279,6 +308,7 @@ def paper_rag_index(
     date_to: str | None = None,
     discipline: str | None = None,
     source: str | list[str] | None = None,
+    q: str | None = None,
     limit_per_source: int = 100,
 ) -> dict[str, Any]:
     return run_paper_rag_index(
@@ -287,6 +317,7 @@ def paper_rag_index(
         date_to=date_to,
         discipline=discipline,
         source=source,
+        q=q,
         limit_per_source=limit_per_source,
     )
 
@@ -298,6 +329,7 @@ def paper_ask(
     date_to: str | None = None,
     discipline: str | None = None,
     source: str | list[str] | None = None,
+    q: str | None = None,
     top_k: int = 8,
     limit_per_source: int = 100,
 ) -> dict[str, Any]:
@@ -308,6 +340,7 @@ def paper_ask(
         date_to=date_to,
         discipline=discipline,
         source=source,
+        q=q,
         top_k=top_k,
         limit_per_source=limit_per_source,
     )
@@ -375,6 +408,7 @@ def build_mcp():
     mcp.tool(name="paper_cache")(paper_cache)
     mcp.tool(name="paper_explain")(paper_explain)
     mcp.tool(name="paper_agent_context")(paper_agent_context)
+    mcp.tool(name="paper_research")(paper_research)
     mcp.tool(name="paper_translate")(paper_translate)
     mcp.tool(name="paper_translation_profiles")(paper_translation_profiles)
     mcp.tool(name="paper_filter")(paper_filter)

@@ -82,6 +82,45 @@ def test_agent_context_endpoint_uses_host_model(monkeypatch):
     assert calls[0]["query"] == "important"
 
 
+def test_agent_research_endpoint(monkeypatch):
+    calls = []
+
+    def fake_research(**kwargs):
+        calls.append(kwargs)
+        return {
+            "status": "ok",
+            "scope": {"discipline": kwargs["discipline"], "q": kwargs["q"]},
+            "total_count": 0,
+            "returned_count": 0,
+            "papers": [],
+            "warnings": [],
+        }
+
+    monkeypatch.setattr(api, "paper_research", fake_research)
+    client = TestClient(api.create_app())
+
+    response = client.post(
+        "/agent/research",
+        json={
+            "topic": "材料里的电池",
+            "discipline": "materials",
+            "q": "battery",
+            "date": "2026-04-30",
+            "limit": 12,
+            "crawl_if_missing": True,
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "ok"
+    assert calls[0]["topic"] == "材料里的电池"
+    assert calls[0]["discipline"] == "materials"
+    assert calls[0]["q"] == "battery"
+    assert calls[0]["date_value"] == "2026-04-30"
+    assert calls[0]["limit"] == 12
+    assert calls[0]["crawl_if_missing"] is True
+
+
 def test_agent_rag_endpoints(monkeypatch):
     index_calls = []
     ask_calls = []

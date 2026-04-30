@@ -4,7 +4,7 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.6`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.2.7`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
@@ -93,6 +93,7 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 - Crawl/schedule: `/daily/crawl`, `/daily/schedules`
 - Library/preferences: `/library/*`, `/preferences/*`
 - Agent/LLM: `/agent/filter`, `/agent/translate`, `/agent/explain`, `/agent/translation-profiles`
+- One-shot agent research: `/agent/research`
 - Metadata RAG: `/agent/rag/index`, `/agent/ask`
 - CLI RAG: `python -m paperlite.cli rag index ...`, `python -m paperlite.cli rag ask ...`
 - CLI sources: `python -m paperlite.cli sources --format markdown`
@@ -107,9 +108,9 @@ For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md
 
 Default MCP mode does not need Docker. The agent runs `python -m paperlite.mcp_server` as a local stdio process, reads local `.env` if present, and stores metadata in local SQLite. Use Docker only for HTTP API mode or for the human `/daily` browser UI.
 
-Default agent workflow: call `paper_agent_context` or `POST /agent/context` to get metadata-backed messages and a `result_contract`, then let the host agent's own model produce the answer. PaperLite's built-in LLM endpoints are optional fallback tools only when `.env` has LLM keys.
+Default agent workflow: call `paper_research` or `POST /agent/research` for natural-language requests such as "show today's materials papers". It resolves the discipline, checks today's SQLite cache, runs one explicit discipline-scoped crawl only when that cache is missing, then returns papers, count, crawl warnings, and a `result_contract`. Use the host agent's own model to render the final answer. Use `paper_agent_context` or `POST /agent/context` only when the host agent needs prepared messages for explain/filter/ask workflows.
 
-Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Prefer MCP tools. Use HTTP JSON endpoints such as `POST /daily/crawl` only when MCP is unavailable. With MCP, call `paper_sources(discipline="energy", q="energy", latest=true, limit=15)` to find crawl-capable source keys, `paper_crawl(...)` to fetch metadata, `paper_crawl_status(...)` to inspect the run, `paper_cache(...)` to read SQLite results, and `paper_agent_context(...)` to prepare messages for the host model. Return the selected papers and summary directly in the agent response.
+Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Prefer MCP tools. For ordinary topic requests, call `paper_research(topic="材料", date="<today>")` and answer from its returned scope, papers, counts, warnings, and next actions. Return the selected papers and summary directly in the agent response. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback or when the user asks for a specific source/run. Use HTTP JSON endpoints such as `POST /daily/crawl` only when MCP is unavailable.
 
 Agent result rule: the user's current prompt wins. If no different format is requested, after crawling, organizing, filtering, or ranking papers, the agent should state the scope first: discipline, source key/name, date range, query, run status, warnings, and total count. Then it should list the actual papers. If there are 15 or fewer papers, list all of them with title, source/venue, date, URL/DOI, reason, and a brief abstract/summary. If more than 15 papers match, list at most 15, state the remaining count, and ask whether to AI-rank/optimize or add search keywords to narrow the set. In Chinese answers, include a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper unless the user asks otherwise. Highlights come after the list, never instead of it.
 
@@ -161,6 +162,7 @@ Add this MCP server to your agent config:
 Useful MCP tools:
 
 - `paper_sources`
+- `paper_research`
 - `paper_crawl`
 - `paper_crawl_status`
 - `paper_cache`
@@ -175,12 +177,12 @@ Useful MCP tools:
 
 Typical agent flow:
 
-1. `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=15)` to find crawl-capable sources.
-2. `paper_crawl(...)` to fetch metadata.
-3. `paper_crawl_status(...)` to inspect completion and warnings.
-4. `paper_cache(...)` to read the actual paper list.
-5. Reply with the actual paper list first: titles, sources, dates, links, reasons, and brief abstracts/summaries. In Chinese answers, add Chinese title translations and one-sentence Chinese summaries for every paper. List all results when there are 15 or fewer unless the user's prompt asks for something else; when there are more, show 15 and ask whether to AI-rank or narrow with more keywords.
-6. After crawling, summarize/rank with the host agent model by default. Full translation only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
+1. For natural-language requests, call `paper_research(topic="<topic>", date="<today>")`.
+2. If `papers` is non-empty, reply with the actual paper list first: titles, sources, dates, links, reasons, and brief abstracts/summaries. In Chinese answers, add Chinese title translations and one-sentence Chinese summaries for every paper.
+3. If `remaining_count` is greater than 0, list only the returned papers and ask whether to AI-rank or add keywords.
+4. If `warnings` or `crawl.source_warnings` are present, mention them instead of pretending the crawl fully succeeded.
+5. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback, source-specific requests, or troubleshooting.
+6. Full translation only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
 
 Zotero flow:
 
@@ -209,6 +211,7 @@ If the agent runs elsewhere, use your public reverse-proxy URL instead, for exam
 Useful JSON endpoints:
 
 - `POST /agent/context`
+- `POST /agent/research`
 - `GET /sources`
 - `POST /daily/crawl`
 - `GET /daily/crawl/{run_id}`

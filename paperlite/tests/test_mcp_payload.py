@@ -69,6 +69,7 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     monkeypatch.setattr(mcp_server, "run_filter_paper", lambda **kwargs: {"group": "recommend", "paper": kwargs["paper"]})
     monkeypatch.setattr(mcp_server, "run_paper_ask", lambda **kwargs: {"answer": "Answer [1].", "question": kwargs["question"]})
     monkeypatch.setattr(mcp_server, "run_paper_rag_index", lambda **kwargs: {"indexed": 1, "date_from": kwargs["date_value"]})
+    monkeypatch.setattr(mcp_server, "run_paper_research", lambda **kwargs: {"status": "ok", "scope": {"topic": kwargs["topic"]}})
     monkeypatch.setattr(mcp_server, "run_create_daily_crawl", lambda **kwargs: {"run_id": "run-1", "status": "queued", "reused": False, **kwargs})
     monkeypatch.setattr(mcp_server, "run_daily_crawl", lambda run_id: None)
     monkeypatch.setattr(mcp_server, "get_crawl_run", lambda run_id: {"run_id": run_id, "status": "completed", "total_items": 2})
@@ -104,6 +105,7 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     assert translate_call["translation_profile"] == "research_card_cn"
     assert mcp_server.paper_translation_profiles()["profiles"][0]["key"] == "research_card_cn"
     assert mcp_server.paper_filter(paper.to_dict(), query="useful")["group"] == "recommend"
+    assert mcp_server.paper_research(topic="材料", date="2026-04-29")["scope"]["topic"] == "材料"
     assert mcp_server.paper_ask("question?", date="2026-04-29")["answer"] == "Answer [1]."
     assert mcp_server.paper_rag_index(date="2026-04-29")["indexed"] == 1
     assert mcp_server.paper_crawl(discipline="energy", source="mdpi_energies", date="2026-04-29")["status"] == "completed"

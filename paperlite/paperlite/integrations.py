@@ -84,6 +84,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
         "agent_translate": f"{root}/agent/translate",
         "agent_translation_profiles": f"{root}/agent/translation-profiles",
         "agent_filter": f"{root}/agent/filter",
+        "agent_research": f"{root}/agent/research",
         "agent_ask": f"{root}/agent/ask",
         "agent_rag_index": f"{root}/agent/rag/index",
     }
@@ -94,6 +95,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
         "paper_crawl_status",
         "paper_cache",
         "paper_agent_context",
+        "paper_research",
         "paper_explain",
         "paper_translate",
         "paper_translation_profiles",
@@ -114,6 +116,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
         "json_export",
         "mcp_tools",
         "host_agent_model_context",
+        "one_shot_research",
         "sqlite_daily_cache",
         "cache_export",
         "manual_discipline_crawl",
@@ -135,16 +138,17 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.6",
+        "version": "0.2.7",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily/cache?format=json",
             "human_ui": f"{root}/daily",
             "agent_default": {
-                "mcp_tool": "paper_agent_context",
-                "rest": f"{root}/agent/context",
+                "mcp_tool": "paper_research",
+                "rest": f"{root}/agent/research",
                 "model_source": "agent_host",
-                "note": "Use this for host-agent model workflows. Return results in chat/tool output; /daily is only the human web UI.",
+                "context_tool": "paper_agent_context",
+                "note": "Use this first for natural-language research requests. Return results in chat/tool output; /daily is only the human web UI.",
             },
             "agent_result_policy": agent_result_policy(),
             "rest": rest,

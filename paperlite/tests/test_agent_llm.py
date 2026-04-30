@@ -29,6 +29,149 @@ def make_paper():
     )
 
 
+def make_material_paper(index: int = 1):
+    return Paper(
+        id=f"doi:10.1038/material-{index}",
+        source="acs_chem_materials",
+        source_type="journal",
+        title=f"Useful materials paper {index}",
+        abstract="A materials study with metadata enough for a one sentence summary.",
+        authors=["Marie Curie"],
+        url=f"https://doi.org/10.1038/material-{index}",
+        doi=f"10.1038/material-{index}",
+        published_at=datetime(2024, 1, 2),
+        categories=["materials"],
+        journal="Chemistry of Materials",
+    )
+
+
+def test_research_scope_resolves_chinese_topics():
+    assert agent.resolve_research_scope(topic="材料")["discipline"] == "materials"
+    assert agent.resolve_research_scope(topic="材料")["q"] is None
+    assert agent.resolve_research_scope(topic="材料科学")["discipline"] == "materials"
+    assert agent.resolve_research_scope(topic="纳米材料")["discipline"] == "materials"
+
+    renewable = agent.resolve_research_scope(topic="今天关于新能源材料的文章", date_value="2024-01-02")
+
+    assert renewable["discipline"] == "materials"
+    assert renewable["q"] == "renewable energy"
+    assert renewable["date_from"] == "2024-01-02"
+    assert renewable["date_to"] == "2024-01-02"
+
+
+def test_paper_research_uses_existing_cache_without_crawl(tmp_path):
+    db_path = tmp_path / "paperlite.sqlite3"
+    run = storage.create_crawl_run(
+        date_from="2024-01-02",
+        date_to="2024-01-02",
+        discipline_key="materials",
+        source_keys=["acs_chem_materials"],
+        limit_per_source=10,
+        path=db_path,
+    )
+    storage.store_daily_papers(
+        run_id=run["run_id"],
+        entry_date="2024-01-02",
+        discipline_key="materials",
+        source_key="acs_chem_materials",
+        papers=[make_material_paper()],
+        path=db_path,
+    )
+
+    result = agent.paper_research(topic="材料", date_value="2024-01-02", cache_path=db_path)
+
+    assert result["scope"]["discipline"] == "materials"
+    assert result["cache"]["used_existing"] is True
+    assert result["crawl"]["triggered"] is False
+    assert result["total_count"] == 1
+    assert result["papers"][0]["source"] == "acs_chem_materials"
+    assert result["papers"][0]["summary_or_point"]
+
+
+def test_paper_research_crawls_when_scope_cache_missing(monkeypatch):
+    calls = {"exports": 0, "created": None, "ran": None}
+    paper = make_material_paper()
+
+    def fake_export(**kwargs):
+        calls["exports"] += 1
+        assert kwargs["discipline"] == "materials"
+        return [] if calls["exports"] == 1 else [paper]
+
+    def fake_create(**kwargs):
+        calls["created"] = kwargs
+        return {"run_id": "run-1", "status": "queued", "reused": False, "source_keys": kwargs["source"]}
+
+    def fake_run(run_id, **kwargs):
+        calls["ran"] = {"run_id": run_id, **kwargs}
+
+    monkeypatch.setattr(agent, "daily_cache_export_papers", fake_export)
+    monkeypatch.setattr(agent, "create_daily_crawl", fake_create)
+    monkeypatch.setattr(agent, "run_daily_crawl", fake_run)
+    monkeypatch.setattr(
+        agent,
+        "get_crawl_run",
+        lambda run_id, **_kwargs: {"run_id": run_id, "status": "completed", "total_items": 1, "warnings": []},
+    )
+
+    result = agent.paper_research(topic="材料", date_value="2024-01-02")
+
+    assert result["crawl"]["triggered"] is True
+    assert calls["created"]["discipline"] == "materials"
+    assert calls["created"]["source"]
+    assert calls["ran"]["run_id"] == "run-1"
+    assert result["total_count"] == 1
+
+
+def test_paper_research_surfaces_empty_crawl_warnings(monkeypatch):
+    monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: [])
+    monkeypatch.setattr(
+        agent,
+        "create_daily_crawl",
+        lambda **kwargs: {"run_id": "run-empty", "status": "queued", "reused": False, "source_keys": kwargs["source"]},
+    )
+    monkeypatch.setattr(agent, "run_daily_crawl", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(
+        agent,
+        "get_crawl_run",
+        lambda run_id, **_kwargs: {
+            "run_id": run_id,
+            "status": "completed",
+            "total_items": 0,
+            "warnings": ["no_items_matched_date_range"],
+            "source_results": [
+                {
+                    "source_key": "acs_chem_materials",
+                    "endpoint_key": "acs_chem_materials",
+                    "warnings": ["empty_feed_window"],
+                    "error": None,
+                }
+            ],
+        },
+    )
+
+    result = agent.paper_research(topic="材料", date_value="2024-01-02")
+
+    assert result["crawl"]["triggered"] is True
+    assert result["total_count"] == 0
+    assert "no_items_matched_date_range" in result["warnings"]
+    assert "research_no_cached_papers" in result["warnings"]
+    assert result["crawl"]["source_warnings"][0]["source"] == "acs_chem_materials"
+    assert "Mention crawl/source warnings" in result["next_actions"][1]
+
+
+def test_paper_research_caps_overflow(monkeypatch):
+    papers = [make_material_paper(index) for index in range(1, 17)]
+    monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: papers)
+
+    result = agent.paper_research(topic="材料", date_value="2024-01-02", crawl_if_missing=False)
+
+    assert result["returned_count"] == 15
+    assert result["total_count"] == 16
+    assert result["remaining_count"] == 1
+    assert result["overflow"]["has_more"] is True
+    assert "AI-rank" in result["overflow"]["message"]
+
+
 def test_llm_unconfigured_returns_stable_shape(monkeypatch, tmp_path):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)

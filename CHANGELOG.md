@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.7 - 2026-04-30
+
+- Added `paper_research` and `POST /agent/research` for one-shot natural-language research requests.
+- Added deterministic Chinese/common topic resolution, including broad materials requests that map to `discipline=materials` without adding `q=materials`.
+- When a requested discipline/date scope has no cache, `paper_research` performs one explicit discipline-scoped crawl, then rereads SQLite and returns papers, counts, warnings, overflow guidance, and next actions.
+- Updated agent manifests and `SKILL.md` so MCP agents use `paper_research` first instead of manually opening `/daily` or stitching crawl/cache steps for ordinary requests.
+
 ## 0.2.6 - 2026-04-30
 
 - Lowered the default agent chat output cap to 15 papers.

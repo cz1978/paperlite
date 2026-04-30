@@ -60,6 +60,25 @@ def agent_context(payload: dict):
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+@router.post("/agent/research")
+def agent_research(payload: dict):
+    try:
+        return _api_facade().paper_research(
+            topic=payload.get("topic"),
+            discipline=payload.get("discipline"),
+            q=payload.get("q"),
+            date_value=payload.get("date"),
+            date_from=payload.get("date_from"),
+            date_to=payload.get("date_to"),
+            source=payload.get("source"),
+            limit=payload_int(payload, "limit", default=15, minimum=1, maximum=50),
+            crawl_if_missing=payload_bool(payload, "crawl_if_missing", default=True),
+            source_limit=payload_int(payload, "source_limit", default=15, minimum=1, maximum=50),
+            limit_per_source=payload_int(payload, "limit_per_source", default=15, minimum=1, maximum=500),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
 @router.post("/agent/rag/index")
 def agent_rag_index(payload: dict):
     try:

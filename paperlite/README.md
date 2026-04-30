@@ -9,6 +9,7 @@ The launch surface is intentionally narrow:
 - `/ops`: doctor, cache/run/schedule/source-audit visibility.
 - `/sources`, `/endpoints`, `/catalog/*`: catalog inspection.
 - `/library/*`, `/preferences/*`: single-user local library and learning state.
+- `/agent/research`: one-shot agent research request: resolve topic/scope, read cache, optionally run one explicit discipline crawl, and return capped paper results.
 - `/agent/filter`, `/agent/translate`, `/agent/explain`, `/agent/translation-profiles`: explicit manual LLM actions and server-registered translation formats.
 - `/agent/rag/index`, `/agent/ask`: explicit metadata-only vector RAG over cached papers.
 - `/daily/enrich`, `/zotero/*`: metadata enrichment and Zotero metadata sync/export.
@@ -85,6 +86,7 @@ python -m paperlite.cli mcp
 - `GET /preferences/profile`, `GET|PATCH /preferences/settings`
 - `GET|POST /preferences/prompts`, `PATCH|DELETE /preferences/prompts/{prompt_id}`
 - `POST /preferences/rebuild`, `POST /preferences/purify`, `POST /preferences/learning-data/clear`, `GET /preferences/evaluation`, `GET /preferences/training-data`
+- `POST /agent/research`
 - `POST /agent/filter`, `POST /agent/translate`, `POST /agent/explain`, `GET /agent/translation-profiles`
 - `POST /agent/rag/index`, `POST /agent/ask`
 - `GET /zotero/status`, `POST /zotero/items`, `POST /zotero/export?format=ris|bibtex`
@@ -170,6 +172,7 @@ python -m paperlite.mcp_server
 Tools:
 
 - `paper_enrich`
+- `paper_research`
 - `paper_sources`
 - `paper_explain`
 - `paper_translate`

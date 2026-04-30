@@ -34,6 +34,10 @@ disciplines:
   - medical/health preprints
   - medicine
   - oncology
+  - 医学
+  - 临床医学
+  - 公共卫生
+  - 肿瘤
 - key: life_science
   name: Life Science
   label: 生命科学
@@ -50,6 +54,10 @@ disciplines:
   - methods
   - molecular biology
   - quantitative biology
+  - 生命科学
+  - 生物
+  - 生物学
+  - 分子生物学
 - key: neuroscience
   name: Neuroscience
   label: 神经科学
@@ -66,6 +74,9 @@ disciplines:
   - chem
   - chemistry
   - t2 chemistry
+  - 化学
+  - 催化
+  - 合成
 - key: materials
   name: Materials
   label: 材料
@@ -73,6 +84,11 @@ disciplines:
   description: 材料、纳米、光子和凝聚态材料方向。
   aliases:
   - materials
+  - 材料
+  - 材料科学
+  - 纳米材料
+  - 新能源材料
+  - 高分子材料
 - key: physics
   name: Physics
   label: 物理
@@ -83,6 +99,9 @@ disciplines:
   - condensed matter physics
   - nonlinear sciences
   - physics
+  - 物理
+  - 物理学
+  - 凝聚态
 - key: energy
   name: Energy
   label: 能源
@@ -90,6 +109,12 @@ disciplines:
   description: 能源、可持续能源和能源技术。
   aliases:
   - energy
+  - 能源
+  - 新能源
+  - 可再生能源
+  - 储能
+  - 电网
+  - 电力
 - key: earth_science
   name: Earth Science
   label: 地球科学
@@ -99,6 +124,9 @@ disciplines:
   - earth
   - earth science
   - earthscience
+  - 地球科学
+  - 气候
+  - 遥感
 - key: environmental_science
   name: Environmental Science
   label: 环境科学
@@ -106,6 +134,9 @@ disciplines:
   description: 环境、生态、污染和环境工程相关来源。
   aliases:
   - environmental science
+  - 环境
+  - 环境科学
+  - 生态
 - key: agriculture
   name: Agriculture
   label: 农业
@@ -113,6 +144,8 @@ disciplines:
   description: 农业、植物、食品和可持续农业。
   aliases:
   - agriculture
+  - 农业
+  - 农学
 - key: computer_science
   name: Computer Science
   label: 计算机 / AI
@@ -121,6 +154,11 @@ disciplines:
   aliases:
   - computer science
   - computerscience
+  - 计算机
+  - 计算机科学
+  - 人工智能
+  - 机器学习
+  - ai
 - key: mathematics
   name: Mathematics
   label: 数学 / 统计
@@ -129,6 +167,9 @@ disciplines:
   aliases:
   - mathematics
   - statistics
+  - 数学
+  - 统计
+  - 统计学
 - key: engineering
   name: Engineering
   label: 工程
@@ -139,6 +180,10 @@ disciplines:
   - electronics
   - engineering
   - mechanical engineering
+  - 工程
+  - 工程学
+  - 电气工程
+  - 机械工程
 - key: aerospace_engineering
   name: Aerospace Engineering
   label: 航空航天
@@ -146,6 +191,7 @@ disciplines:
   description: 航空、航天、飞行器和推进相关来源。
   aliases:
   - aerospace engineering
+  - 航空航天
 - key: civil_engineering
   name: Civil Engineering
   label: 土木工程
@@ -153,6 +199,8 @@ disciplines:
   description: 土木、结构、水资源和基础设施相关来源。
   aliases:
   - civil engineering
+  - 土木
+  - 土木工程
 - key: economics
   name: Economics
   label: 经济 / 金融
@@ -162,6 +210,9 @@ disciplines:
   - economics
   - quantitative finance
   - social science/econ
+  - 经济
+  - 经济学
+  - 金融
 - key: social_science
   name: Social Science
   label: 社会科学
@@ -172,6 +223,8 @@ disciplines:
   - socialscience
   - t2 social science
   - t2_social_science
+  - 社会科学
+  - 社科
 - key: psychology
   name: Psychology
   label: 心理学
@@ -179,6 +232,8 @@ disciplines:
   description: 心理学、认知和行为科学。
   aliases:
   - psychology
+  - 心理
+  - 心理学
 - key: humanities
   name: Humanities
   label: 人文
@@ -186,6 +241,8 @@ disciplines:
   description: 哲学、人文和人文学术档案。
   aliases:
   - humanities
+  - 人文
+  - 人文学
 - key: multidisciplinary
   name: Multidisciplinary
   label: 多学科

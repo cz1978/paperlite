@@ -7,7 +7,7 @@ description: Use PaperLite as a local-first scholarly metadata workbench. Trigge
 
 PaperLite helps a research agent work with paper metadata that is stored locally in SQLite. It is useful for building a daily reading queue, filtering cached scholarly metadata, exporting references, syncing Zotero metadata, and running explicit metadata-only RAG.
 
-Default agent path: use MCP tools and `paper_agent_context` to get metadata-backed messages, then let the host agent use its own model. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys. Use `POST /agent/context` only when MCP is unavailable.
+Default agent path: use MCP tool `paper_research` for natural-language requests such as "show today's materials papers". It resolves the topic, checks today's SQLite cache, runs one explicit discipline-scoped crawl if the matching cache is missing, and returns scope, papers, counts, crawl warnings, and a result contract. Use `paper_agent_context` only for explain/filter/ask workflows that need metadata-backed messages. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys.
 
 Do not tell users to open `/daily` for agent tasks. Do not finish with a `/daily` link as the result. Use the tools below and answer with the actual papers, counts, source keys, warnings, and next actions.
 
@@ -57,7 +57,8 @@ python -m paperlite.mcp_server
 
 Useful tools:
 
-- `paper_sources` - list available sources; for crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit=15`.
+- `paper_research` - one-shot research request: resolve topic/scope, read cache, optionally run an explicit discipline crawl, and return up to 15 paper items.
+- `paper_sources` - list available sources; for manual crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit=15`.
 - `paper_crawl` - explicitly crawl a discipline/source/date range and write metadata to SQLite.
 - `paper_crawl_status` - inspect a crawl run.
 - `paper_cache` - read cached metadata from SQLite after a crawl.
@@ -82,6 +83,7 @@ Use a public reverse-proxy URL instead when the agent runs on another machine.
 
 Useful endpoints:
 
+- `POST /agent/research`
 - `POST /agent/context`
 - `GET /sources`
 - `POST /daily/crawl`
@@ -101,7 +103,7 @@ Useful endpoints:
 
 - The user's current prompt overrides these defaults. If the user asks for a different language, no translation, a table, a short list, Zotero-only output, or another format, follow that prompt.
 - After any crawl, cache read, organize, filter, rank, or topic search with nonzero results, send the paper list in the chat response.
-- `paper_agent_context` returns the same rules in `result_contract`; follow it when present.
+- `paper_research` and `paper_agent_context` return the same rules in `result_contract`; follow them when present.
 - Start the answer with the scope used: discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings.
 - If there are 15 or fewer papers, list every paper. If there are more than 15, list at most 15, state exactly how many more are available in `paper_cache` or export output, and ask whether to AI-rank/optimize the set or add more search keywords to narrow it. Do not dump the whole set into chat.
 - Each listed paper should include title, source or venue, date when present, DOI/URL when present, one short reason it matched the user's request, and a brief abstract/summary.
@@ -113,11 +115,11 @@ Useful endpoints:
 ### Default research workflow
 
 1. Install/connect through MCP unless the user specifically needs HTTP or `/daily`.
-2. Use `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=15)` to find crawl-capable source keys.
-3. Use `paper_crawl(discipline="<discipline>", source="<source_key>", limit_per_source=15, run_now=true)`.
-4. Use `paper_crawl_status(run_id="<run_id>")` when the run is not clearly completed or has warnings.
-5. Use `paper_cache(discipline="<discipline>", source="<source_key>", q="<topic>", limit_per_source=50)` to read the actual papers.
-6. Follow the Result Output Contract: list the actual papers first, then add a short synthesis.
+2. Use `paper_research(topic="<topic>", date="<today>")` for ordinary requests like "看一下今天关于材料的文章".
+3. If the returned `scope.discipline` is wrong or unresolved, ask one clarifying question or retry with explicit `discipline`.
+4. If `papers` is non-empty, follow the Result Output Contract: list the actual papers first, then add a short synthesis.
+5. If `warnings` or `crawl.source_warnings` are present, report them directly.
+6. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback, source-specific requests, or troubleshooting.
 
 ### What to do after crawling
 
@@ -129,11 +131,16 @@ Useful endpoints:
 
 ### Find and crawl today's energy papers
 
-1. Call `paper_sources(discipline="energy", q="energy", latest=true, limit=15)`.
-2. Pick one or a few source keys from `sources[*].name`, for example `nature_nature_energy_aop` when present.
-3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=15, run_now=true)`.
-4. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=15)`.
-5. Reply with the actual paper list and a short synthesis. In Chinese answers, add a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper.
+1. Call `paper_research(topic="energy", date="<today>")`.
+2. If the user asks for a narrower source, use `paper_sources(discipline="energy", latest=true, limit=15)` and then `paper_crawl(...)`.
+3. Reply with the actual paper list and a short synthesis. In Chinese answers, add a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper.
+
+### Look at today's materials papers
+
+1. Call `paper_research(topic="材料", date="<today>")`.
+2. Do not add `q="materials"` for broad materials requests; the tool resolves `discipline=materials` so polymer, battery, ceramic, nano, and related materials papers are not filtered out.
+3. If the user asks for a subtopic such as battery or catalyst, call `paper_research(topic="材料里的电池", date="<today>")` or pass explicit `q="battery"`.
+4. Reply with the returned scope, warnings, count, and paper list.
 
 ### Save selected papers to Zotero
 
@@ -150,7 +157,7 @@ Useful endpoints:
 2. `POST /daily/crawl` with `{"discipline":"energy","source":"<source_key>","limit_per_source":15}`. This is a JSON API call, not opening the `/daily` frontend.
 3. `GET /daily/crawl/{run_id}` until done.
 4. `GET /daily/cache?format=json&discipline=energy&source=<source_key>`
-5. `POST /agent/context` when the host agent should use its own model.
+5. `POST /agent/research` for ordinary topic requests, or `POST /agent/context` when the host agent should use its own model for a prepared explain/filter/ask context.
 6. `POST /zotero/items` to sync selected metadata, or `POST /zotero/export?format=ris` to produce a Zotero import file.
 
 ## Operating Rules
