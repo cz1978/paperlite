@@ -174,6 +174,7 @@ def test_paper_agent_context_uses_host_model_without_llm(monkeypatch, tmp_path):
     assert explain["action"] == "explain"
     assert explain["papers"][0]["id"] == "arxiv:1"
     assert "Why read it?" in explain["messages"][1]["content"]
+    assert "brief_abstract_or_summary" in explain["result_contract"]["paper_fields"]
 
     db_path = tmp_path / "paperlite.sqlite3"
     rag = make_paper()
@@ -212,6 +213,7 @@ def test_paper_agent_context_uses_host_model_without_llm(monkeypatch, tmp_path):
     assert ask["retrieval"]["candidates"] == 1
     assert ask["papers"][0]["id"] == "arxiv:rag"
     assert "RAG agent benchmark" in ask["messages"][1]["content"]
+    assert "one-sentence Chinese abstract/summary" in ask["result_contract"]["brief_translation_default"]
     assert "agent_host_model_required" in ask["warnings"]
 
 

@@ -2,7 +2,7 @@
 
 PaperLite 是给科研人用的本地优先论文元数据工作台：每天打开 `/daily`，选学科和来源，把新论文元数据抓到 SQLite，再筛选、翻译、导出或同步到 Zotero。
 
-当前版本：`0.2.4`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.2.5`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 第一次几分钟就能做：
 
@@ -110,11 +110,11 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 默认走 MCP 不需要 Docker。agent 会把 `python -m paperlite.mcp_server` 当成本地 stdio 进程启动；它会读取本地 `.env`，元数据写本地 SQLite。只有走 HTTP API，或者人要打开 `/daily` 网页时，才需要 Docker 或其他 Web 服务启动方式。
 
-默认 agent 用法：调用 `paper_agent_context` 或 `POST /agent/context` 拿到基于论文元数据整理好的 messages，然后让 OpenClaw、QClaw、Hermes 这类宿主 agent 用自己的大模型生成答案。PaperLite 内置 LLM 接口只是可选兜底，只有 `.env` 配了 LLM key 才用。
+默认 agent 用法：调用 `paper_agent_context` 或 `POST /agent/context` 拿到基于论文元数据整理好的 messages 和 `result_contract`，然后让 OpenClaw、QClaw、Hermes 这类宿主 agent 用自己的大模型生成答案。PaperLite 内置 LLM 接口只是可选兜底，只有 `.env` 配了 LLM key 才用。
 
 agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案。MCP 里直接按这个顺序走：`paper_sources(discipline="energy", q="energy", latest=true, limit=20)` 找可抓取来源，`paper_crawl(...)` 抓取，`paper_crawl_status(...)` 看状态，`paper_cache(...)` 读缓存，最后用 `paper_agent_context(...)` 交给宿主 agent 自己的大模型总结。最终回复要直接给论文标题、来源、日期、链接和筛选理由。
 
-agent 输出规则：抓取、整理、筛选或排序后，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。然后发真实论文清单。20 篇以内要全列，每篇至少给标题、来源/期刊、日期、URL/DOI 和筛选理由。亮点总结只能放在清单后面，不能代替清单。
+agent 输出规则：用户当次 prompt 优先。用户没有指定其他格式时，抓取、整理、筛选或排序后，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。然后发真实论文清单。20 篇以内要全列，每篇至少给标题、来源/期刊、日期、URL/DOI、筛选理由、简短中文译名和一句中文摘要/要点。如果元数据里没有 abstract，要写“摘要未提供”，再给基于标题/元数据的简短要点。亮点总结只能放在清单后面，不能代替清单。
 
 如果你的 agent 支持从 GitHub 拉取并部署项目，直接说这一句就行：
 
@@ -182,8 +182,8 @@ agent 典型流程：
 2. `paper_crawl(...)` 抓元数据。
 3. `paper_crawl_status(...)` 看是否完成、有无 warning。
 4. `paper_cache(...)` 读真实论文列表。
-5. 先在回复里给真实论文清单：标题、来源、日期、链接和筛选理由。20 篇以内要全列。
-6. 抓完默认用宿主 agent 自己的大模型总结/排序；只有用户明确要翻译时才翻译；只有用户要问答时才 RAG；只有用户要保存时才走 Zotero。
+5. 先在回复里给真实论文清单：标题、来源、日期、链接、筛选理由、简短中文译名和一句中文摘要/要点。20 篇以内要全列，除非用户当次 prompt 要求更短。
+6. 抓完默认用宿主 agent 自己的大模型总结/排序；完整翻译只有用户明确要求时才做；只有用户要问答时才 RAG；只有用户要保存时才走 Zotero。
 
 Zotero 用法：
 

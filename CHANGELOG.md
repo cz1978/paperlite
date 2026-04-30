@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.5 - 2026-04-30
+
+- Clarified that the current user prompt overrides default skill formatting rules.
+- Tightened Chinese agent output: every listed paper should include a brief Chinese title translation and one-sentence abstract/summary when the user has not asked otherwise.
+- Added manifest and `paper_agent_context` policy fields for brief translation and abstract/summary output.
+
 ## 0.2.4 - 2026-04-30
 
 - Tightened agent result output rules: agents must state crawl/cache scope and list actual papers before summaries or highlights.

@@ -5,6 +5,47 @@ from typing import Any
 from paperlite.llm import embedding_status, llm_status
 
 
+def agent_result_policy() -> dict[str, Any]:
+    return {
+        "prompt_priority": "User prompt overrides defaults.",
+        "default": (
+            "Return the actual paper list first, then summaries, selected highlights, "
+            "and source/run status directly from MCP tools or JSON endpoints."
+        ),
+        "list_all_until": 20,
+        "scope_fields": [
+            "discipline",
+            "source_key_or_name",
+            "date_range",
+            "query",
+            "run_id",
+            "run_status",
+            "warnings",
+            "total_count",
+        ],
+        "paper_fields": [
+            "title",
+            "source_or_venue",
+            "date",
+            "doi_or_url",
+            "match_reason",
+            "brief_translation",
+            "brief_abstract_or_summary",
+        ],
+        "brief_translation_default": (
+            "When responding in Chinese and the user did not ask otherwise, include "
+            "a brief Chinese title translation and one-sentence Chinese "
+            "abstract/summary for every listed paper. If metadata has no abstract, "
+            "say it is unavailable and provide a title/metadata-based note."
+        ),
+        "do_not": (
+            "Do not replace the paper list with highlights, and do not use /daily "
+            "as the completion link unless the user explicitly asks for the human "
+            "interface."
+        ),
+    }
+
+
 def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
     root = base_url.rstrip("/")
     rest = {
@@ -84,7 +125,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.4",
+        "version": "0.2.5",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily/cache?format=json",
@@ -95,13 +136,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
                 "model_source": "agent_host",
                 "note": "Use this for host-agent model workflows. Return results in chat/tool output; /daily is only the human web UI.",
             },
-            "agent_result_policy": {
-                "default": "Return the actual paper list first, then summaries, selected highlights, and source/run status directly from MCP tools or JSON endpoints.",
-                "list_all_until": 20,
-                "scope_fields": ["discipline", "source_key_or_name", "date_range", "query", "run_id", "run_status", "warnings", "total_count"],
-                "paper_fields": ["title", "source_or_venue", "date", "doi_or_url", "match_reason"],
-                "do_not": "Do not replace the paper list with highlights, and do not use /daily as the completion link unless the user explicitly asks for the human interface.",
-            },
+            "agent_result_policy": agent_result_policy(),
             "rest": rest,
             "mcp": {
                 "command": "python -m paperlite.mcp_server",

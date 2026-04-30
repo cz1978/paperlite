@@ -4,6 +4,7 @@ import math
 from typing import Any
 
 from paperlite.daily_export import daily_cache_export_papers, daily_date_range
+from paperlite.integrations import agent_result_policy
 from paperlite.llm import complete_chat, create_embeddings, embedding_status
 from paperlite.models import Paper
 from paperlite.storage import (
@@ -66,6 +67,7 @@ def _host_context_result(
         "messages": messages,
         "papers": [paper.to_dict() for paper in papers],
         "retrieval": retrieval or {},
+        "result_contract": agent_result_policy(),
         "warnings": list(warnings or []),
     }
 

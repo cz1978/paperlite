@@ -2,25 +2,29 @@ from fastapi.testclient import TestClient
 
 from paperlite import mcp_server
 from paperlite.api import create_app
-from paperlite.integrations import agent_manifest
+from paperlite.integrations import agent_manifest, agent_result_policy
 
 
 def test_agent_manifest_declares_reserved_interfaces():
     manifest = agent_manifest("http://paperlite.local")
 
     assert manifest["name"] == "paperlite"
-    assert manifest["version"] == "0.2.4"
+    assert manifest["version"] == "0.2.5"
     assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily/cache?format=json"
     assert manifest["interfaces"]["human_ui"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_agent_context"
     assert manifest["interfaces"]["agent_default"]["rest"] == "http://paperlite.local/agent/context"
     assert "Return results in chat/tool output" in manifest["interfaces"]["agent_default"]["note"]
     result_policy = manifest["interfaces"]["agent_result_policy"]
+    assert result_policy == agent_result_policy()
     assert result_policy["list_all_until"] == 20
     assert "discipline" in result_policy["scope_fields"]
     assert "source_key_or_name" in result_policy["scope_fields"]
     assert "total_count" in result_policy["scope_fields"]
     assert "title" in result_policy["paper_fields"]
+    assert "brief_translation" in result_policy["paper_fields"]
+    assert "brief_abstract_or_summary" in result_policy["paper_fields"]
+    assert "one-sentence Chinese abstract/summary" in result_policy["brief_translation_default"]
     assert "Do not replace the paper list with highlights" in result_policy["do_not"]
     assert manifest["interfaces"]["rest"]["daily"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["rest"]["daily_cache"] == "http://paperlite.local/daily/cache"

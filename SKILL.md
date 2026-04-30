@@ -99,10 +99,13 @@ Useful endpoints:
 
 ## Result Output Contract
 
+- The user's current prompt overrides these defaults. If the user asks for a different language, no translation, a table, a short list, Zotero-only output, or another format, follow that prompt.
 - After any crawl, cache read, organize, filter, rank, or topic search with nonzero results, send the paper list in the chat response.
+- `paper_agent_context` returns the same rules in `result_contract`; follow it when present.
 - Start the answer with the scope used: discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings.
 - If there are 20 or fewer papers, list every paper. If there are more than 20, list the first 20 and state exactly how many more are available in `paper_cache` or export output.
-- Each listed paper should include title, source or venue, date when present, DOI/URL when present, and one short reason it matched the user's request.
+- Each listed paper should include title, source or venue, date when present, DOI/URL when present, one short reason it matched the user's request, and a brief abstract/summary.
+- When the user is using Chinese and did not ask otherwise, every listed paper must also include a brief Chinese title translation plus a one-sentence Chinese abstract/summary. If metadata has an abstract, summarize that abstract; if not, say the abstract is not available and provide a title/metadata-based note. Do this consistently for every item, not only some items.
 - Put any synthesis, highlights, translation, or trend summary after the list. Do not replace the list with highlights.
 - Do not answer only "整理完成", "已筛选出 N 篇", or "完整列表见 /daily".
 - If zero papers match, say zero, include crawl/source warnings when available, and suggest changing date/source/query.
@@ -119,7 +122,7 @@ Useful endpoints:
 ### What to do after crawling
 
 - Summarize or rank by default with the host agent model over `paper_cache` results; no PaperLite LLM key is needed.
-- Translate only when the user asks for translation or Chinese research cards. If PaperLite LLM is configured, use `paper_translate`; otherwise translate with the host agent model from `paper_cache` or `paper_agent_context`.
+- Full translation or Chinese research cards require user intent. Brief Chinese title/summary lines in a Chinese final answer are part of the default output contract and can use the host agent model; they do not require PaperLite LLM keys.
 - Filter with `paper_filter` only when the user asks for LLM-based recommendation; otherwise use the host agent model to rank from metadata.
 - Run RAG only when the user asks a question over the cached papers. Use `paper_rag_index` and `paper_ask`; do not auto-index after every crawl.
 - Sync to Zotero only when the user asks to save/send papers. Use the Zotero workflow below.
@@ -130,7 +133,7 @@ Useful endpoints:
 2. Pick one or a few source keys from `sources[*].name`, for example `nature_nature_energy_aop` when present.
 3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=20, run_now=true)`.
 4. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=20)`.
-5. Reply with the actual paper list and a short synthesis. If the user asked for Chinese, translate the summary and titles in the final answer.
+5. Reply with the actual paper list and a short synthesis. In Chinese answers, add a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper.
 
 ### Save selected papers to Zotero
 
