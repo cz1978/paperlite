@@ -124,6 +124,15 @@ def test_paper_research_includes_default_brief_translation(monkeypatch):
 
     item = result["papers"][0]
     assert item["short_title_zh"] == "材料论文中文题目"
+    assert item["title_zh"] == "材料论文中文题目"
+    assert item["display_title"] == "材料论文中文题目"
+    assert item["title_original"] == paper.title
+    assert item["title_en"] == paper.title
+    assert item["brief_title_format"] == "中文题目 + English title"
+    assert item["title_needs_host_translation"] is False
+    assert item["identifier_label"] == "DOI"
+    assert item["identifier"] == "10.1038/material-1"
+    assert item["identifier_kind"] == "doi"
     assert item["summary_or_point"] == "这篇研究材料结构和性能之间的关系。"
     assert item["brief_translation"]["translation_profile"] == "research_card_cn"
     assert result["translation"]["brief_requested"] is True
@@ -132,7 +141,7 @@ def test_paper_research_includes_default_brief_translation(monkeypatch):
 
 
 def test_paper_research_scopes_unconfigured_brief_warning(monkeypatch):
-    paper = make_material_paper()
+    paper = make_paper()
     monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: [paper])
 
     def fake_brief(*_args, **_kwargs):
@@ -160,7 +169,12 @@ def test_paper_research_scopes_unconfigured_brief_warning(monkeypatch):
     assert result["warnings"] == []
     assert result["translation"]["warnings"] == ["llm_not_configured"]
     assert result["papers"][0]["brief_translation"]["status"] == "unconfigured"
+    assert result["papers"][0]["identifier_label"] == "arXiv"
+    assert result["papers"][0]["identifier"] == "1"
+    assert result["papers"][0]["title_needs_host_translation"] is True
+    assert "original English title as a separate line" in result["papers"][0]["title_display_instruction"]
     assert "host model" in result["result_contract"]["host_agent_rendering"]
+    assert "original English title" in result["result_contract"]["host_agent_rendering"]
 
 
 def test_paper_research_crawls_when_scope_cache_missing(monkeypatch):

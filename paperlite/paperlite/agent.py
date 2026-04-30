@@ -577,6 +577,25 @@ def _research_brief_translation(
     }
 
 
+def _research_identifier(paper: Paper) -> dict[str, str]:
+    if paper.doi:
+        return {"identifier": paper.doi, "identifier_label": "DOI", "identifier_kind": "doi"}
+    if paper.pmid:
+        return {"identifier": paper.pmid, "identifier_label": "PMID", "identifier_kind": "pmid"}
+    if paper.pmcid:
+        return {"identifier": paper.pmcid, "identifier_label": "PMCID", "identifier_kind": "pmcid"}
+    if paper.openalex_id:
+        return {"identifier": paper.openalex_id, "identifier_label": "OpenAlex", "identifier_kind": "openalex"}
+    paper_id = str(paper.id or "").strip()
+    if paper_id.lower().startswith("arxiv:"):
+        return {"identifier": paper_id.split(":", 1)[1], "identifier_label": "arXiv", "identifier_kind": "arxiv"}
+    return {"identifier": paper_id, "identifier_label": "ID", "identifier_kind": "id"} if paper_id else {
+        "identifier": "",
+        "identifier_label": "",
+        "identifier_kind": "",
+    }
+
+
 def _research_paper_item(
     paper: Paper,
     *,
@@ -594,6 +613,7 @@ def _research_paper_item(
     if scope.get("q"):
         reason_bits.append(f"matches query: {scope['q']}")
     reason = "; ".join(reason_bits) or "matches requested PaperLite scope"
+    identifier = _research_identifier(paper)
     brief = brief_translation or _empty_research_brief_translation(
         requested=False,
         target_language="zh-CN",
@@ -602,6 +622,16 @@ def _research_paper_item(
     )
     title_zh = str(brief.get("title_zh") or brief.get("card_headline") or "").strip()
     cn_flash = str(brief.get("cn_flash_180") or "").strip()
+    title_needs_host_translation = not bool(title_zh)
+    title_instruction = (
+        ""
+        if title_zh
+        else (
+            "For Chinese brief answers, translate title_original into Chinese first, "
+            "then include the original English title as a separate line; do not use "
+            "the raw English title as the only item heading."
+        )
+    )
     if cn_flash:
         summary_or_point = cn_flash
     elif brief.get("requested") and not brief.get("configured"):
@@ -610,7 +640,16 @@ def _research_paper_item(
         summary_or_point = abstract or "摘要未提供；请宿主 agent 基于标题、期刊/来源和分类给出一句元数据要点。"
     return {
         "paper": payload,
+        "paper_id": paper.id,
+        **identifier,
         "title": paper.title,
+        "title_original": paper.title,
+        "title_en": paper.title,
+        "title_zh": title_zh,
+        "display_title": title_zh,
+        "brief_title_format": "中文题目 + English title",
+        "title_needs_host_translation": title_needs_host_translation,
+        "title_display_instruction": title_instruction,
         "source": source_name,
         "source_display": display_names.get(source_name) or source_name,
         "venue": venue,
@@ -820,9 +859,12 @@ def paper_research(
             **agent_result_policy(),
             "host_agent_rendering": (
                 "Use each paper.brief_translation.title_zh and cn_flash_180 first when present. "
-                "If brief translation is unconfigured or empty, use the host model to translate the title "
-                "and provide one concise Chinese point from the paper metadata; say '摘要未提供' when "
-                "abstracts are missing."
+                "For Chinese brief answers, include both titles: show the Chinese title first, then the "
+                "original English title from paper.title_original/title_en. If paper.display_title/title_zh "
+                "is missing, translate paper.title_original with the host model before displaying. Do not "
+                "display raw English paper.title as the only item heading. If brief translation is unconfigured "
+                "or empty, use the host model to provide one concise Chinese point from the paper metadata; "
+                "say '摘要未提供' when abstracts are missing."
             ),
         },
         "warnings": unique_warnings,

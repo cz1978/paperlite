@@ -114,7 +114,7 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案。优先走 MCP 工具；普通主题请求直接 `paper_research(topic="材料", date="<today>")`，再根据返回的 scope、papers、count、warning 和 next_actions 回复。最终回复要直接给论文标题、来源、日期、链接和筛选理由。只有手动排错、指定来源、指定 run，或 MCP 不可用时，才用 `paper_sources`、`paper_crawl`、`paper_crawl_status`、`paper_cache` 或 `POST /daily/crawl` 这类 HTTP JSON API。
 
-agent 输出规则：用户当次 prompt 优先。用户没有指定其他格式时，抓取、整理、筛选或排序后，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。然后发真实论文清单。15 篇以内要全列，每篇至少给标题、来源/期刊、日期、URL/DOI、筛选理由、简短中文译名和一句中文摘要/要点。中文 brief 优先使用 `paper.brief_translation.title_zh` 和 `paper.brief_translation.cn_flash_180`；如果为空或未配置，宿主 agent 仍必须基于返回的标题和摘要补出中文译名和一句中文要点。如果超过 15 篇，只先列最多 15 篇，说明还剩多少篇，并询问用户要不要 AI 优化排序，或者追加搜索关键词继续筛选。如果元数据里没有 abstract，要写“摘要未提供”，再给基于标题/元数据的简短要点。亮点总结只能放在清单后面，不能代替清单。
+agent 输出规则：用户当次 prompt 优先。用户没有指定其他格式时，抓取、整理、筛选或排序后，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。然后发真实论文清单。15 篇以内要全列，每篇至少给标题、来源/期刊、日期、URL/DOI、筛选理由、简短中文译名和一句中文摘要/要点。中文 brief 里的标题要中英都在，也要有身份号：先给中文题目，优先使用 `paper.display_title`、`paper.title_zh` 或 `paper.brief_translation.title_zh`；再给英文原题，使用 `paper.title_original` 或 `paper.title_en`；再给 `paper.identifier_label` + `paper.identifier`，用于 DOI、arXiv、PMID、PMCID、OpenAlex 或本地 ID。如果中文题目为空或未配置，宿主 agent 必须先把 `paper.title_original` 翻译成中文再展示，不能只把英文 `paper.title` 当标题行。中文 brief 优先使用 `paper.brief_translation.cn_flash_180`；如果为空或未配置，宿主 agent 仍必须基于返回的标题和摘要补出一句中文要点。如果超过 15 篇，只先列最多 15 篇，说明还剩多少篇，并询问用户要不要 AI 优化排序，或者追加搜索关键词继续筛选。如果元数据里没有 abstract，要写“摘要未提供”，再给基于标题/元数据的简短要点。亮点总结只能放在清单后面，不能代替清单。
 
 PaperLite 自己的 LLM、AI 筛选或 brief 翻译未配置，不代表 QClaw、Hermes、OpenClaw 这类宿主 agent 不能继续；宿主 agent 要用自己的模型基于返回元数据完成排序、摘要和中文 brief。不要说缓存论文丢失、数据库重建、重装/reset，除非 PaperLite 工具明确返回了这个事实。
 

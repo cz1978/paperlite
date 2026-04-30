@@ -29,7 +29,13 @@ def agent_result_policy() -> dict[str, Any]:
             "total_count",
         ],
         "paper_fields": [
+            "display_title",
+            "title_zh",
+            "title_en",
+            "title_original",
             "title",
+            "identifier",
+            "identifier_label",
             "source_or_venue",
             "date",
             "doi_or_url",
@@ -46,6 +52,13 @@ def agent_result_policy() -> dict[str, Any]:
             "and one-sentence Chinese abstract/summary for every listed paper. "
             "If metadata has no abstract, say it is unavailable and provide a "
             "title/metadata-based note."
+        ),
+        "visible_title_rule": (
+            "In Chinese brief responses, include both titles: Chinese title first, "
+            "then the original English title, plus DOI/arXiv-style identifier when "
+            "present. Use paper.display_title or paper.title_zh when present; otherwise "
+            "translate paper.title_original with the host model. Do not display raw "
+            "English paper.title as the only item heading."
         ),
         "host_model_fallback": (
             "Unconfigured PaperLite LLM, AI filter, or brief translation is not a "

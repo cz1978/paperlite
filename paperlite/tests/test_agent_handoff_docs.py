@@ -68,7 +68,10 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "discipline, source key/name, date range, query, run status, warnings, and total count" in readme
     assert "the user's current prompt wins" in readme
     assert "brief abstract/summary" in readme
-    assert "one-sentence Chinese abstract/summary for every listed paper" in readme
+    assert "include both titles" in readme
+    assert "`paper.title_original` or `paper.title_en`" in readme
+    assert "`paper.identifier_label` + `paper.identifier`" in readme
+    assert "one-sentence summary" in readme
     assert "`paper.brief_translation.title_zh`" in readme
     assert "Unconfigured PaperLite LLM, AI filter, or brief translation is not a blocker" in readme
     assert "Do not claim cached papers were lost" in readme
@@ -151,6 +154,10 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数" in readme_zh
     assert "用户当次 prompt 优先" in readme_zh
     assert "一句中文摘要/要点" in readme_zh
+    assert "中文 brief 里的标题要中英都在" in readme_zh
+    assert "也要有身份号" in readme_zh
+    assert "`paper.identifier_label` + `paper.identifier`" in readme_zh
+    assert "`paper.title_original` 或 `paper.title_en`" in readme_zh
     assert "`paper.brief_translation.title_zh`" in readme_zh
     assert "未配置，不代表 QClaw、Hermes、OpenClaw" in readme_zh
     assert "不要说缓存论文丢失、数据库重建、重装/reset" in readme_zh
@@ -236,8 +243,10 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "brief abstract/summary" in skill_doc
     assert "If there are 15 or fewer papers" in skill_doc
     assert "Do not dump the whole set into chat" in skill_doc
-    assert "brief Chinese title translation plus a one-sentence Chinese abstract/summary" in skill_doc
-    assert "Use `paper.brief_translation.title_zh` and `paper.brief_translation.cn_flash_180`" in skill_doc
+    assert "Chinese title first, original English title also present" in skill_doc
+    assert "`paper.title_original` or `paper.title_en`" in skill_doc
+    assert "DOI/arXiv-style identifier also present" in skill_doc
+    assert "`paper.identifier_label` + `paper.identifier`" in skill_doc
     assert "Do not say PaperLite LLM is unconfigured" in skill_doc
     assert "cached papers were lost" in skill_doc
     assert "if not, say the abstract is not available" in skill_doc
