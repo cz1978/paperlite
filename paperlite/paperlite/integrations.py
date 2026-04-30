@@ -12,7 +12,12 @@ def agent_result_policy() -> dict[str, Any]:
             "Return the actual paper list first, then summaries, selected highlights, "
             "and source/run status directly from MCP tools or JSON endpoints."
         ),
-        "list_all_until": 20,
+        "list_all_until": 15,
+        "overflow_policy": (
+            "If more than 15 papers match, list at most 15 in the chat response, "
+            "state the remaining count, and ask whether to AI-rank/optimize the "
+            "set or add more search keywords to narrow it."
+        ),
         "scope_fields": [
             "discipline",
             "source_key_or_name",
@@ -37,6 +42,11 @@ def agent_result_policy() -> dict[str, Any]:
             "a brief Chinese title translation and one-sentence Chinese "
             "abstract/summary for every listed paper. If metadata has no abstract, "
             "say it is unavailable and provide a title/metadata-based note."
+        ),
+        "transport_policy": (
+            "Prefer MCP tools. Use REST JSON endpoints such as /daily/crawl only "
+            "when MCP is unavailable; they are API endpoints, not the /daily "
+            "browser frontend."
         ),
         "do_not": (
             "Do not replace the paper list with highlights, and do not use /daily "
@@ -125,7 +135,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.5",
+        "version": "0.2.6",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily/cache?format=json",

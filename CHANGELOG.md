@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.6 - 2026-04-30
+
+- Lowered the default agent chat output cap to 15 papers.
+- Added overflow guidance: when more papers match, ask whether to AI-rank/optimize or narrow with more keywords instead of dumping the whole set.
+- Clarified that `/daily/crawl` is a JSON API endpoint for HTTP fallback, while MCP tools remain the default agent path and `/daily` is only the human UI.
+
 ## 0.2.5 - 2026-04-30
 
 - Clarified that the current user prompt overrides default skill formatting rules.

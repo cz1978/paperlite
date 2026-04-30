@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "paperlite"
-version = "0.2.5"
+version = "0.2.6"
 description = "Lightweight preprint and journal paper aggregation for Python, CLI, REST, and MCP."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -7,7 +7,7 @@ description: Use PaperLite as a local-first scholarly metadata workbench. Trigge
 
 PaperLite helps a research agent work with paper metadata that is stored locally in SQLite. It is useful for building a daily reading queue, filtering cached scholarly metadata, exporting references, syncing Zotero metadata, and running explicit metadata-only RAG.
 
-Default agent path: use `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent use its own model. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys.
+Default agent path: use MCP tools and `paper_agent_context` to get metadata-backed messages, then let the host agent use its own model. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys. Use `POST /agent/context` only when MCP is unavailable.
 
 Do not tell users to open `/daily` for agent tasks. Do not finish with a `/daily` link as the result. Use the tools below and answer with the actual papers, counts, source keys, warnings, and next actions.
 
@@ -57,7 +57,7 @@ python -m paperlite.mcp_server
 
 Useful tools:
 
-- `paper_sources` - list available sources; for crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit`.
+- `paper_sources` - list available sources; for crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit=15`.
 - `paper_crawl` - explicitly crawl a discipline/source/date range and write metadata to SQLite.
 - `paper_crawl_status` - inspect a crawl run.
 - `paper_cache` - read cached metadata from SQLite after a crawl.
@@ -72,7 +72,7 @@ Useful tools:
 
 ## Connect Through HTTP
 
-Use HTTP when the host can call JSON endpoints. On the same machine, the default Docker base URL is:
+Use HTTP only when MCP is unavailable and the host can call JSON endpoints. `/daily/crawl` and `/daily/cache` are JSON API endpoints for this fallback path, not browser frontend actions. On the same machine, the default Docker base URL is:
 
 ```text
 http://127.0.0.1:8000
@@ -103,7 +103,7 @@ Useful endpoints:
 - After any crawl, cache read, organize, filter, rank, or topic search with nonzero results, send the paper list in the chat response.
 - `paper_agent_context` returns the same rules in `result_contract`; follow it when present.
 - Start the answer with the scope used: discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings.
-- If there are 20 or fewer papers, list every paper. If there are more than 20, list the first 20 and state exactly how many more are available in `paper_cache` or export output.
+- If there are 15 or fewer papers, list every paper. If there are more than 15, list at most 15, state exactly how many more are available in `paper_cache` or export output, and ask whether to AI-rank/optimize the set or add more search keywords to narrow it. Do not dump the whole set into chat.
 - Each listed paper should include title, source or venue, date when present, DOI/URL when present, one short reason it matched the user's request, and a brief abstract/summary.
 - When the user is using Chinese and did not ask otherwise, every listed paper must also include a brief Chinese title translation plus a one-sentence Chinese abstract/summary. If metadata has an abstract, summarize that abstract; if not, say the abstract is not available and provide a title/metadata-based note. Do this consistently for every item, not only some items.
 - Put any synthesis, highlights, translation, or trend summary after the list. Do not replace the list with highlights.
@@ -113,8 +113,8 @@ Useful endpoints:
 ### Default research workflow
 
 1. Install/connect through MCP unless the user specifically needs HTTP or `/daily`.
-2. Use `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=20)` to find crawl-capable source keys.
-3. Use `paper_crawl(discipline="<discipline>", source="<source_key>", limit_per_source=20, run_now=true)`.
+2. Use `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=15)` to find crawl-capable source keys.
+3. Use `paper_crawl(discipline="<discipline>", source="<source_key>", limit_per_source=15, run_now=true)`.
 4. Use `paper_crawl_status(run_id="<run_id>")` when the run is not clearly completed or has warnings.
 5. Use `paper_cache(discipline="<discipline>", source="<source_key>", q="<topic>", limit_per_source=50)` to read the actual papers.
 6. Follow the Result Output Contract: list the actual papers first, then add a short synthesis.
@@ -129,10 +129,10 @@ Useful endpoints:
 
 ### Find and crawl today's energy papers
 
-1. Call `paper_sources(discipline="energy", q="energy", latest=true, limit=20)`.
+1. Call `paper_sources(discipline="energy", q="energy", latest=true, limit=15)`.
 2. Pick one or a few source keys from `sources[*].name`, for example `nature_nature_energy_aop` when present.
-3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=20, run_now=true)`.
-4. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=20)`.
+3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=15, run_now=true)`.
+4. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=15)`.
 5. Reply with the actual paper list and a short synthesis. In Chinese answers, add a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper.
 
 ### Save selected papers to Zotero
@@ -147,7 +147,7 @@ Useful endpoints:
 ### Use HTTP instead of MCP
 
 1. `GET /sources?discipline=Energy&format=json`
-2. `POST /daily/crawl` with `{"discipline":"energy","source":"<source_key>","limit_per_source":20}`
+2. `POST /daily/crawl` with `{"discipline":"energy","source":"<source_key>","limit_per_source":15}`. This is a JSON API call, not opening the `/daily` frontend.
 3. `GET /daily/crawl/{run_id}` until done.
 4. `GET /daily/cache?format=json&discipline=energy&source=<source_key>`
 5. `POST /agent/context` when the host agent should use its own model.
@@ -158,7 +158,7 @@ Useful endpoints:
 - Treat `/daily` as the human web UI, not an agent control surface.
 - Use MCP tools or JSON endpoints for agent actions.
 - Return task results directly in the conversation. Mention `/daily` only if the user explicitly asks for the human browser interface.
-- For long result sets, show the top items and say how many more are in `paper_cache`; offer `daily/export` formats instead of a frontend link.
+- For long result sets, show at most 15 items and say how many more are in `paper_cache`; ask whether to AI-rank/optimize or add keywords. Offer `daily/export` formats instead of a frontend link.
 - Prefer `paper_agent_context` or `/agent/context` when OpenClaw, QClaw, Hermes, or another host agent should use its own model.
 - Keep crawls discipline-scoped; do not default to all-source crawls.
 - Do not crawl on page load or without explicit user intent.

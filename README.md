@@ -4,7 +4,7 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.5`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.2.6`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
@@ -101,7 +101,7 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 
 ## Agent Setup
 
-PaperLite supports two agent integration modes. Agents should not use `/daily`; that page is the human UI.
+PaperLite supports two agent integration modes. Agents should not use `/daily`; that page is the human UI. `/daily/crawl` and `/daily/cache` are JSON API endpoints for HTTP fallback, not browser frontend steps.
 
 For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md). It is the short agent-facing entrypoint; this README is the human-facing guide.
 
@@ -109,9 +109,9 @@ Default MCP mode does not need Docker. The agent runs `python -m paperlite.mcp_s
 
 Default agent workflow: call `paper_agent_context` or `POST /agent/context` to get metadata-backed messages and a `result_contract`, then let the host agent's own model produce the answer. PaperLite's built-in LLM endpoints are optional fallback tools only when `.env` has LLM keys.
 
-Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Use `paper_sources(discipline="energy", q="energy", latest=true, limit=20)` to find crawl-capable source keys, `paper_crawl(...)` to fetch metadata, `paper_crawl_status(...)` to inspect the run, `paper_cache(...)` to read SQLite results, and `paper_agent_context(...)` to prepare messages for the host model. Return the selected papers and summary directly in the agent response.
+Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Prefer MCP tools. Use HTTP JSON endpoints such as `POST /daily/crawl` only when MCP is unavailable. With MCP, call `paper_sources(discipline="energy", q="energy", latest=true, limit=15)` to find crawl-capable source keys, `paper_crawl(...)` to fetch metadata, `paper_crawl_status(...)` to inspect the run, `paper_cache(...)` to read SQLite results, and `paper_agent_context(...)` to prepare messages for the host model. Return the selected papers and summary directly in the agent response.
 
-Agent result rule: the user's current prompt wins. If no different format is requested, after crawling, organizing, filtering, or ranking papers, the agent should state the scope first: discipline, source key/name, date range, query, run status, warnings, and total count. Then it should list the actual papers. If there are 20 or fewer papers, list all of them with title, source/venue, date, URL/DOI, reason, and a brief abstract/summary. In Chinese answers, include a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper unless the user asks otherwise. Highlights come after the list, never instead of it.
+Agent result rule: the user's current prompt wins. If no different format is requested, after crawling, organizing, filtering, or ranking papers, the agent should state the scope first: discipline, source key/name, date range, query, run status, warnings, and total count. Then it should list the actual papers. If there are 15 or fewer papers, list all of them with title, source/venue, date, URL/DOI, reason, and a brief abstract/summary. If more than 15 papers match, list at most 15, state the remaining count, and ask whether to AI-rank/optimize or add search keywords to narrow the set. In Chinese answers, include a brief Chinese title translation and one-sentence Chinese abstract/summary for every listed paper unless the user asks otherwise. Highlights come after the list, never instead of it.
 
 If your agent can fetch and deploy GitHub repositories, this prompt is enough:
 
@@ -175,11 +175,11 @@ Useful MCP tools:
 
 Typical agent flow:
 
-1. `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=20)` to find crawl-capable sources.
+1. `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=15)` to find crawl-capable sources.
 2. `paper_crawl(...)` to fetch metadata.
 3. `paper_crawl_status(...)` to inspect completion and warnings.
 4. `paper_cache(...)` to read the actual paper list.
-5. Reply with the actual paper list first: titles, sources, dates, links, reasons, and brief abstracts/summaries. In Chinese answers, add Chinese title translations and one-sentence Chinese summaries for every paper. List all results when there are 20 or fewer unless the user's prompt asks for something else.
+5. Reply with the actual paper list first: titles, sources, dates, links, reasons, and brief abstracts/summaries. In Chinese answers, add Chinese title translations and one-sentence Chinese summaries for every paper. List all results when there are 15 or fewer unless the user's prompt asks for something else; when there are more, show 15 and ask whether to AI-rank or narrow with more keywords.
 6. After crawling, summarize/rank with the host agent model by default. Full translation only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
 
 Zotero flow:

@@ -70,7 +70,7 @@ def create_app() -> FastAPI:
         start_schedule_loop()
         yield
 
-    app = FastAPI(title="PaperLite", version="0.2.5", lifespan=lifespan)
+    app = FastAPI(title="PaperLite", version="0.2.6", lifespan=lifespan)
     app.include_router(daily_router)
     app.include_router(ops_router)
     app.include_router(library_router)

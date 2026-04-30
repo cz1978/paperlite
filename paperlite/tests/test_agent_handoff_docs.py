@@ -33,7 +33,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "## At A Glance" in readme
     assert "local-first paper metadata workbench for researchers" in readme
-    assert "Current release: `0.2.5`" in readme
+    assert "Current release: `0.2.6`" in readme
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
@@ -52,6 +52,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Crawl completed with 0 items" in readme
     assert "[中文说明](README.zh-CN.md)" in readme
     assert "Agents should not use `/daily`; that page is the human UI" in readme
+    assert "`/daily/crawl` and `/daily/cache` are JSON API endpoints" in readme
     assert "[`SKILL.md`](SKILL.md)" in readme
     assert "Default agent workflow: call `paper_agent_context` or `POST /agent/context`" in readme
     assert "Default MCP mode does not need Docker" in readme
@@ -66,7 +67,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "the user's current prompt wins" in readme
     assert "brief abstract/summary" in readme
     assert "one-sentence Chinese abstract/summary for every listed paper" in readme
-    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in readme
+    assert "If more than 15 papers match" in readme
+    assert "AI-rank/optimize" in readme
+    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=15)' in readme
     assert "`paper_crawl`" in readme
     assert "`paper_crawl_status`" in readme
     assert "`paper_cache`" in readme
@@ -107,7 +110,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "PaperLite 中文说明" in readme_zh
     assert "给科研人用的本地优先论文元数据工作台" in readme_zh
-    assert "当前版本：`0.2.5`" in readme_zh
+    assert "当前版本：`0.2.6`" in readme_zh
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
@@ -126,6 +129,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "127.0.0.1:8000" in readme_zh
     assert "## Agent 安装和使用" in readme_zh
     assert "agent 不访问 `/daily` 网页" in readme_zh
+    assert "`/daily/crawl`、`/daily/cache` 是 HTTP 模式下的 JSON API" in readme_zh
     assert "[`SKILL.md`](SKILL.md)" in readme_zh
     assert "默认 agent 用法：调用 `paper_agent_context` 或 `POST /agent/context`" in readme_zh
     assert "默认走 MCP 不需要 Docker" in readme_zh
@@ -140,7 +144,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "用户当次 prompt 优先" in readme_zh
     assert "一句中文摘要/要点" in readme_zh
     assert "摘要未提供" in readme_zh
-    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in readme_zh
+    assert "超过 15 篇" in readme_zh
+    assert "AI 优化排序" in readme_zh
+    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=15)' in readme_zh
     assert "`paper_crawl`" in readme_zh
     assert "`paper_crawl_status`" in readme_zh
     assert "`paper_cache`" in readme_zh
@@ -181,10 +187,11 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "name: paperlite" in skill_doc
     assert "local-first scholarly metadata workbench" in skill_doc
-    assert "Default agent path: use `paper_agent_context` or `POST /agent/context`" in skill_doc
+    assert "Default agent path: use MCP tools and `paper_agent_context`" in skill_doc
     assert "PaperLite's built-in LLM endpoints are optional fallback tools" in skill_doc
     assert "Default agent use is MCP stdio. It does not need Docker" in skill_doc
     assert "does not require a running HTTP server" in skill_doc
+    assert "`/daily/crawl` and `/daily/cache` are JSON API endpoints" in skill_doc
     assert "把 PaperLite MCP 安装好" in skill_doc
     assert "Use Docker only when the host needs HTTP endpoints or a human browser UI" in skill_doc
     assert "Do not tell users to open `/daily` for agent tasks" in skill_doc
@@ -207,6 +214,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Start the answer with the scope used" in skill_doc
     assert "discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings" in skill_doc
     assert "brief abstract/summary" in skill_doc
+    assert "If there are 15 or fewer papers" in skill_doc
+    assert "Do not dump the whole set into chat" in skill_doc
     assert "brief Chinese title translation plus a one-sentence Chinese abstract/summary" in skill_doc
     assert "if not, say the abstract is not available" in skill_doc
     assert "What to do after crawling" in skill_doc
@@ -216,7 +225,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "paper_zotero_status()" in skill_doc
     assert 'paper_zotero_export([<selected_paper_dicts>], format="ris")' in skill_doc
     assert "Find and crawl today's energy papers" in skill_doc
-    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in skill_doc
+    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=15)' in skill_doc
     assert "Reply with the actual paper list" in skill_doc
     assert "Return task results directly in the conversation" in skill_doc
     assert "Mention `/daily` only if the user explicitly asks" in skill_doc
@@ -229,6 +238,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
     assert "DEEPSEEK_API_KEY=" in skill_doc
 
+    assert "## 0.2.6 - 2026-04-30" in changelog
+    assert "default agent chat output cap to 15 papers" in changelog
+    assert "`/daily/crawl` is a JSON API endpoint" in changelog
     assert "## 0.2.5 - 2026-04-30" in changelog
     assert "current user prompt overrides default skill formatting rules" in changelog
     assert "one-sentence abstract/summary" in changelog

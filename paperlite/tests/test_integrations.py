@@ -9,7 +9,7 @@ def test_agent_manifest_declares_reserved_interfaces():
     manifest = agent_manifest("http://paperlite.local")
 
     assert manifest["name"] == "paperlite"
-    assert manifest["version"] == "0.2.5"
+    assert manifest["version"] == "0.2.6"
     assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily/cache?format=json"
     assert manifest["interfaces"]["human_ui"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_agent_context"
@@ -17,7 +17,10 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "Return results in chat/tool output" in manifest["interfaces"]["agent_default"]["note"]
     result_policy = manifest["interfaces"]["agent_result_policy"]
     assert result_policy == agent_result_policy()
-    assert result_policy["list_all_until"] == 20
+    assert result_policy["list_all_until"] == 15
+    assert "AI-rank/optimize" in result_policy["overflow_policy"]
+    assert "/daily/crawl" in result_policy["transport_policy"]
+    assert "API endpoints" in result_policy["transport_policy"]
     assert "discipline" in result_policy["scope_fields"]
     assert "source_key_or_name" in result_policy["scope_fields"]
     assert "total_count" in result_policy["scope_fields"]
