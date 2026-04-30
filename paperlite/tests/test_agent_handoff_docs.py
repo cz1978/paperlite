@@ -45,11 +45,12 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[中文说明](README.zh-CN.md)" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
     assert "Start PaperLite first" in readme
-    assert "normally only needs this URL" in readme
-    assert "http://127.0.0.1:8000/agent/manifest" in readme
-    assert "127.0.0.1` is a local address" in readme
-    assert "https://your-domain.example/agent/manifest" in readme
-    assert "service base URL" in readme
+    assert "PaperLite base URL" in readme
+    assert "http://127.0.0.1:8000" in readme
+    assert "Optional discovery endpoint" in readme
+    assert "GET /agent/manifest" in readme
+    assert "stdio MCP server" in readme
+    assert '"args": ["-m", "paperlite.mcp_server"]' in readme
 
     assert "PaperLite 中文说明" in readme_zh
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
@@ -66,11 +67,12 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "127.0.0.1:8000" in readme_zh
     assert "OpenClaw / QClaw / Hermes 接手" in readme_zh
     assert "先启动 PaperLite" in readme_zh
-    assert "正常只填这个地址" in readme_zh
-    assert "http://127.0.0.1:8000/agent/manifest" in readme_zh
-    assert "如果它只问“服务地址”" in readme_zh
-    assert "不是互联网地址，也不是拿去搜索的关键词" in readme_zh
-    assert "https://your-domain.example/agent/manifest" in readme_zh
+    assert "PaperLite 服务地址" in readme_zh
+    assert "`127.0.0.1` 只代表同一台机器" in readme_zh
+    assert "https://your-domain.example" in readme_zh
+    assert "可选发现接口" in readme_zh
+    assert "GET /agent/manifest" in readme_zh
+    assert "stdio MCP server" in readme_zh
 
     assert "## Design Shape" in package_readme
     assert "`daily_export.py` owns daily date resolution" in package_readme

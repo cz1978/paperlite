@@ -103,19 +103,41 @@ PAPERLITE_LLM_MODEL=
 
 ## OpenClaw / QClaw / Hermes 接手
 
-先启动 PaperLite。OpenClaw、QClaw、Hermes 和 PaperLite 在同一台机器时，正常只填这个地址：
+先启动 PaperLite。
 
-```text
-http://127.0.0.1:8000/agent/manifest
-```
-
-如果它只问“服务地址”或 “base URL”，填：
+如果 agent 能调用 HTTP 工具，给它 PaperLite 服务地址：
 
 ```text
 http://127.0.0.1:8000
 ```
 
-`127.0.0.1` 是本机地址，不是互联网地址，也不是拿去搜索的关键词。如果 agent 在另一台机器或云端，把它换成你的公网域名，例如 `https://your-domain.example/agent/manifest`。如果你用本地 Python 运行，把端口改成 `8768`。
+`127.0.0.1` 只代表同一台机器。agent 在另一台机器或云端时，填你的公网反代地址，例如：
+
+```text
+https://your-domain.example
+```
+
+可选发现接口：
+
+```text
+GET /agent/manifest
+```
+
+如果 agent 支持 MCP，把 PaperLite 加成 stdio MCP server：
+
+```json
+{
+  "mcpServers": {
+    "paperlite": {
+      "command": "python",
+      "args": ["-m", "paperlite.mcp_server"],
+      "cwd": "<repo>/paperlite"
+    }
+  }
+}
+```
+
+如果你用本地 Python 运行，把端口改成 `8768`。
 
 ## 常用检查
 

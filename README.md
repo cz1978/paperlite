@@ -100,13 +100,37 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 
 ## External Agents
 
-Start PaperLite first. When OpenClaw, QClaw, Hermes, or a similar external agent runs on the same machine as PaperLite, it normally only needs this URL:
+Start PaperLite first.
+
+For OpenClaw, QClaw, Hermes, or any agent that can call HTTP tools, give it the PaperLite base URL:
 
 ```text
-http://127.0.0.1:8000/agent/manifest
+http://127.0.0.1:8000
 ```
 
-If the agent asks for a service base URL instead, use `http://127.0.0.1:8000`. `127.0.0.1` is a local address, not an internet URL; if the agent runs on another machine or in the cloud, use your public reverse-proxy URL instead, for example `https://your-domain.example/agent/manifest`. Use port `8768` when running with `python -m paperlite.cli serve --host 127.0.0.1 --port 8768`.
+`127.0.0.1` only works on the same machine. If the agent runs elsewhere, use your public reverse-proxy URL instead, for example `https://your-domain.example`.
+
+Optional discovery endpoint:
+
+```text
+GET /agent/manifest
+```
+
+For an MCP client, add PaperLite as a stdio MCP server:
+
+```json
+{
+  "mcpServers": {
+    "paperlite": {
+      "command": "python",
+      "args": ["-m", "paperlite.mcp_server"],
+      "cwd": "<repo>/paperlite"
+    }
+  }
+}
+```
+
+Use port `8768` instead of `8000` when running with `python -m paperlite.cli serve --host 127.0.0.1 --port 8768`.
 
 ## Maintenance
 
