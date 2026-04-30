@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.8 - 2026-04-30
+
+- Fixed the default agent brief path so `paper_research` returns usable Chinese brief translation fields when configured, while host agents can still fill missing brief text with their own model.
+- Added explicit bilingual title fields and DOI/arXiv-style identifiers to agent paper payloads so Chinese brief answers can show Chinese title, English original, stable ID, and one-sentence summary consistently.
+- Tightened QClaw/Hermes/OpenClaw guidance: do not treat an unconfigured PaperLite LLM as a failed research result, and do not invent cache-loss or rebuild explanations.
+- Added post-install default reading scope guidance and concrete skill examples for shorthand requests such as "抓今日新闻".
+- Trimmed README agent sections while keeping the detailed execution contract in `SKILL.md`.
+
 ## 0.2.7 - 2026-04-30
 
 - Added `paper_research` and `POST /agent/research` for one-shot natural-language research requests.

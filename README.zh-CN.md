@@ -2,7 +2,7 @@
 
 PaperLite 是给科研人用的本地优先论文元数据工作台：每天打开 `/daily`，选学科和来源，把新论文元数据抓到 SQLite，再筛选、翻译、导出或同步到 Zotero。
 
-当前版本：`0.2.7`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.2.8`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 第一次几分钟就能做：
 

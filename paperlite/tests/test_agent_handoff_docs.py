@@ -33,7 +33,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "## At A Glance" in readme
     assert "local-first paper metadata workbench for researchers" in readme
-    assert "Current release: `0.2.7`" in readme
+    assert "Current release: `0.2.8`" in readme
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
@@ -119,7 +119,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "PaperLite 中文说明" in readme_zh
     assert "给科研人用的本地优先论文元数据工作台" in readme_zh
-    assert "当前版本：`0.2.7`" in readme_zh
+    assert "当前版本：`0.2.8`" in readme_zh
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
@@ -285,6 +285,10 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
     assert "DEEPSEEK_API_KEY=" in skill_doc
 
+    assert "## 0.2.8 - 2026-04-30" in changelog
+    assert "default agent brief path" in changelog
+    assert "bilingual title fields and DOI/arXiv-style identifiers" in changelog
+    assert "post-install default reading scope guidance" in changelog
     assert "## 0.2.7 - 2026-04-30" in changelog
     assert "`paper_research` and `POST /agent/research`" in changelog
     assert "discipline=materials" in changelog
