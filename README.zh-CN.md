@@ -69,14 +69,25 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000
 
 LLM 是可选功能。普通浏览、抓取、筛选、导出和 Zotero fallback 不需要 LLM key。
 
-如果要用 DeepSeek 或 OpenAI-compatible 服务，只在本地 `.env` 里配置：
+不是 4 个 API 都要填。常用情况只填一个 key。
+
+DeepSeek 最简配置：
 
 ```env
 DEEPSEEK_API_KEY=
+```
+
+填了 `DEEPSEEK_API_KEY` 后，PaperLite 会默认使用 `https://api.deepseek.com` 和 `deepseek-chat`。
+
+其他 OpenAI-compatible 服务才需要这一组：
+
+```env
 PAPERLITE_LLM_API_KEY=
 PAPERLITE_LLM_BASE_URL=
 PAPERLITE_LLM_MODEL=
 ```
+
+`PAPERLITE_LLM_BASE_URL` 是服务地址，`PAPERLITE_LLM_MODEL` 是模型名，它们不是 API key。`PAPERLITE_LLM_API_KEY` 会优先于 `DEEPSEEK_API_KEY`。
 
 公开仓库只包含空的 `.env.example`。不要把真实 `.env` 推到 GitHub。当前 Docker Compose 默认只绑定 `127.0.0.1:8000`；如果要公网部署，请放在 Caddy、Nginx、Cloudflare Tunnel、Tailscale 等鉴权层后面，否则别人可能通过你的服务消耗 LLM 额度。
 
@@ -90,43 +101,21 @@ PAPERLITE_LLM_MODEL=
 - `/agent/rag/index`、`/agent/ask`：手动元数据 RAG。
 - `/zotero/status`、`/zotero/items`、`/zotero/export`：Zotero 元数据流。
 
-## OpenClaw / QClaw / Hermes 对接路径
+## OpenClaw / QClaw / Hermes 接手
 
-OpenClaw、QClaw、Hermes 是外部 agent。PaperLite 不把它们安装到本仓库里，只提供它们可连接的 REST/MCP 路径。
-
-克隆后的通用路径：
-
-```text
-<你的目录>/paperlite
-```
-
-如果外部 agent 要填 PaperLite 服务地址：
-
-```text
-Docker Compose: http://127.0.0.1:8000
-本地 Python:   http://127.0.0.1:8768
-```
-
-如果外部 agent 要填 manifest URL：
+正常只填这个地址：
 
 ```text
 http://127.0.0.1:8000/agent/manifest
-http://127.0.0.1:8000/.well-known/paperlite.json
 ```
 
-如果外部 agent 支持 MCP，先安装可选 MCP 依赖：
-
-```bash
-cd paperlite
-python -m pip install -e ".[mcp]"
-```
-
-MCP 配置里常用这两个字段：
+如果它只问“服务地址”或 “base URL”，填：
 
 ```text
-working_dir: <你的目录>/paperlite/paperlite
-command: python -m paperlite.mcp_server
+http://127.0.0.1:8000
 ```
+
+如果你用本地 Python 运行，把端口改成 `8768`。
 
 ## 常用检查
 

@@ -32,6 +32,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "## At A Glance" in readme
     assert "SQLite-first browsing" in readme
     assert "## Quality Gates" in readme
+    assert "## External Agents" in readme
     assert "no silent network calls" in readme
     assert "CLI RAG" in readme
     assert "Related cached papers" in readme
@@ -42,6 +43,10 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Click `抓取`" in readme
     assert "Crawl completed with 0 items" in readme
     assert "[中文说明](README.zh-CN.md)" in readme
+    assert "OpenClaw, QClaw, Hermes" in readme
+    assert "normally only need this URL" in readme
+    assert "http://127.0.0.1:8000/agent/manifest" in readme
+    assert "service base URL" in readme
 
     assert "PaperLite 中文说明" in readme_zh
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
@@ -50,15 +55,16 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "点 `学科：全部`" in readme_zh
     assert "点 `抓取`" in readme_zh
     assert "不要把真实 `.env` 推到 GitHub" in readme_zh
+    assert "不是 4 个 API 都要填" in readme_zh
+    assert "DeepSeek 最简配置" in readme_zh
+    assert "`PAPERLITE_LLM_BASE_URL` 是服务地址" in readme_zh
     assert "不下载 PDF" in readme_zh
     assert "不在页面加载时自动调用 LLM 或 RAG" in readme_zh
     assert "127.0.0.1:8000" in readme_zh
-    assert "OpenClaw / QClaw / Hermes 对接路径" in readme_zh
-    assert "PaperLite 不把它们安装到本仓库里" in readme_zh
+    assert "OpenClaw / QClaw / Hermes 接手" in readme_zh
+    assert "正常只填这个地址" in readme_zh
     assert "http://127.0.0.1:8000/agent/manifest" in readme_zh
-    assert "http://127.0.0.1:8000/.well-known/paperlite.json" in readme_zh
-    assert "command: python -m paperlite.mcp_server" in readme_zh
-    assert "working_dir: <你的目录>/paperlite/paperlite" in readme_zh
+    assert "如果它只问“服务地址”" in readme_zh
 
     assert "## Design Shape" in package_readme
     assert "`daily_export.py` owns daily date resolution" in package_readme
@@ -103,6 +109,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Copy this file to .env" in env_example
     assert "reverse proxy auth layer" in env_example
     assert "PAPERLITE_TRANSLATION_PROFILES_PATH" in env_example
+    assert "DeepSeek users only need DEEPSEEK_API_KEY" in env_example
+    assert "Other providers use PAPERLITE_LLM_API_KEY plus base URL/model" in env_example
 
     project = pyproject["project"]
     assert "research" in project["keywords"]

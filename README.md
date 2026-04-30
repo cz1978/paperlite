@@ -98,6 +98,16 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 - Enrichment/Zotero: `/daily/enrich`, `/zotero/status`, `/zotero/items`, `/zotero/export`
 - Discovery: `/agent/manifest`, `/.well-known/paperlite.json`
 
+## External Agents
+
+OpenClaw, QClaw, Hermes, and similar external agents normally only need this URL:
+
+```text
+http://127.0.0.1:8000/agent/manifest
+```
+
+If the agent asks for a service base URL instead, use `http://127.0.0.1:8000`. Use port `8768` when running with `python -m paperlite.cli serve --host 127.0.0.1 --port 8768`.
+
 ## Maintenance
 
 ```bash
