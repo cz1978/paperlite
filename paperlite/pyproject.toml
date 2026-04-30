@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "paperlite"
+version = "0.1.0"
+description = "Lightweight preprint and journal paper aggregation for Python, CLI, REST, and MCP."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "PaperLite Contributors" }]
+keywords = ["research", "papers", "metadata", "fastapi", "sqlite", "zotero", "rag"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Web Environment",
+  "Framework :: FastAPI",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+  "feedparser>=6.0.11",
+  "httpx>=0.27",
+  "pydantic>=2",
+  "fastapi>=0.110",
+  "uvicorn>=0.27",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+dev = [
+  "build>=1.2",
+  "pytest>=8",
+  "ruff>=0.15",
+]
+
+[project.scripts]
+paperlite = "paperlite.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/cz1978/paperlite"
+Repository = "https://github.com/cz1978/paperlite"
+Issues = "https://github.com/cz1978/paperlite/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"

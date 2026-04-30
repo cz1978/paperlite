@@ -1,0 +1,37 @@
+# Local configuration and secrets
+.env
+TODO.md
+
+# PaperLite runtime state
+.paperlite/
+paperlite/.paperlite/
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+papers.jsonl
+endpoint_health_snapshot.json
+source_audit_snapshot.json
+source-audit-*.json
+
+# Local server logs
+*.log
+.paperlite-uvicorn.err
+.paperlite-uvicorn.out
+
+# Local-only agent/workspace helpers
+skills/
+
+# Python/test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.venv/
+venv/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

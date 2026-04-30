@@ -1,0 +1,80 @@
+profiles:
+  - key: mixed
+    label: 综合
+    sources: ["arxiv", "biorxiv", "medrxiv", "chemrxiv", "nature", "science", "cell"]
+  - key: preprints
+    label: 预印本
+    sources: ["arxiv", "biorxiv", "medrxiv", "chemrxiv"]
+  - key: journals
+    label: 顶刊
+    sources: ["nature", "science", "cell", "pnas", "nejm", "lancet", "jama"]
+  - key: medical
+    label: 医学
+    sources: ["pubmed", "europepmc", "medrxiv", "nature-medicine", "nejm", "lancet", "jama"]
+  - key: ai
+    label: AI
+    sources: ["arxiv", "openalex"]
+  - key: chemistry
+    label: 化学
+    description: 化学预印本、化学顶刊和化学资讯起步组合。
+    tags: ["chemistry", "profile-template"]
+    metadata:
+      discipline: Chemistry
+    sources: ["chemrxiv", "nature_nature_chemistry_aop", "nature_nchem_current_feed", "acs_central_science", "acs_chem_reviews", "acs_catalysis", "acs_jpcl", "rsc_chem_science", "rsc_chemical_society_reviews", "cen_latest"]
+  - key: materials
+    label: 材料
+    description: 材料、纳米、光子和凝聚态材料方向起步组合。
+    tags: ["materials", "profile-template"]
+    metadata:
+      discipline: Materials
+    sources: ["arxiv_cond_mat_mtrl_sci", "nature_nature_materials_aop", "nature_nature_nanotechnology_aop", "nature_nmat_ci", "nature_nnano_ci", "nature_nphoton_aop", "acs_chem_materials", "acs_nano", "acs_nano_letters", "aps_physical_review_materials_recent"]
+  - key: physics
+    label: 物理
+    description: arXiv 物理预印本、APS 和 Nature 物理相关期刊起步组合。
+    tags: ["physics", "profile-template"]
+    metadata:
+      discipline: Physics
+    sources: ["arxiv_archive_physics", "arxiv_archive_cond-mat", "arxiv_archive_astro-ph", "aps_physical_review_letters_recent", "aps_physical_review_x_recent", "aps_physical_review_b_recent", "aps_physical_review_applied_recent", "nature_commsphys", "nature_nphys", "nature_nphoton_aop"]
+  - key: earth_science
+    label: 地球科学
+    description: 地球、气候、环境和 AGU/Copernicus 起步组合。
+    tags: ["earth-science", "profile-template"]
+    metadata:
+      discipline: Earth Science
+    sources: ["eartharxiv_all", "nature_nature_geoscience_aop", "nature_nclimate_aop", "ams_journal_of_climate", "copernicus_acp", "copernicus_bg", "copernicus_esd", "copernicus_gmd", "iop_erl", "wiley_agu_geophysical_research_letters_grl"]
+  - key: economics
+    label: 经济
+    description: arXiv econ/q-fin 和 RePEc NEP 工作论文起步组合。
+    tags: ["economics", "working-papers", "profile-template"]
+    metadata:
+      discipline: Economics
+    sources: ["arxiv_archive_econ", "arxiv_archive_q-fin", "arxiv_econ_em", "arxiv_econ_th", "arxiv_q_fin_ec", "arxiv_q_fin_mf", "repec_nep_all", "repec_nep_mac", "repec_nep_pub"]
+  - key: life_science
+    label: 生命科学
+    description: 生物预印本、Cell/Nature/eLife/PLOS 生命科学起步组合。
+    tags: ["life-science", "profile-template"]
+    metadata:
+      discipline: Life Science
+    sources: ["biorxiv", "biorxiv_all", "cell", "cell_inpress", "nature-biotechnology", "nature-genetics", "nature-methods", "elife_elife_recent_rss", "plos_plos_biology_newarticles", "europepmc"]
+  - key: engineering
+    label: 工程
+    description: 工程预印本、ASME/ASCE/IEEE 和应用物理起步组合。
+    tags: ["engineering", "profile-template"]
+    metadata:
+      discipline: Engineering
+    sources: ["arxiv_archive_eess", "arxiv_eess_as", "arxiv_eess_iv", "aps_physical_review_applied_recent", "ieee_xplore_rss", "asme_journal_of_applied_mechanics", "asme_journal_of_mechanical_design", "asce_journal_of_water_resources_planning_and_management", "asme_open_journal_of_engineering"]
+  - key: multidisciplinary
+    label: 多学科
+    description: 综合旗舰期刊和跨学科开放期刊起步组合。
+    tags: ["multidisciplinary", "profile-template"]
+    metadata:
+      discipline: Multidisciplinary
+    sources: ["nature", "science", "pnas", "science-advances", "nature_ncomms", "plos_plos_one_atom"]
+  - key: high_stability
+    label: 高稳定源
+    description: 优先选择 API、旗舰期刊和健康状态稳定的通用源。
+    tags: ["stable", "profile-template"]
+    metadata:
+      discipline: General
+      purpose: stable-daily
+    sources: ["arxiv", "biorxiv", "medrxiv", "chemrxiv", "pubmed", "europepmc", "openalex", "nature", "science", "pnas", "cell", "lancet", "jama"]

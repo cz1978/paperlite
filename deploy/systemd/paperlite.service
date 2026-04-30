@@ -1,0 +1,17 @@
+[Unit]
+Description=PaperLite research metadata reader
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=paperlite
+Group=paperlite
+WorkingDirectory=/opt/paperlite
+EnvironmentFile=/opt/paperlite/.env
+ExecStart=/opt/paperlite/.venv/bin/python -m uvicorn main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

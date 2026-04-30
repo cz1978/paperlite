@@ -1,0 +1,226 @@
+areas:
+- key: life_health
+  label: 生命与医学
+- key: physical_sciences
+  label: 数理化与材料
+- key: earth_environment
+  label: 地球与环境
+- key: computing_math
+  label: 计算与数学
+- key: engineering_technology
+  label: 工程技术
+- key: social_humanities
+  label: 社科与人文
+- key: general
+  label: 综合与未分类
+
+ignored_discipline_terms:
+- journal
+- local
+- metadata
+- open access
+- preprint
+
+disciplines:
+- key: medicine
+  name: Medicine
+  label: 医学
+  area_key: life_health
+  description: 临床医学、公共卫生、医学预印本和医学期刊。
+  aliases:
+  - biomedicine
+  - cancer
+  - infectious disease
+  - medical/health preprints
+  - medicine
+  - oncology
+- key: life_science
+  name: Life Science
+  label: 生命科学
+  area_key: life_health
+  description: 生物学、生物医学、遗传、免疫、细胞和分子生物学。
+  aliases:
+  - biology
+  - biology/health preprints
+  - biotechnology
+  - genetics
+  - immunology
+  - life-sciences
+  - life sciences
+  - methods
+  - molecular biology
+  - quantitative biology
+- key: neuroscience
+  name: Neuroscience
+  label: 神经科学
+  area_key: life_health
+  description: 神经科学、脑科学和认知相关来源。
+  aliases:
+  - neuroscience
+- key: chemistry
+  name: Chemistry
+  label: 化学
+  area_key: physical_sciences
+  description: 化学、催化、合成、化学工程相关来源。
+  aliases:
+  - chem
+  - chemistry
+  - t2 chemistry
+- key: materials
+  name: Materials
+  label: 材料
+  area_key: physical_sciences
+  description: 材料、纳米、光子和凝聚态材料方向。
+  aliases:
+  - materials
+- key: physics
+  name: Physics
+  label: 物理
+  area_key: physical_sciences
+  description: 物理、天文、凝聚态、非线性科学和物理预印本。
+  aliases:
+  - astrophysics
+  - condensed matter physics
+  - nonlinear sciences
+  - physics
+- key: energy
+  name: Energy
+  label: 能源
+  area_key: physical_sciences
+  description: 能源、可持续能源和能源技术。
+  aliases:
+  - energy
+- key: earth_science
+  name: Earth Science
+  label: 地球科学
+  area_key: earth_environment
+  description: 地球、气候、大气、海洋、地质和遥感。
+  aliases:
+  - earth
+  - earth science
+  - earthscience
+- key: environmental_science
+  name: Environmental Science
+  label: 环境科学
+  area_key: earth_environment
+  description: 环境、生态、污染和环境工程相关来源。
+  aliases:
+  - environmental science
+- key: agriculture
+  name: Agriculture
+  label: 农业
+  area_key: earth_environment
+  description: 农业、植物、食品和可持续农业。
+  aliases:
+  - agriculture
+- key: computer_science
+  name: Computer Science
+  label: 计算机 / AI
+  area_key: computing_math
+  description: 计算机科学、AI、机器学习和信息技术。
+  aliases:
+  - computer science
+  - computerscience
+- key: mathematics
+  name: Mathematics
+  label: 数学 / 统计
+  area_key: computing_math
+  description: 数学、统计、量化方法和数学预印本。
+  aliases:
+  - mathematics
+  - statistics
+- key: engineering
+  name: Engineering
+  label: 工程
+  area_key: engineering_technology
+  description: 机械、电子、土木、航天、系统工程和工程期刊。
+  aliases:
+  - electrical engineering and systems science
+  - electronics
+  - engineering
+  - mechanical engineering
+- key: aerospace_engineering
+  name: Aerospace Engineering
+  label: 航空航天
+  area_key: engineering_technology
+  description: 航空、航天、飞行器和推进相关来源。
+  aliases:
+  - aerospace engineering
+- key: civil_engineering
+  name: Civil Engineering
+  label: 土木工程
+  area_key: engineering_technology
+  description: 土木、结构、水资源和基础设施相关来源。
+  aliases:
+  - civil engineering
+- key: economics
+  name: Economics
+  label: 经济 / 金融
+  area_key: social_humanities
+  description: 经济学、金融、工作论文和社会科学经济方向。
+  aliases:
+  - economics
+  - quantitative finance
+  - social science/econ
+- key: social_science
+  name: Social Science
+  label: 社会科学
+  area_key: social_humanities
+  description: 社会科学、心理、行为和公共政策相关来源。
+  aliases:
+  - social science
+  - socialscience
+  - t2 social science
+  - t2_social_science
+- key: psychology
+  name: Psychology
+  label: 心理学
+  area_key: social_humanities
+  description: 心理学、认知和行为科学。
+  aliases:
+  - psychology
+- key: humanities
+  name: Humanities
+  label: 人文
+  area_key: social_humanities
+  description: 哲学、人文和人文学术档案。
+  aliases:
+  - humanities
+- key: multidisciplinary
+  name: Multidisciplinary
+  label: 多学科
+  area_key: general
+  description: Nature、Science、PNAS 等综合来源。
+  aliases:
+  - all disciplines
+  - multidisciplinary
+- key: unclassified
+  name: Unclassified
+  label: 未分类
+  area_key: general
+  description: 需要人工复核或暂不归入学科的来源。
+  aliases:
+  - china
+  - current feed
+  - current-feed
+  - unclassified
+
+source_kinds:
+- key: preprint
+  label: 预印本
+  description: arXiv、bioRxiv、medRxiv、ChemRxiv 等预印本来源。
+- key: journal
+  label: 期刊
+  description: 期刊 RSS/Atom/API 条目。
+- key: metadata
+  label: 元数据 / 资料库
+  description: OpenAlex、PubMed、Crossref 等元数据或检索来源。
+- key: working_papers
+  label: 工作论文
+  description: NBER、RePEc、SSRN、PhilArchive 等工作论文或学术档案。
+- key: news
+  label: 科研资讯
+  description: 科研新闻、热点论文和资讯源。
+- key: publisher
+  label: 出版社 / 平台
+  description: 出版社、平台或需要手动配置的目录入口。

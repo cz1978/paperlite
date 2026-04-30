@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PaperLite 每日学术流</title>
+  <style>
+{{ PAPERLITE_STYLES }}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand" aria-label="PaperLite">
+        <div class="brand-mark">P</div>
+        <div>
+          <div class="brand-name">PaperLite</div>
+          <div class="brand-sub">每日学术流</div>
+        </div>
+      </div>
+      <input id="search" class="search" type="search" placeholder="搜索标题 / 摘要 / 来源" autocomplete="off">
+      <button id="apiBtn" class="btn" title="查看抓取、定时和来源健康">运行</button>
+      <button id="searchBtn" class="btn">搜索</button>
+      <button id="translateBtn" class="btn" title="翻译当前页；多条按 1 秒间隔串行请求" type="button">翻译</button>
+      <div id="exportWrap" class="export-wrap">
+        <button id="exportBtn" class="btn" title="导出当前筛选范围结果" type="button">导出</button>
+        <div id="exportMenu" class="export-menu" aria-label="导出格式">
+          <button data-export-format="ris" type="button">RIS / Zotero</button>
+          <button data-export-format="bibtex" type="button">BibTeX</button>
+          <button data-export-format="markdown" type="button">Markdown</button>
+          <button data-export-format="json" type="button">JSON</button>
+          <button data-export-format="jsonl" type="button">JSONL</button>
+          <button data-export-format="rss" type="button">RSS</button>
+        </div>
+      </div>
+      <button id="crawlBtn" class="btn">抓取</button>
+      <button id="scheduleBtn" class="btn">定时</button>
+      <button id="refreshBtn" class="btn dark">刷新</button>
+    </header>
+
+    <section class="filters" aria-label="筛选">
+      <input id="dateFrom" class="date-input" type="date">
+      <span class="date-sep">至</span>
+      <input id="dateTo" class="date-input" type="date">
+      <button id="todayBtn" class="btn dark">今日</button>
+      <button id="weekBtn" class="btn">本周</button>
+      <button id="disciplineBtn" class="select-btn" type="button"><span>学科：全部</span><span>∨</span></button>
+      <button id="sourceBtn" class="select-btn" type="button"><span>来源：全部</span><span>∨</span></button>
+
+      <div id="sourcePopover" class="source-popover" aria-label="来源选择">
+        <div class="source-search-row">
+          <input id="sourceSearch" class="source-search" type="search" placeholder="搜索来源 / 平台 / 分类">
+          <button id="selectedOnlyBtn" class="btn small" type="button">已选</button>
+        </div>
+        <div id="sourceTabs" class="source-tabs"></div>
+        <div id="sourceList" class="source-list"></div>
+        <div class="source-foot">
+          <div id="sourceFootText">全部来源</div>
+          <div class="source-foot-actions">
+            <button id="clearSourcesBtn" class="btn small" type="button">清空</button>
+            <button id="doneSourcesBtn" class="btn small dark" type="button">完成</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflowRail" class="workflow-rail" aria-label="每日主路径">
+      <span class="workflow-step">1 选择范围</span>
+      <span class="workflow-step">2 抓取/缓存</span>
+      <span class="workflow-step">3 复核阅读</span>
+      <span class="workflow-step">4 批量补全/翻译</span>
+      <span class="workflow-step">5 导出/Zotero</span>
+    </section>
+
+    <section class="batchbar" aria-label="批量动作">
+      <div id="selectionText" class="chain-status">未选中；批量动作默认处理当前页。</div>
+      <div class="batch-actions">
+        <button id="batchReadBtn" class="btn tiny" type="button">标已读</button>
+        <button id="batchFavoriteBtn" class="btn tiny" type="button">收藏</button>
+        <button id="batchHideBtn" class="btn tiny" type="button">隐藏</button>
+        <button id="batchTranslateBtn" class="btn tiny" type="button">翻译选中/本页</button>
+        <button id="batchEnrichBtn" class="btn tiny" type="button">补全选中/本页</button>
+        <button id="batchZoteroBtn" class="btn tiny" type="button">Zotero 选中/本页</button>
+      </div>
+    </section>
+
+    <section class="ai-filterbar" aria-label="AI 筛选">
+      <input id="aiFilterQuery" class="ai-filter-input" placeholder="AI筛选要求（可留空用默认标准）">
+      <select id="aiFilterMode" class="ai-filter-select">
+        <option value="count">按数量</option>
+        <option value="importance">按重要度</option>
+      </select>
+      <label class="ai-filter-field">最多筛多少条 <input id="aiFilterScanLimit" class="ai-filter-number" type="number" min="1" max="120" value="60" title="最多让 AI 扫描多少条，控制请求量"></label>
+      <label class="ai-filter-field">推荐几条 <input id="aiFilterKeepCount" class="ai-filter-number" type="number" min="1" max="120" value="15" title="按数量模式时，推荐组最多保留几条"></label>
+      <label class="ai-filter-field">多重要才推荐 <input id="aiFilterThreshold" class="ai-filter-number" type="number" min="0" max="100" value="70" title="按重要度模式时，超过这个分数才进推荐组"></label>
+      <button id="aiFilterBtn" class="btn tiny" type="button">AI筛选</button>
+      <button id="clearAiFilterBtn" class="btn tiny" type="button">清除AI筛选</button>
+    </section>
+
+    <section class="ragbar" aria-label="缓存问答">
+      <input id="ragQuestion" class="rag-question-input" placeholder="问当前筛选范围 metadata（标题 / 摘要 / 作者 / DOI / URL）">
+      <label class="rag-field">引用数 <input id="ragTopK" class="rag-number" type="number" min="1" max="20" value="8" title="最多检索多少条已索引论文作为证据"></label>
+      <button id="ragIndexBtn" class="btn tiny" type="button">索引当前范围</button>
+      <button id="ragAskBtn" class="btn tiny dark" type="button">问缓存</button>
+      <button id="clearRagBtn" class="btn tiny" type="button">清除</button>
+    </section>
+    <section id="ragResultPanel" class="rag-result-panel" aria-label="RAG 回答"></section>
+
+    <section class="preferencebar" aria-label="自我学习">
+      <div class="preference-head">
+        <span class="preference-title">自我学习</span>
+        <label class="preference-toggle"><input id="learningEnabled" type="checkbox" checked>自我学习</label>
+        <button id="clearLearningDataBtn" class="btn tiny" type="button">清理学习数据</button>
+        <span id="preferenceStatus" class="preference-status">画像未加载</span>
+      </div>
+    </section>
+
+    <section class="viewbar" aria-label="保存视图">
+      <input id="viewName" class="view-input" placeholder="视图名称">
+      <button id="saveViewBtn" class="btn tiny" type="button">保存视图</button>
+      <select id="savedViewSelect" class="view-select">
+        <option value="">加载视图</option>
+      </select>
+      <button id="loadViewBtn" class="btn tiny" type="button">加载</button>
+      <button id="deleteViewBtn" class="btn tiny" type="button">删除</button>
+    </section>
+
+    <section class="statusbar">
+      <div>
+        <div id="resultStatus">正在加载...</div>
+        <div id="chainStatus" class="chain-status">页面加载和筛选变化只读本地缓存；抓取必须先选学科并入库。</div>
+      </div>
+      <div class="pager">
+        <button id="dailyViewBtn" class="btn small dark" type="button">全部缓存</button>
+        <button id="favoritesViewBtn" class="btn small" type="button">收藏夹</button>
+        <button id="hideReadBtn" class="btn small" type="button">隐藏已读</button>
+        <button id="prevBtn" class="btn small" type="button">上一页</button>
+        <span id="pageText">第 1 页</span>
+        <button id="nextBtn" class="btn small" type="button">下一页</button>
+      </div>
+    </section>
+
+    <h1 class="heading"><span id="headingTitle">今天内容</span> <span id="scopeText">全部来源 / 全部学科</span></h1>
+    <section id="paperList" class="list" aria-live="polite"></section>
+  </main>
+  <div id="toast" class="toast"></div>
+
+  <script>
+{{ PAPERLITE_SCRIPTS }}
+  </script>
+</body>
+</html>

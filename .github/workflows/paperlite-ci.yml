@@ -1,0 +1,94 @@
+name: PaperLite CI
+
+on:
+  push:
+    paths:
+      - "paperlite/**"
+      - ".dockerignore"
+      - ".env.example"
+      - ".gitattributes"
+      - ".github/workflows/paperlite-ci.yml"
+      - ".gitignore"
+      - "AGENTS.md"
+      - "DEPLOYMENT.md"
+      - "Dockerfile"
+      - "LICENSE"
+      - "PAPERLITE_CURRENT_STATE.md"
+      - "README.md"
+      - "SOURCES.md"
+      - "deploy/**"
+      - "docker-compose.yml"
+      - "main.py"
+  pull_request:
+    paths:
+      - "paperlite/**"
+      - ".dockerignore"
+      - ".env.example"
+      - ".gitattributes"
+      - ".github/workflows/paperlite-ci.yml"
+      - ".gitignore"
+      - "AGENTS.md"
+      - "DEPLOYMENT.md"
+      - "Dockerfile"
+      - "LICENSE"
+      - "PAPERLITE_CURRENT_STATE.md"
+      - "README.md"
+      - "SOURCES.md"
+      - "deploy/**"
+      - "docker-compose.yml"
+      - "main.py"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install PaperLite
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e "paperlite[dev]"
+
+      - name: Lint
+        working-directory: paperlite
+        run: ruff check paperlite tests
+
+      - name: Run tests
+        working-directory: paperlite
+        run: python -m pytest -q
+
+      - name: Compile package
+        working-directory: paperlite
+        run: python -m compileall paperlite
+
+      - name: Smoke CLI help
+        working-directory: paperlite
+        run: python -m paperlite.cli --help
+
+      - name: Smoke source listing
+        working-directory: paperlite
+        run: python -m paperlite.cli sources --format markdown
+
+      - name: Validate catalog
+        working-directory: paperlite
+        run: python -m paperlite.cli catalog validate --format markdown
+
+      - name: Smoke Docker image
+        if: matrix.python-version == '3.12'
+        run: docker build -t paperlite-ci-smoke:local .

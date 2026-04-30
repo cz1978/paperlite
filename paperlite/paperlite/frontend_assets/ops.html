@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PaperLite 运行面板</title>
+  <style>
+{{ PAPERLITE_STYLES }}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark">P</div>
+        <div>
+          <div class="title">PaperLite 运行面板</div>
+          <div class="sub">抓取任务、定时任务、来源健康</div>
+        </div>
+      </div>
+      <nav class="links">
+        <a class="link-btn dark" href="/daily">回到每日流</a>
+        <a class="link-btn" href="/.well-known/paperlite.json" target="_blank" rel="noreferrer">API Manifest</a>
+        <a class="link-btn" href="/ops/doctor" target="_blank" rel="noreferrer">Doctor</a>
+        <a class="link-btn" href="/catalog/summary" target="_blank" rel="noreferrer">目录概览</a>
+        <a class="link-btn" href="/catalog/coverage" target="_blank" rel="noreferrer">覆盖报告</a>
+        <a class="link-btn" href="/sources" target="_blank" rel="noreferrer">来源</a>
+        <a class="link-btn" href="/endpoints" target="_blank" rel="noreferrer">端点</a>
+      </nav>
+    </header>
+
+    <section id="metrics" class="grid metrics"></section>
+
+    <section class="section" style="margin-bottom:12px">
+      <div class="section-head">
+        <h2>运行摘要</h2>
+        <span class="hint">DB、缓存、最近错误、下一次计划任务</span>
+      </div>
+      <div id="runtimeSummary"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>抓取任务</h2>
+        <span id="runHint" class="hint">仅读取 crawl_runs，不创建任务</span>
+      </div>
+      <div id="runs"></div>
+    </section>
+
+    <section class="section" style="margin-top:12px">
+      <div class="section-head">
+        <h2>定时任务</h2>
+        <span class="hint">暂停后不会被 scheduler 执行</span>
+      </div>
+      <div id="schedules"></div>
+    </section>
+
+    <section class="section" style="margin-top:12px">
+      <div class="section-head">
+        <h2>来源覆盖</h2>
+        <span class="hint">只读 YAML + 健康快照，不抓外部源</span>
+      </div>
+      <div id="coverage"></div>
+    </section>
+
+    <section class="section" style="margin-top:12px">
+      <div class="section-head">
+        <h2>来源健康</h2>
+        <span id="healthHint" class="hint">页面加载不检测外部源；检测必须手动触发</span>
+      </div>
+      <div class="form">
+        <input id="healthDiscipline" class="input" placeholder="学科 key，可空">
+        <input id="healthSource" class="input" placeholder="来源 key，可空，逗号分隔">
+        <select id="healthMode" class="input">
+          <option value="">RSS/Atom/feed</option>
+          <option value="rss">RSS</option>
+          <option value="atom">Atom</option>
+          <option value="feed">feed</option>
+        </select>
+        <input id="healthLimit" class="input" type="number" min="1" max="200" value="50" title="最多 200">
+        <input id="healthTimeout" class="input" type="number" min="1" max="30" value="5" title="秒">
+        <button id="healthCheckBtn" class="btn dark" type="button">检测</button>
+      </div>
+      <div id="health"></div>
+    </section>
+
+    <section class="section" style="margin-top:12px">
+      <div class="section-head">
+        <h2>来源内容体检</h2>
+        <span id="auditHint" class="hint">不会自动跑，手动触发；每源只抽样少量元数据</span>
+      </div>
+      <div class="form">
+        <input id="auditDiscipline" class="input" placeholder="学科 key，可空">
+        <input id="auditSource" class="input" placeholder="来源 key，可空，逗号分隔">
+        <select id="auditMode" class="input">
+          <option value="">RSS/Atom/feed</option>
+          <option value="all">全部可运行</option>
+          <option value="rss">RSS</option>
+          <option value="atom">Atom</option>
+          <option value="api">API</option>
+        </select>
+        <input id="auditLimit" class="input" type="number" min="1" max="200" value="100" title="本批最多 200 个 endpoint">
+        <input id="auditOffset" class="input" type="number" min="0" value="0" title="从第几个 endpoint 开始">
+        <input id="auditSampleSize" class="input" type="number" min="1" max="20" value="3" title="每源抽样条数">
+        <input id="auditTimeout" class="input" type="number" min="1" max="30" value="5" title="秒">
+        <button id="auditCheckBtn" class="btn dark" type="button">检查一批</button>
+        <button id="auditNextBtn" class="btn" type="button">检查下一批</button>
+        <button id="auditIssuesBtn" class="btn" type="button">只看问题源</button>
+      </div>
+      <div id="sourceAudit"></div>
+    </section>
+  </main>
+
+  <script>
+{{ PAPERLITE_SCRIPTS }}
+  </script>
+</body>
+</html>

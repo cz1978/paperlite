@@ -1,0 +1,7847 @@
+sources:
+- key: arxiv
+  name: arXiv
+  source_kind: preprint
+  publisher: arXiv
+  homepage: https://arxiv.org/
+  topics:
+  - multidisciplinary
+  - preprint
+  status: active
+  origin: paperlite_builtin
+- key: biorxiv
+  name: bioRxiv
+  source_kind: preprint
+  publisher: bioRxiv
+  homepage: https://www.biorxiv.org/
+  topics:
+  - life-sciences
+  - preprint
+  status: active
+  origin: paperlite_builtin
+- key: medrxiv
+  name: medRxiv
+  source_kind: preprint
+  publisher: medRxiv
+  homepage: https://www.medrxiv.org/
+  topics:
+  - medicine
+  - preprint
+  status: active
+  origin: paperlite_builtin
+- key: chemrxiv
+  name: ChemRxiv
+  source_kind: preprint
+  publisher: ChemRxiv
+  homepage: https://chemrxiv.org/
+  topics:
+  - chemistry
+  - preprint
+  status: active
+  origin: paperlite_builtin
+- key: openalex
+  name: OpenAlex
+  source_kind: metadata
+  publisher: OpenAlex
+  homepage: https://openalex.org/
+  topics:
+  - multidisciplinary
+  - metadata
+  status: active
+  origin: paperlite_builtin
+- key: crossref
+  name: Crossref
+  source_kind: metadata
+  publisher: Crossref
+  homepage: https://www.crossref.org/
+  topics:
+  - multidisciplinary
+  - metadata
+  status: active
+  origin: paperlite_builtin
+- key: pubmed
+  name: PubMed
+  source_kind: metadata
+  publisher: NCBI
+  homepage: https://pubmed.ncbi.nlm.nih.gov/
+  topics:
+  - medicine
+  - metadata
+  status: active
+  origin: paperlite_builtin
+- key: europepmc
+  name: Europe PMC
+  source_kind: metadata
+  publisher: Europe PMC
+  homepage: https://europepmc.org/
+  topics:
+  - life-sciences
+  - metadata
+  status: active
+  origin: paperlite_builtin
+- key: nature
+  name: Nature
+  source_kind: journal
+  publisher: Springer Nature
+  issn:
+  - 0028-0836
+  - 1476-4687
+  tier: flagship
+  topics:
+  - multidisciplinary
+  status: active
+- key: nature-medicine
+  name: Nature Medicine
+  source_kind: journal
+  publisher: Springer Nature
+  issn:
+  - 1078-8956
+  - 1546-170X
+  tier: top-journal
+  topics:
+  - medicine
+  - biomedicine
+  status: active
+- key: nature-biotechnology
+  name: Nature Biotechnology
+  source_kind: journal
+  publisher: Springer Nature
+  issn:
+  - 1087-0156
+  - 1546-1696
+  tier: top-journal
+  topics:
+  - biotechnology
+  status: active
+- key: nature-neuroscience
+  name: Nature Neuroscience
+  source_kind: journal
+  publisher: Springer Nature
+  issn:
+  - 1097-6256
+  - 1546-1726
+  tier: top-journal
+  topics:
+  - neuroscience
+  status: active
+- key: nature-genetics
+  name: Nature Genetics
+  source_kind: journal
+  publisher: Springer Nature
+  issn:
+  - 1061-4036
+  - 1546-1718
+  tier: top-journal
+  topics:
+  - genetics
+  status: active
+- key: nature-methods
+  name: Nature Methods
+  source_kind: journal
+  publisher: Springer Nature
+  issn:
+  - 1548-7091
+  - 1548-7105
+  tier: top-journal
+  topics:
+  - methods
+  status: active
+- key: science
+  name: Science
+  source_kind: journal
+  publisher: AAAS
+  issn:
+  - 0036-8075
+  - 1095-9203
+  tier: flagship
+  topics:
+  - multidisciplinary
+  status: active
+- key: science-advances
+  name: Science Advances
+  source_kind: journal
+  publisher: AAAS
+  issn:
+  - 2375-2548
+  tier: top-journal
+  topics:
+  - multidisciplinary
+  - open-access
+  status: active
+- key: science-translational-medicine
+  name: Science Translational Medicine
+  source_kind: journal
+  publisher: AAAS
+  issn:
+  - 1946-6234
+  - 1946-6242
+  tier: top-journal
+  topics:
+  - medicine
+  disciplines:
+  - Medicine
+  status: active
+- key: cell
+  name: Cell
+  source_kind: journal
+  publisher: Cell Press
+  issn:
+  - 0092-8674
+  - 1097-4172
+  tier: flagship
+  topics:
+  - biology
+  status: active
+- key: cancer-cell
+  name: Cancer Cell
+  source_kind: journal
+  publisher: Cell Press
+  issn:
+  - 1535-6108
+  - 1878-3686
+  tier: top-journal
+  topics:
+  - cancer
+  - biology
+  status: active
+- key: neuron
+  name: Neuron
+  source_kind: journal
+  publisher: Cell Press
+  issn:
+  - 0896-6273
+  - 1097-4199
+  tier: top-journal
+  topics:
+  - neuroscience
+  status: active
+- key: immunity
+  name: Immunity
+  source_kind: journal
+  publisher: Cell Press
+  issn:
+  - 1074-7613
+  - 1097-4180
+  tier: top-journal
+  topics:
+  - immunology
+  status: active
+- key: molecular-cell
+  name: Molecular Cell
+  source_kind: journal
+  publisher: Cell Press
+  issn:
+  - 1097-2765
+  - 1097-4164
+  tier: top-journal
+  topics:
+  - molecular-biology
+  status: active
+- key: pnas
+  name: PNAS
+  source_kind: journal
+  publisher: National Academy of Sciences
+  issn:
+  - 0027-8424
+  - 1091-6490
+  tier: top-journal
+  topics:
+  - multidisciplinary
+  status: active
+- key: nejm
+  name: New England Journal of Medicine
+  source_kind: journal
+  publisher: Massachusetts Medical Society
+  issn:
+  - 0028-4793
+  - 1533-4406
+  tier: flagship
+  topics:
+  - medicine
+  status: active
+- key: lancet
+  name: The Lancet
+  source_kind: journal
+  publisher: Elsevier
+  issn:
+  - 0140-6736
+  - 1474-547X
+  tier: flagship
+  topics:
+  - medicine
+  status: active
+- key: lancet-oncology
+  name: The Lancet Oncology
+  source_kind: journal
+  publisher: Elsevier
+  issn:
+  - 1470-2045
+  - 1474-5488
+  tier: top-journal
+  topics:
+  - medicine
+  - oncology
+  status: active
+- key: lancet-infectious-diseases
+  name: The Lancet Infectious Diseases
+  source_kind: journal
+  publisher: Elsevier
+  issn:
+  - 1473-3099
+  - 1474-4457
+  tier: top-journal
+  topics:
+  - medicine
+  - infectious-disease
+  status: active
+- key: jama
+  name: JAMA
+  source_kind: journal
+  publisher: American Medical Association
+  issn:
+  - 0098-7484
+  - 1538-3598
+  tier: flagship
+  topics:
+  - medicine
+  status: active
+- key: jama-network-open
+  name: JAMA Network Open
+  source_kind: journal
+  publisher: American Medical Association
+  issn:
+  - 2574-3805
+  tier: top-journal
+  topics:
+  - medicine
+  - open-access
+  status: active
+- key: nature_current
+  name: Nature (主刊) Current Issue
+  source_kind: journal
+  publisher: Nature
+  tier: T2
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_csv_import
+- key: science_express
+  name: Science First Release/Express
+  source_kind: journal
+  publisher: Science
+  tier: T2
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_csv_import
+- key: cell_inpress
+  name: Cell Articles in Press
+  source_kind: journal
+  publisher: Cell Press
+  tier: T2
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_csv_import
+- key: pnas_etoc
+  name: PNAS eTOC (current)
+  source_kind: journal
+  publisher: PNAS
+  tier: T2
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs
+  name: arXiv Computer Science (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_all
+  name: bioRxiv (all subjects)
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_csv_import
+- key: sciencenet_hot_papers
+  name: 科学网 HOT 论文
+  source_kind: news
+  publisher: 科学网
+  tier: T2
+  topics:
+  - multidisciplinary
+  disciplines:
+  - Multidisciplinary
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ai
+  name: arXiv cs.AI
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ce
+  name: arXiv cs.CE
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_cg
+  name: arXiv cs.CG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_cl
+  name: arXiv cs.CL
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_cr
+  name: arXiv cs.CR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_cv
+  name: arXiv cs.CV
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_cy
+  name: arXiv cs.CY
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_db
+  name: arXiv cs.DB
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_dc
+  name: arXiv cs.DC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_dl
+  name: arXiv cs.DL
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_dm
+  name: arXiv cs.DM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ds
+  name: arXiv cs.DS
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_et
+  name: arXiv cs.ET
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_fl
+  name: arXiv cs.FL
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_gl
+  name: arXiv cs.GL
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_gr
+  name: arXiv cs.GR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_gt
+  name: arXiv cs.GT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_hc
+  name: arXiv cs.HC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ir
+  name: arXiv cs.IR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_it
+  name: arXiv cs.IT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_lg
+  name: arXiv cs.LG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_lo
+  name: arXiv cs.LO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ma
+  name: arXiv cs.MA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_mm
+  name: arXiv cs.MM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ms
+  name: arXiv cs.MS
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_na
+  name: arXiv cs.NA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ne
+  name: arXiv cs.NE
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ni
+  name: arXiv cs.NI
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_oh
+  name: arXiv cs.OH
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_os
+  name: arXiv cs.OS
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_pf
+  name: arXiv cs.PF
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_pl
+  name: arXiv cs.PL
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ro
+  name: arXiv cs.RO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_sc
+  name: arXiv cs.SC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_sd
+  name: arXiv cs.SD
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_se
+  name: arXiv cs.SE
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_si
+  name: arXiv cs.SI
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_sy
+  name: arXiv cs.SY
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_econ_em
+  name: arXiv econ.EM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Economics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_econ_gn
+  name: arXiv econ.GN
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Economics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_econ_th
+  name: arXiv econ.TH
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Economics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_eess_as
+  name: arXiv eess.AS
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Electrical Engineering and Systems Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_eess_iv
+  name: arXiv eess.IV
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Electrical Engineering and Systems Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_eess_sp
+  name: arXiv eess.SP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Electrical Engineering and Systems Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_eess_sy
+  name: arXiv eess.SY
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Electrical Engineering and Systems Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ac
+  name: arXiv math.AC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ag
+  name: arXiv math.AG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ap
+  name: arXiv math.AP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_at
+  name: arXiv math.AT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ca
+  name: arXiv math.CA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_co
+  name: arXiv math.CO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ct
+  name: arXiv math.CT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_cv
+  name: arXiv math.CV
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_dg
+  name: arXiv math.DG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ds
+  name: arXiv math.DS
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_fa
+  name: arXiv math.FA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_gm
+  name: arXiv math.GM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_gn
+  name: arXiv math.GN
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_gr
+  name: arXiv math.GR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_gt
+  name: arXiv math.GT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ho
+  name: arXiv math.HO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_it
+  name: arXiv math.IT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_kt
+  name: arXiv math.KT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_lo
+  name: arXiv math.LO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_mg
+  name: arXiv math.MG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_mp
+  name: arXiv math.MP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_na
+  name: arXiv math.NA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_nt
+  name: arXiv math.NT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_oa
+  name: arXiv math.OA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_oc
+  name: arXiv math.OC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_pr
+  name: arXiv math.PR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_qa
+  name: arXiv math.QA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ra
+  name: arXiv math.RA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_rt
+  name: arXiv math.RT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_sg
+  name: arXiv math.SG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_sp
+  name: arXiv math.SP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_st
+  name: arXiv math.ST
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_math_ph
+  name: arXiv math-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nlin_ao
+  name: arXiv nlin.AO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Nonlinear Sciences
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nlin_cd
+  name: arXiv nlin.CD
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Nonlinear Sciences
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nlin_cg
+  name: arXiv nlin.CG
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Nonlinear Sciences
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nlin_ps
+  name: arXiv nlin.PS
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Nonlinear Sciences
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nlin_si
+  name: arXiv nlin.SI
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Nonlinear Sciences
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_acc_ph
+  name: arXiv physics.acc-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_ao_ph
+  name: arXiv physics.ao-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_app_ph
+  name: arXiv physics.app-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_atm_clus
+  name: arXiv physics.atm-clus
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_atom_ph
+  name: arXiv physics.atom-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_bio_ph
+  name: arXiv physics.bio-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_chem_ph
+  name: arXiv physics.chem-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_class_ph
+  name: arXiv physics.class-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_comp_ph
+  name: arXiv physics.comp-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_data_an
+  name: arXiv physics.data-an
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_ed_ph
+  name: arXiv physics.ed-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_flu_dyn
+  name: arXiv physics.flu-dyn
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_gen_ph
+  name: arXiv physics.gen-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_geo_ph
+  name: arXiv physics.geo-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_hist_ph
+  name: arXiv physics.hist-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_ins_det
+  name: arXiv physics.ins-det
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_med_ph
+  name: arXiv physics.med-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_optics
+  name: arXiv physics.optics
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_plasm_ph
+  name: arXiv physics.plasm-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_pop_ph
+  name: arXiv physics.pop-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_soc_ph
+  name: arXiv physics.soc-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_physics_space_ph
+  name: arXiv physics.space-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_bm
+  name: arXiv q-bio.BM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_cb
+  name: arXiv q-bio.CB
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_gn
+  name: arXiv q-bio.GN
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_mn
+  name: arXiv q-bio.MN
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_nc
+  name: arXiv q-bio.NC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_ot
+  name: arXiv q-bio.OT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_pe
+  name: arXiv q-bio.PE
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_qm
+  name: arXiv q-bio.QM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_sc
+  name: arXiv q-bio.SC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_bio_to
+  name: arXiv q-bio.TO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_cp
+  name: arXiv q-fin.CP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_ec
+  name: arXiv q-fin.EC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_gn
+  name: arXiv q-fin.GN
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_mf
+  name: arXiv q-fin.MF
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_pm
+  name: arXiv q-fin.PM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_pr
+  name: arXiv q-fin.PR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_rm
+  name: arXiv q-fin.RM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_st
+  name: arXiv q-fin.ST
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_q_fin_tr
+  name: arXiv q-fin.TR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_stat_ap
+  name: arXiv stat.AP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_stat_co
+  name: arXiv stat.CO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_stat_me
+  name: arXiv stat.ME
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_stat_ml
+  name: arXiv stat.ML
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_stat_ot
+  name: arXiv stat.OT
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_stat_th
+  name: arXiv stat.TH
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_astro_ph_co
+  name: arXiv astro-ph.CO
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_astro_ph_ep
+  name: arXiv astro-ph.EP
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_astro_ph_ga
+  name: arXiv astro-ph.GA
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_astro_ph_he
+  name: arXiv astro-ph.HE
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_astro_ph_im
+  name: arXiv astro-ph.IM
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_astro_ph_sr
+  name: arXiv astro-ph.SR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_dis_nn
+  name: arXiv cond-mat.dis-nn
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_mes_hall
+  name: arXiv cond-mat.mes-hall
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_mtrl_sci
+  name: arXiv cond-mat.mtrl-sci
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_other
+  name: arXiv cond-mat.other
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_quant_gas
+  name: arXiv cond-mat.quant-gas
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_soft
+  name: arXiv cond-mat.soft
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_stat_mech
+  name: arXiv cond-mat.stat-mech
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_str_el
+  name: arXiv cond-mat.str-el
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cond_mat_supr_con
+  name: arXiv cond-mat.supr-con
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_gr_qc
+  name: arXiv gr-qc
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_hep_ex
+  name: arXiv hep-ex
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_hep_lat
+  name: arXiv hep-lat
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_hep_ph
+  name: arXiv hep-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_hep_th
+  name: arXiv hep-th
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nucl_ex
+  name: arXiv nucl-ex
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_nucl_th
+  name: arXiv nucl-th
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_quant_ph
+  name: arXiv quant-ph
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_ar
+  name: arXiv cs.AR
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_cs_cc
+  name: arXiv cs.CC
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Computer Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_astro-ph
+  name: arXiv astro-ph (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Astrophysics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_cond-mat
+  name: arXiv cond-mat (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_econ
+  name: arXiv econ (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Economics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_eess
+  name: arXiv eess (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Electrical Engineering and Systems Science
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_math
+  name: arXiv math (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Mathematics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_nlin
+  name: arXiv nlin (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Nonlinear Sciences
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_physics
+  name: arXiv physics (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Physics
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_q-bio
+  name: arXiv q-bio (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Biology
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_q-fin
+  name: arXiv q-fin (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Quantitative Finance
+  status: active
+  origin: catalog_csv_import
+- key: arxiv_archive_stat
+  name: arXiv stat (archive)
+  source_kind: preprint
+  publisher: arXiv
+  tier: T2
+  topics:
+  - Statistics
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_animal_behavior_and_cognition
+  name: bioRxiv Animal Behavior and Cognition
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_biochemistry
+  name: bioRxiv Biochemistry
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_bioengineering
+  name: bioRxiv Bioengineering
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_bioinformatics
+  name: bioRxiv Bioinformatics
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_biophysics
+  name: bioRxiv Biophysics
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_cancer_biology
+  name: bioRxiv Cancer Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_cell_biology
+  name: bioRxiv Cell Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_clinical_trials
+  name: bioRxiv Clinical Trials
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_developmental_biology
+  name: bioRxiv Developmental Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_ecology
+  name: bioRxiv Ecology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_epidemiology
+  name: bioRxiv Epidemiology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_evolutionary_biology
+  name: bioRxiv Evolutionary Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_genetics
+  name: bioRxiv Genetics
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_genomics
+  name: bioRxiv Genomics
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_immunology
+  name: bioRxiv Immunology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_microbiology
+  name: bioRxiv Microbiology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_molecular_biology
+  name: bioRxiv Molecular Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_neuroscience
+  name: bioRxiv Neuroscience
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_paleontology
+  name: bioRxiv Paleontology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_pathology
+  name: bioRxiv Pathology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_pharmacology_and_toxicology
+  name: bioRxiv Pharmacology and Toxicology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_physiology
+  name: bioRxiv Physiology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_plant_biology
+  name: bioRxiv Plant Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_scientific_communication_and_education
+  name: bioRxiv Scientific Communication and Education
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_synthetic_biology
+  name: bioRxiv Synthetic Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_systems_biology
+  name: bioRxiv Systems Biology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: biorxiv_zoology
+  name: bioRxiv Zoology
+  source_kind: preprint
+  publisher: bioRxiv
+  tier: T2
+  topics:
+  - Biology/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_addiction_medicine
+  name: medRxiv Addiction Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_allergy_and_immunology
+  name: medRxiv Allergy and Immunology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_anesthesia
+  name: medRxiv Anesthesia
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_cardiovascular_medicine
+  name: medRxiv Cardiovascular Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_dentistry_and_oral_medicine
+  name: medRxiv Dentistry and Oral Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_dermatology
+  name: medRxiv Dermatology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_emergency_medicine
+  name: medRxiv Emergency Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_endocrinology
+  name: medRxiv Endocrinology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_epidemiology
+  name: medRxiv Epidemiology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_forensic_medicine
+  name: medRxiv Forensic Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_gastroenterology
+  name: medRxiv Gastroenterology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_genetic_and_genomic_medicine
+  name: medRxiv Genetic and Genomic Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_geriatric_medicine
+  name: medRxiv Geriatric Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_health_economics
+  name: medRxiv Health Economics
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_health_informatics
+  name: medRxiv Health Informatics
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_health_policy
+  name: medRxiv Health Policy
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_health_systems_and_quality_improvement
+  name: medRxiv Health Systems and Quality Improvement
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_hematology
+  name: medRxiv Hematology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_hiv_aids
+  name: medRxiv HIV AIDS
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_infectious_diseases
+  name: medRxiv Infectious Diseases
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_intensive_care_and_critical_care_medicine
+  name: medRxiv Intensive Care and Critical Care Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_medical_education
+  name: medRxiv Medical Education
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_medical_ethics
+  name: medRxiv Medical Ethics
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_nephrology
+  name: medRxiv Nephrology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_neurology
+  name: medRxiv Neurology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_nursing
+  name: medRxiv Nursing
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_nutrition
+  name: medRxiv Nutrition
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_obstetrics_and_gynecology
+  name: medRxiv Obstetrics and Gynecology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_occupational_and_environmental_health
+  name: medRxiv Occupational and Environmental Health
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_oncology
+  name: medRxiv Oncology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_ophthalmology
+  name: medRxiv Ophthalmology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_orthopedics
+  name: medRxiv Orthopedics
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_otolaryngology
+  name: medRxiv Otolaryngology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_pain_medicine
+  name: medRxiv Pain Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_palliative_medicine
+  name: medRxiv Palliative Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_pathology
+  name: medRxiv Pathology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_pediatrics
+  name: medRxiv Pediatrics
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_pharmacology_and_therapeutics
+  name: medRxiv Pharmacology and Therapeutics
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_primary_care_research
+  name: medRxiv Primary Care Research
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_psychiatry_and_clinical_psychology
+  name: medRxiv Psychiatry and Clinical Psychology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_public_and_global_health
+  name: medRxiv Public and Global Health
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_radiology_and_imaging
+  name: medRxiv Radiology and Imaging
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_rehabilitation_medicine_and_physical_therapy
+  name: medRxiv Rehabilitation Medicine and Physical Therapy
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_respiratory_medicine
+  name: medRxiv Respiratory Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_rheumatology
+  name: medRxiv Rheumatology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_sexual_and_reproductive_health
+  name: medRxiv Sexual and Reproductive Health
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_sports_medicine
+  name: medRxiv Sports Medicine
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_surgery
+  name: medRxiv Surgery
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_toxicology
+  name: medRxiv Toxicology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_transplantation
+  name: medRxiv Transplantation
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: medrxiv_urology
+  name: medRxiv Urology
+  source_kind: preprint
+  publisher: medRxiv
+  tier: T2
+  topics:
+  - Medical/Health preprints
+  status: active
+  origin: catalog_csv_import
+- key: acs_jacsat_axatoc
+  name: JACS (axatoc)
+  source_kind: journal
+  publisher: ACS
+  tier: T2
+  topics:
+  - Chemistry
+  - T2_chemistry
+  status: active
+  origin: catalog_csv_import
+- key: repec_nep_all
+  name: NEP (all)
+  source_kind: working_papers
+  publisher: RePEc NEP
+  tier: T2
+  topics:
+  - Social Science/Econ
+  - T2_social_science
+  status: active
+  origin: catalog_csv_import
+- key: repec_nep_mac
+  name: NEP (mac)
+  source_kind: working_papers
+  publisher: RePEc NEP
+  tier: T2
+  topics:
+  - Social Science/Econ
+  - T2_social_science
+  status: active
+  origin: catalog_csv_import
+- key: repec_nep_ecm
+  name: NEP (ecm)
+  source_kind: working_papers
+  publisher: RePEc NEP
+  tier: T2
+  topics:
+  - Social Science/Econ
+  - T2_social_science
+  status: active
+  origin: catalog_csv_import
+- key: repec_nep_exp
+  name: NEP (exp)
+  source_kind: working_papers
+  publisher: RePEc NEP
+  tier: T2
+  topics:
+  - Social Science/Econ
+  - T2_social_science
+  status: active
+  origin: catalog_csv_import
+- key: repec_nep_pub
+  name: NEP (pub)
+  source_kind: working_papers
+  publisher: RePEc NEP
+  tier: T2
+  topics:
+  - Social Science/Econ
+  - T2_social_science
+  status: active
+  origin: catalog_csv_import
+- key: nature_nataging
+  name: Nature Aging
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natastron
+  name: Nature Astronomy
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natbiomedeng
+  name: Nature Biomedical Engineering
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natcancer
+  name: Nature Cancer
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natcardiovascres
+  name: Nature Cardiovascular Research
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natcatal
+  name: Nature Catalysis
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_ncb
+  name: Nature Cell Biology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nchembio
+  name: Nature Chemical Biology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natchemeng
+  name: Nature Chemical Engineering
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nchem
+  name: Nature Chemistry
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nclimate
+  name: Nature Climate Change
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_ncomms
+  name: Nature Communications
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natcomputsci
+  name: Nature Computational Science
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natecolevol
+  name: Nature Ecology & Evolution
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natelectron
+  name: Nature Electronics
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nenergy
+  name: Nature Energy
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natfood
+  name: Nature Food
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_ngeo
+  name: Nature Geoscience
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nathumbehav
+  name: Nature Human Behaviour
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_ni
+  name: Nature Immunology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natmachintell
+  name: Nature Machine Intelligence
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nmat
+  name: Nature Materials
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natmetab
+  name: Nature Metabolism
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nmicrobiol
+  name: Nature Microbiology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nnano
+  name: Nature Nanotechnology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nphoton
+  name: Nature Photonics
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nphys
+  name: Nature Physics
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nplants
+  name: Nature Plants
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nprot
+  name: Nature Protocols
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nsmb
+  name: Nature Structural & Molecular Biology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natsustain
+  name: Nature Sustainability
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natsynth
+  name: Nature Synthesis
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natwater
+  name: Nature Water
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrbd
+  name: Nature Reviews Biodiversity
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natrevbioeng
+  name: Nature Reviews Bioengineering
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrc
+  name: Nature Reviews Cancer
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrcardio
+  name: Nature Reviews Cardiology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natrevchem
+  name: Nature Reviews Chemistry
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrclinonc
+  name: Nature Reviews Clinical Oncology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrdp
+  name: Nature Reviews Disease Primers
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrd
+  name: Nature Reviews Drug Discovery
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natrevearthenviron
+  name: Nature Reviews Earth & Environment
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrendo
+  name: Nature Reviews Endocrinology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrgastro
+  name: Nature Reviews Gastroenterology & Hepatology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrg
+  name: Nature Reviews Genetics
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nri
+  name: Nature Reviews Immunology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natrevmats
+  name: Nature Reviews Materials
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrmp
+  name: Nature Reviews Methods Primers
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrmicro
+  name: Nature Reviews Microbiology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrm
+  name: Nature Reviews Molecular Cell Biology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrneurol
+  name: Nature Reviews Neurology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrn
+  name: Nature Reviews Neuroscience
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_natrevphys
+  name: Nature Reviews Physics
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrpsychol
+  name: Nature Reviews Psychology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrrheum
+  name: Nature Reviews Rheumatology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_nrurol
+  name: Nature Reviews Urology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commsaicomp
+  name: Communications AI & Computing
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Computer Science
+  disciplines:
+  - Computer Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commsbio
+  name: Communications Biology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Life Science
+  disciplines:
+  - Life Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commschem
+  name: Communications Chemistry
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Chemistry
+  disciplines:
+  - Chemistry
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commsenv
+  name: Communications Earth & Environment
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Earth Science
+  - Environmental Science
+  disciplines:
+  - Earth Science
+  - Environmental Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commseng
+  name: Communications Engineering
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Engineering
+  disciplines:
+  - Engineering
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commshealth
+  name: Communications Health
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Medicine
+  disciplines:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commsmat
+  name: Communications Materials
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Materials
+  disciplines:
+  - Materials
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commsmed
+  name: Communications Medicine
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Medicine
+  disciplines:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commsphys
+  name: Communications Physics
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Physics
+  disciplines:
+  - Physics
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commspsychol
+  name: Communications Psychology
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Psychology
+  disciplines:
+  - Psychology
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: nature_commssustain
+  name: Communications Sustainability
+  source_kind: journal
+  publisher: Nature
+  tier: T1
+  topics:
+  - Environmental Science
+  - Social Science
+  disciplines:
+  - Environmental Science
+  - Social Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cancer_cell
+  name: Cell Press Cancer Cell
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_biomaterials
+  name: Cell Press Cell Biomaterials
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_chemical_biology
+  name: Cell Press Cell Chemical Biology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_genomics
+  name: Cell Press Cell Genomics
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_host_microbe
+  name: Cell Press Cell Host Microbe
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_metabolism
+  name: Cell Press Cell Metabolism
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_reports
+  name: Cell Press Cell Reports
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_reports_medicine
+  name: Cell Press Cell Reports Medicine
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_reports_methods
+  name: Cell Press Cell Reports Methods
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_reports_physical_science
+  name: Cell Press Cell Reports Physical Science
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_reports_sustainability
+  name: Cell Press Cell Reports Sustainability
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_stem_cell
+  name: Cell Press Cell Stem Cell
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_cell_systems
+  name: Cell Press Cell Systems
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_chem
+  name: Cell Press Chem
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_chem_catalysis
+  name: Cell Press Chem Catalysis
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_current_biology
+  name: Cell Press Current Biology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_device
+  name: Cell Press Device
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_developmental_cell
+  name: Cell Press Developmental Cell
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_heliyon
+  name: Cell Press Heliyon
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_immunity
+  name: Cell Press Immunity
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_iscience
+  name: Cell Press Iscience
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_joule
+  name: Cell Press Joule
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_matter
+  name: Cell Press Matter
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_med
+  name: Cell Press Med
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_molecular_cell
+  name: Cell Press Molecular Cell
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_neuron
+  name: Cell Press Neuron
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_one_earth
+  name: Cell Press One Earth
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_patterns
+  name: Cell Press Patterns
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_star_protocols
+  name: Cell Press Star Protocols
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_structure
+  name: Cell Press Structure
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_molecular_plant
+  name: Cell Press Molecular Plant
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_plant_communications
+  name: Cell Press Plant Communications
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_biochemical_sciences
+  name: Cell Press Trends In Biochemical Sciences
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_biotechnology
+  name: Cell Press Trends In Biotechnology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_cancer
+  name: Cell Press Trends In Cancer
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_cell_biology
+  name: Cell Press Trends In Cell Biology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_cognitive_sciences
+  name: Cell Press Trends In Cognitive Sciences
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_ecology_and_evolution
+  name: Cell Press Trends In Ecology And Evolution
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_endocrinology_and_metabolism
+  name: Cell Press Trends In Endocrinology And Metabolism
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_genetics
+  name: Cell Press Trends In Genetics
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_immunology
+  name: Cell Press Trends In Immunology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_microbiology
+  name: Cell Press Trends In Microbiology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_molecular_medicine
+  name: Cell Press Trends In Molecular Medicine
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_neurosciences
+  name: Cell Press Trends In Neurosciences
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_parasitology
+  name: Cell Press Trends In Parasitology
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_pharmacological_sciences
+  name: Cell Press Trends In Pharmacological Sciences
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_plant_science
+  name: Cell Press Trends In Plant Science
+  source_kind: journal
+  publisher: Cell Press
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: cellpress_trends_analytical_chemistry
+  name: TrAC Trends in Analytical Chemistry
+  source_kind: journal
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - Life Sciences
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: science_sciadv
+  name: Science Advances
+  source_kind: journal
+  publisher: Science
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: science_scirobotics
+  name: Science Robotics
+  source_kind: journal
+  publisher: Science
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: science_sciimmunol
+  name: Science Immunology
+  source_kind: journal
+  publisher: Science
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: science_scitranslmed
+  name: Science Translational Medicine
+  source_kind: journal
+  publisher: Science
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: science_scisignal
+  name: Science Signaling
+  source_kind: journal
+  publisher: Science
+  tier: T1
+  topics:
+  - Multidisciplinary
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+- key: lancet_lanchi
+  name: The Lancet Child & Adolescent Health
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_landia
+  name: The Lancet Diabetes & Endocrinology
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_landig
+  name: The Lancet Digital Health
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_langast
+  name: The Lancet Gastroenterology & Hepatology
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_langlo
+  name: The Lancet Global Health
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanhae
+  name: The Lancet Haematology
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanhl
+  name: The Lancet Healthy Longevity
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanhiv
+  name: The Lancet HIV
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanmic
+  name: The Lancet Microbe
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_laneur
+  name: The Lancet Neurology
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanplh
+  name: The Lancet Planetary Health
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanpsy
+  name: The Lancet Psychiatry
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanpub
+  name: The Lancet Public Health
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanam
+  name: The Lancet Regional Health - Americas
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanepe
+  name: The Lancet Regional Health - Europe
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lansea
+  name: The Lancet Regional Health - Southeast Asia
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanwpc
+  name: The Lancet Regional Health - Western Pacific
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanres
+  name: The Lancet Respiratory Medicine
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_lanrhe
+  name: The Lancet Rheumatology
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_ebiom
+  name: eBioMedicine
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: lancet_eclinm
+  name: EClinicalmedicine
+  source_kind: journal
+  publisher: Lancet
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_main
+  name: JAMA
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: temporarily_unavailable
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_network_open
+  name: JAMA Network Open
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: temporarily_unavailable
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_cardiology
+  name: JAMA Cardiology
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_dermatology
+  name: JAMA Dermatology
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_health_forum
+  name: JAMA Health Forum
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_internal_medicine
+  name: JAMA Internal Medicine
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_neurology
+  name: JAMA Neurology
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_oncology
+  name: JAMA Oncology
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_ophthalmology
+  name: JAMA Ophthalmology
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_otolaryngology_head_neck_surgery
+  name: JAMA Otolaryngology-Head & Neck Surgery
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_pediatrics
+  name: JAMA Pediatrics
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_psychiatry
+  name: JAMA Psychiatry
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: jama_surgery
+  name: JAMA Surgery
+  source_kind: journal
+  publisher: JAMA
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_annals_of_the_rheumatic_diseases
+  name: Annals of the Rheumatic Diseases
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_archives_of_disease_in_childhood
+  name: Archives of Disease in Childhood
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_archives_of_disease_in_childhood_fetal_and_neonatal_edition
+  name: Archives of Disease in Childhood - Fetal and Neonatal Edition
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_archives_of_disease_in_childhood_education_and_practice_edition
+  name: Archives of Disease in Childhood - Education and Practice Edition
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_british_journal_of_ophthalmology
+  name: British Journal of Ophthalmology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_the_bmj
+  name: The BMJ
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_case_reports
+  name: BMJ Case Reports
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_global_health
+  name: BMJ Global Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_health_care_informatics
+  name: BMJ Health & Care Informatics
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_leader
+  name: BMJ Leader
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_neurology_open
+  name: BMJ Neurology Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_nutrition_prevention_health
+  name: BMJ Nutrition, Prevention & Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open
+  name: BMJ Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open_diabetes_research_and_care
+  name: BMJ Open Diabetes Research and Care
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open_gastroenterology
+  name: BMJ Open Gastroenterology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open_ophthalmology
+  name: BMJ Open Ophthalmology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open_respiratory_research
+  name: BMJ Open Respiratory Research
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open_sport_exercise_medicine
+  name: BMJ Open Sport & Exercise Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_surgery_interventions_health_technologies
+  name: BMJ Surgery, Interventions, & Health Technologies
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_british_journal_of_sports_medicine
+  name: British Journal of Sports Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_paediatrics_open
+  name: BMJ Paediatrics Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_dtb
+  name: DTB
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_european_journal_of_hospital_pharmacy
+  name: European Journal of Hospital Pharmacy
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_evidence_based_medicine
+  name: Evidence-Based Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_evidence_based_mental_health
+  name: Evidence-Based Mental Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_evidence_based_nursing
+  name: Evidence-Based Nursing
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_emergency_medicine_journal
+  name: Emergency Medicine Journal
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_esmo_open
+  name: ESMO Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_family_medicine_and_community_health
+  name: Family Medicine and Community Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_frontline_gastroenterology
+  name: Frontline Gastroenterology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_general_psychiatry
+  name: General Psychiatry
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_gut
+  name: Gut
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_heart_asia
+  name: Heart Asia
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_heart
+  name: Heart
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_injury_prevention
+  name: Injury Prevention
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_in_practice
+  name: In Practice
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_integrated_healthcare_journal
+  name: Integrated Healthcare Journal
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_international_journal_of_gynecological_cancer
+  name: International Journal of Gynecological Cancer
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_for_immunotherapy_of_cancer
+  name: Journal for ImmunoTherapy of Cancer
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_clinical_pathology_incorporating_molecular_pathology
+  name: Journal of Clinical Pathology incorporating Molecular Pathology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_isakos
+  name: Journal of ISAKOS
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_epidemiology_and_community_health
+  name: Journal of Epidemiology and Community Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_sexual_reproductive_health
+  name: BMJ Sexual & Reproductive Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_investigative_medicine
+  name: Journal of Investigative Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_medical_ethics
+  name: Journal of Medical Ethics
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_medical_genetics
+  name: Journal of Medical Genetics
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_neurointerventional_surgery
+  name: Journal of NeuroInterventional Surgery
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_journal_of_neurology_neurosurgery_and_psychiatry
+  name: Journal of Neurology, Neurosurgery and Psychiatry
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_military_health
+  name: BMJ Military Health
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_lupus_science_medicine
+  name: Lupus Science & Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_medical_humanities
+  name: Medical Humanities
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_occupational_and_environmental_medicine
+  name: Occupational and Environmental Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_open_heart
+  name: Open Heart
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_postgraduate_medical_journal
+  name: Postgraduate Medical Journal
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_practical_neurology
+  name: Practical Neurology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_quality_and_safety
+  name: Quality and Safety
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_bmj_open_quality
+  name: BMJ Open Quality
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_regional_anesthesia_pain_medicine
+  name: Regional Anesthesia & Pain Medicine
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_rmd_open
+  name: RMD Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_sexually_transmitted_infections
+  name: Sexually Transmitted Infections
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_stroke_and_vascular_neurology
+  name: Stroke and Vascular Neurology
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_supportive_and_palliative_care
+  name: Supportive and Palliative Care
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_thorax
+  name: Thorax
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_trauma_surgery_acute_care_open
+  name: Trauma Surgery & Acute Care Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_tobacco_control
+  name: Tobacco Control
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_veterinary_record
+  name: Veterinary Record
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_veterinary_record_case_reports
+  name: Veterinary Record Case Reports
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_veterinary_record_open
+  name: Veterinary Record Open
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: bmj_world_journal_of_pediatric_surgery
+  name: World Journal of Pediatric Surgery
+  source_kind: journal
+  publisher: BMJ
+  tier: T1
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_medical_sources.sql
+- key: nejm_toc_current
+  name: NEJM current TOC
+  source_kind: journal
+  status: active
+  origin: catalog_csv_import
+  publisher: NEJM
+  tier: T2
+  topics:
+  - Medicine
+- key: lancet_rss_hub
+  name: The Lancet RSS hub
+  source_kind: journal
+  status: active
+  origin: catalog_csv_import
+  publisher: The Lancet
+  tier: T2
+  topics:
+  - Medicine
+- key: jama_rss_hub
+  name: JAMA Network RSS hub
+  source_kind: journal
+  status: active
+  origin: catalog_csv_import
+  publisher: JAMA Network
+  tier: T2
+  topics:
+  - Medicine
+- key: bmj_rss_about
+  name: BMJ RSS resources
+  source_kind: journal
+  status: active
+  origin: catalog_csv_import
+  publisher: BMJ
+  tier: T2
+  topics:
+  - Medicine
+- key: bmj_opml
+  name: BMJ RSS OPML
+  source_kind: journal
+  status: active
+  origin: catalog_csv_import
+  publisher: BMJ
+  tier: T2
+  topics:
+  - Medicine
+- key: semantic_scholar_api
+  name: Semantic Scholar API
+  source_kind: metadata
+  status: active
+  origin: catalog_csv_import
+  publisher: Semantic Scholar
+  tier: T2
+  topics:
+  - All disciplines
+- key: ieee_xplore_rss
+  name: IEEE Xplore RSS (needs alert)
+  source_kind: publisher
+  status: active
+  origin: catalog_csv_import
+  publisher: IEEE Xplore
+  tier: T2
+  topics:
+  - Engineering
+- key: ssrn_rss
+  name: SSRN RSS (author/rankings)
+  source_kind: working_papers
+  status: active
+  origin: catalog_csv_import
+  publisher: SSRN
+  tier: T2
+  topics:
+  - Social Science
+- key: asme_applied_mechanics_reviews
+  name: Applied Mechanics Reviews
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_autonomous_vehicles_and_systems
+  name: Autonomous Vehicles and Systems
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_risk_and_uncertainty_in_engineering_systems_part_b
+  name: Risk and Uncertainty in Engineering Systems, Part B
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_applied_mechanics
+  name: Journal of Applied Mechanics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_biomechanical_engineering
+  name: Journal of Biomechanical Engineering
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_computational_and_nonlinear_dynamics
+  name: Journal of Computational and Nonlinear Dynamics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_computing_and_information_science_in_engineering
+  name: Journal of Computing and Information Science in Engineering
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_dynamic_systems_measurement_and_control
+  name: Journal of Dynamic Systems, Measurement and Control
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_electronic_packaging
+  name: Journal of Electronic Packaging
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_engineering_and_science_in_medical_diagnostics_and_therapy
+  name: Engineering and Science in Medical Diagnostics and Therapy
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_engineering_for_sustainable_buildings_and_cities
+  name: Engineering for Sustainable Buildings and Cities
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_electrochemical_energy_conversion_and_storage
+  name: Journal of Electrochemical Energy Conversion and Storage
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_energy_resources_technology
+  name: Energy Resources Technology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_engineering_for_gas_turbines_and_power
+  name: Journal of Engineering for Gas Turbines and Power
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_engineering_materials_and_technology
+  name: Journal of Engineering Materials and Technology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_fluids_engineering
+  name: Journal of Fluids Engineering
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_heat_and_mass_transfer
+  name: Journal of Heat and Mass Transfer
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_letters_in_dynamic_systems_and_control
+  name: Letters in Dynamic Systems and Control
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_manufacturing_science_and_engineering
+  name: Journal of Manufacturing Science and Engineering
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_mechanical_design
+  name: Journal of Mechanical Design
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_mechanisms_and_robotics
+  name: Journal of Mechanisms and Robotics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_medical_devices
+  name: Journal of Medical Devices
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_micro_and_nano_manufacturing
+  name: Journal of Micro and Nano-Manufacturing
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_nondestructive_evaluation_diagnostics_and_prognostics
+  name: Nondestructive Evaluation, Diagnostics and Prognostics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_nuclear_engineering_and_radiation_science
+  name: Nuclear Engineering and Radiation Science
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_open_journal_of_engineering
+  name: Open Journal of Engineering
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_pressure_vessel_technology
+  name: Journal of Pressure Vessel Technology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_solar_energy_engineering
+  name: Journal of Solar Energy Engineering
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_thermal_science_and_engineering_applications
+  name: Journal of Thermal Science and Engineering Applications
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_tribology
+  name: Journal of Tribology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_turbomachinery
+  name: Journal of Turbomachinery
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_verification_validation_and_uncertainty_quantification
+  name: Verification, Validation and Uncertainty Quantification
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_journal_of_vibration_and_acoustics
+  name: Journal of Vibration and Acoustics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: asme_mechanical_engineering_select_articles
+  name: Mechanical Engineering Select Articles
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  publisher: ASME
+  tier: T1
+  topics:
+  - Mechanical Engineering
+- key: wiley_agu_global_biogeochemical_cycles
+  name: Global Biogeochemical Cycles
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_atmospheres
+  name: 'JGR: Atmospheres'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_biogeosciences
+  name: 'JGR: Biogeosciences'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_earth_surface
+  name: 'JGR: Earth Surface'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_oceans
+  name: 'JGR: Oceans'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_planets
+  name: 'JGR: Planets'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_solid_earth
+  name: 'JGR: Solid Earth'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_jgr_space_physics
+  name: 'JGR: Space Physics'
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_reviews_of_geophysics
+  name: Reviews of Geophysics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_space_weather
+  name: Space Weather
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: wiley_agu_tectonics
+  name: Tectonics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Wiley/AGU
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_artificial_intelligence_for_the_earth_systems
+  name: Artificial Intelligence for the Earth Systems
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_earth_interactions
+  name: Earth Interactions
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_journal_of_applied_meteorology_and_climatology
+  name: Journal of Applied Meteorology and Climatology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_journal_of_atmospheric_and_oceanic_technology
+  name: Journal of Atmospheric and Oceanic Technology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_journal_of_the_atmospheric_sciences
+  name: Journal of the Atmospheric Sciences
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_journal_of_climate
+  name: Journal of Climate
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_journal_of_hydrometeorology
+  name: Journal of Hydrometeorology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_journal_of_physical_oceanography
+  name: Journal of Physical Oceanography
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_meteorological_monographs
+  name: Meteorological Monographs
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_monthly_weather_review
+  name: Monthly Weather Review
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_weather_and_forecasting
+  name: Weather and Forecasting
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: ams_weather_climate_and_society
+  name: Weather, Climate, and Society
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: AMS
+  tier: T1
+  topics:
+  - EarthScience
+- key: asce_journal_of_hazardous_toxic_and_radioactive_waste
+  name: Journal of Hazardous, Toxic, and Radioactive Waste
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: ASCE
+  tier: T1
+  topics:
+  - Engineering
+- key: asce_journal_of_legal_affairs_and_dispute_resolution_in_engineering_an
+  name: Journal of Legal Affairs and Dispute Resolution in Engineering and Construction
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: ASCE
+  tier: T1
+  topics:
+  - Engineering
+- key: asce_journal_of_nanomechanics_and_micromechanics
+  name: Journal of Nanomechanics and Micromechanics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: ASCE
+  tier: T1
+  topics:
+  - Engineering
+- key: asce_journal_of_pipeline_systems_engineering_and_practice
+  name: Journal of Pipeline Systems Engineering and Practice
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: ASCE
+  tier: T1
+  topics:
+  - Engineering
+- key: asce_journal_of_water_resources_planning_and_management
+  name: Journal of Water Resources Planning & Management
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: ASCE
+  tier: T1
+  topics:
+  - Engineering
+- key: elsevier_earth_and_planetary_science_letters
+  name: Earth and Planetary Science Letters
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_earth_science_reviews
+  name: Earth-Science Reviews
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_remote_sensing_of_environment
+  name: Remote Sensing of Environment
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_journal_of_hydrology
+  name: Journal of Hydrology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_advances_in_water_resources
+  name: Advances in Water Resources
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_environmental_modelling_and_software
+  name: Environmental Modelling & Software
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_tectonophysics
+  name: Tectonophysics
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_global_and_planetary_change
+  name: Global and Planetary Change
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_quaternary_science_reviews
+  name: Quaternary Science Reviews
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_computers_and_geosciences
+  name: Computers & Geosciences
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_geochimica_et_cosmochimica_acta
+  name: Geochimica et Cosmochimica Acta
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_chemical_geology
+  name: Chemical Geology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_geoderma
+  name: Geoderma
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_journal_of_volcanology_and_geothermal_research
+  name: Journal of Volcanology and Geothermal Research
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_gondwana_research
+  name: Gondwana Research
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_journal_of_structural_geology
+  name: Journal of Structural Geology
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_environmental_pollution
+  name: Environmental Pollution
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: elsevier_science_of_the_total_environment
+  name: Science of the Total Environment
+  source_kind: journal
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources_v3.sql
+  publisher: Elsevier
+  tier: T1
+  topics:
+  - EarthScience
+- key: aha_atvb
+  name: ATVB
+  source_kind: journal
+  publisher: AHA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: aha_circ_of
+  name: Circulation (Ahead of Print)
+  source_kind: journal
+  publisher: AHA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: aha_circ_ci
+  name: Circulation (Current)
+  source_kind: journal
+  publisher: AHA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: aha_circres
+  name: Circulation Research
+  source_kind: journal
+  publisher: AHA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: aps_physical_review_applied_recent
+  name: Physical Review Applied (recent)
+  source_kind: journal
+  publisher: APS
+  topics:
+  - electrical engineering and systems science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Electrical Engineering and Systems Science
+- key: aps_physical_review_b_recent
+  name: Physical Review B (recent)
+  source_kind: journal
+  publisher: APS
+  topics:
+  - condensed matter physics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Condensed Matter Physics
+- key: aps_physical_review_e_recent
+  name: Physical Review E (recent)
+  source_kind: journal
+  publisher: APS
+  topics:
+  - physics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Physics
+- key: aps_physical_review_letters_recent
+  name: Physical Review Letters (recent)
+  source_kind: journal
+  publisher: APS
+  topics:
+  - physics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Physics
+- key: aps_physical_review_materials_recent
+  name: Physical Review Materials (recent)
+  source_kind: journal
+  publisher: APS
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Materials
+- key: aps_physical_review_x_recent
+  name: Physical Review X (recent)
+  source_kind: journal
+  publisher: APS
+  topics:
+  - physics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Physics
+- key: cen_jacs
+  name: C&EN (JACS Research In C&EN)
+  source_kind: news
+  publisher: C&EN
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T2
+  disciplines:
+  - chem
+- key: cen_feedburner_latest
+  name: C&EN (Latest News - FeedBurner)
+  source_kind: news
+  publisher: C&EN
+  topics:
+  - chem
+  status: temporarily_unavailable
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T2
+  disciplines:
+  - chem
+- key: cen_environment
+  name: C&EN (Environmental SCENE)
+  source_kind: news
+  publisher: C&EN
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T2
+  disciplines:
+  - chem
+- key: nature_nbt_current_feed
+  name: Nature nbt (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Life Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Life Science
+- key: nature_nature_chemistry_aop
+  name: Nature Chemistry (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Chemistry
+- key: nature_nchem_current_feed
+  name: Nature Chemistry (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Chemistry
+- key: nature_nclimate_current_feed
+  name: Nature nclimate (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Earth Science
+  - Environmental Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+  - Environmental Science
+- key: nature_nature_energy_aop
+  name: Nature Energy (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Energy
+- key: nature_nature_energy_current
+  name: Nature Energy (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Energy
+- key: nature_neuro_current_feed
+  name: Nature neuro (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Neuroscience
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: nature_ng_current_feed
+  name: Nature ng (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Life Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Life Science
+- key: nature_nature_geoscience_aop
+  name: Nature Geoscience (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Earth Science
+- key: nature_nature_geoscience_current
+  name: Nature Geoscience (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Earth Science
+- key: nature_ni_current_feed
+  name: Nature ni (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Life Science
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Life Science
+- key: nature_nm_current_feed
+  name: Nature nm (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Medicine
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: nature_nature_materials_aop
+  name: Nature Materials (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nmat_current_feed
+  name: Nature Materials (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nature_nanotechnology_aop
+  name: Nature Nanotechnology (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nnano_current_feed
+  name: Nature Nanotechnology (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nphys_current_feed
+  name: Nature nphys (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - Physics
+  status: active
+  origin: catalog_sql_import:add_p2_discovery_sources.sql
+  tier: T1
+  disciplines:
+  - Physics
+- key: aha_hyper
+  name: Hypertension
+  source_kind: journal
+  publisher: AHA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: iop_erl
+  name: Environmental Research Letters (ERL)
+  source_kind: journal
+  publisher: IOP
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - EarthScience
+- key: philsci_archive_philsci_archive_latest_rss2
+  name: PhilSci-Archive latest (RSS2)
+  source_kind: working_papers
+  publisher: PhilSci-Archive
+  topics:
+  - humanities
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Humanities
+- key: stke_sciencemag_org_stke_sciencemag_org_current_xml
+  name: stke.sciencemag.org Current.Xml
+  source_kind: journal
+  publisher: stke.sciencemag.org
+  topics:
+  - Life Science
+  disciplines:
+  - Life Science
+  status: temporarily_unavailable
+  origin: catalog_url_import
+- key: stm_sciencemag_org_stm_sciencemag_org_current_xml
+  name: stm.sciencemag.org Current.Xml
+  source_kind: journal
+  publisher: stm.sciencemag.org
+  topics:
+  - Medicine
+  disciplines:
+  - Medicine
+  status: temporarily_unavailable
+  origin: catalog_url_import
+- key: aha_stroke
+  name: Stroke
+  source_kind: journal
+  publisher: AHA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: nber_nber_working_papers_new
+  name: NBER Working Papers (new)
+  source_kind: working_papers
+  publisher: NBER
+  topics:
+  - economics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Economics
+- key: gsw_aapg
+  name: AAPG Bulletin
+  source_kind: journal
+  publisher: GeoScienceWorld
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: oup_brain
+  name: Brain (Latest Issue)
+  source_kind: journal
+  publisher: Oxford Academic
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: oup_brain_advance
+  name: Brain (Advance Articles)
+  source_kind: journal
+  publisher: Oxford Academic
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: copernicus_acp
+  name: Atmospheric Chemistry and Physics (ACP)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: copernicus_egu_atmospheric_measurement_techniques_amt
+  name: Atmospheric Measurement Techniques (AMT)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: copernicus_angeo
+  name: Annales Geophysicae (ANGEO)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: aiaa_arc_aiaa_journal_aiaaj
+  name: AIAA Journal (AIAAJ)
+  source_kind: journal
+  publisher: AIAA/ARC
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: aiaa_arc_journal_of_aircraft_ja
+  name: Journal of Aircraft (JA)
+  source_kind: journal
+  publisher: AIAA/ARC
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: aiaa_arc_journal_of_guidance_control_and_dynamics_jgcd
+  name: Journal of Guidance, Control, and Dynamics (JGCD)
+  source_kind: journal
+  publisher: AIAA/ARC
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: aiaa_arc_journal_of_propulsion_and_power_jpp
+  name: Journal of Propulsion and Power (JPP)
+  source_kind: journal
+  publisher: AIAA/ARC
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: aiaa_arc_journal_of_spacecraft_and_rockets_jsr
+  name: Journal of Spacecraft and Rockets (JSR)
+  source_kind: journal
+  publisher: AIAA/ARC
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: aiaa_arc_journal_of_thermophysics_and_heat_transfer_jtht
+  name: Journal of Thermophysics and Heat Transfer (JTHT)
+  source_kind: journal
+  publisher: AIAA/ARC
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: asce_journal_of_aerospace_engineering_asce
+  name: Journal of Aerospace Engineering (ASCE)
+  source_kind: journal
+  publisher: ASCE
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Aerospace Engineering
+- key: asce_journal_of_bridge_engineering_asce
+  name: Journal of Bridge Engineering (ASCE)
+  source_kind: journal
+  publisher: ASCE
+  topics:
+  - civil engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Civil Engineering
+- key: asce_journal_of_materials_in_civil_engineering_asce
+  name: Journal of Materials in Civil Engineering (ASCE)
+  source_kind: journal
+  publisher: ASCE
+  topics:
+  - civil engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Civil Engineering
+- key: asce_journal_of_structural_engineering_asce
+  name: Journal of Structural Engineering (ASCE)
+  source_kind: journal
+  publisher: ASCE
+  topics:
+  - civil engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Civil Engineering
+- key: copernicus_bg
+  name: Biogeosciences (BG)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: gsw_gsa_bull
+  name: GSA Bulletin
+  source_kind: journal
+  publisher: GeoScienceWorld
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: cen_latest
+  name: C&EN (Most Recent)
+  source_kind: news
+  publisher: C&EN
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: chemrxiv_all
+  name: ChemRxiv (all preprints)
+  source_kind: preprint
+  publisher: ChemRxiv
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Chemistry
+- key: copernicus_cp
+  name: Climate of the Past (CP)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: eartharxiv_all
+  name: EarthArXiv - Preprints
+  source_kind: preprint
+  publisher: EarthArXiv
+  topics:
+  - earth
+  status: active
+  origin: catalog_sql_import:add_earth_science_sources.sql
+  tier: T2
+  disciplines:
+  - earth
+- key: elife_elife_recent_rss
+  name: eLife recent (RSS)
+  source_kind: journal
+  publisher: eLife
+  topics:
+  - life sciences
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Life Sciences
+- key: elife_elife_published_articles_neuroscience_rss
+  name: eLife published articles (neuroscience RSS)
+  source_kind: journal
+  publisher: eLife
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: engrxiv_engrxiv_engineering_archive
+  name: engrXiv (Engineering Archive)
+  source_kind: preprint
+  publisher: engrXiv
+  topics:
+  - engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T2
+  disciplines:
+  - Engineering
+- key: copernicus_esd
+  name: Earth System Dynamics (ESD)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: copernicus_essd
+  name: Earth System Science Data (ESSD)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: ess_open_archive_ess_open_archive_preprints
+  name: ESS Open Archive (Preprints)
+  source_kind: preprint
+  publisher: ESS Open Archive
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T2
+  disciplines:
+  - EarthScience
+- key: copernicus_esurf
+  name: Earth Surface Dynamics (ESurf)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: nature_natfood_aop
+  name: Nature Food (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Agriculture
+- key: nature_natfood_ci
+  name: Nature Food (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Agriculture
+- key: nature_nathumbehav_aop
+  name: Nature Human Behaviour (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - socialscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - SocialScience
+- key: nature_nathumbehav_ci
+  name: Nature Human Behaviour (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - socialscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - SocialScience
+- key: nature_natsustain_aop
+  name: Nature Sustainability (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Agriculture
+- key: nature_natsustain_ci
+  name: Nature Sustainability (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Agriculture
+- key: nature_nclimate_aop
+  name: Nature Climate Change (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Earth Science
+- key: nature_nclimate_ci
+  name: Nature Climate Change (current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T0
+  disciplines:
+  - Earth Science
+- key: nature_neuro_aop
+  name: Nature Neuroscience (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Neuroscience
+- key: nature_neuro_ci
+  name: Nature Neuroscience (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Neuroscience
+- key: nature_nmat_aop
+  name: Nature Materials (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nmat_ci
+  name: Nature Materials (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nnano_aop
+  name: Nature Nanotechnology (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nnano_ci
+  name: Nature Nanotechnology (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nphoton_aop
+  name: Nature Photonics (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nphoton_ci
+  name: Nature Photonics (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Materials
+- key: nature_nplants_aop
+  name: Nature Plants (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Agriculture
+- key: nature_nplants_ci
+  name: Nature Plants (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Agriculture
+- key: nature_nrn_aop
+  name: Nature Reviews Neuroscience (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Neuroscience
+- key: nature_nrn_ci
+  name: Nature Reviews Neuroscience (Current)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Neuroscience
+- key: plos_plos_biology_newarticles
+  name: PLOS Biology (NewArticles)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - life sciences
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Life Sciences
+- key: plos_plos_computational_biology_newarticles
+  name: PLOS Computational Biology (NewArticles)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - computer science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Computer Science
+- key: plos_plos_genetics_newarticles
+  name: PLOS Genetics (NewArticles)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - life sciences
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Life Sciences
+- key: plos_plos_medicine_newarticles
+  name: PLOS Medicine (NewArticles)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: plos_plos_pathogens_newarticles
+  name: PLOS Pathogens (NewArticles)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: rsc_analyst
+  name: Analyst
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_chem_comm
+  name: ChemComm
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_pccp
+  name: Physical Chemistry Chemical Physics (PCCP)
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_chemical_society_reviews
+  name: Chemical Society Reviews
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_energy_advances
+  name: Energy Advances
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Energy
+- key: rsc_energy_and_environmental_science
+  name: Energy & Environmental Science
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Energy
+- key: rsc_environmental_science_processes_and_impacts
+  name: 'Environmental Science: Processes & Impacts'
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - environmental science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Environmental Science
+- key: rsc_environmental_science_nano
+  name: 'Environmental Science: Nano'
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - environmental science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Environmental Science
+- key: rsc_environmental_science_water_research_and_technology
+  name: 'Environmental Science: Water Research & Technology'
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - environmental science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Environmental Science
+- key: rsc_green_chem
+  name: Green Chemistry
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_nanoscale
+  name: Nanoscale
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_polymer_chemistry
+  name: Polymer Chemistry
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_advances
+  name: RSC Advances
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_chem_science
+  name: Chemical Science
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: rsc_ees_catalysis
+  name: EES Catalysis
+  source_kind: journal
+  publisher: RSC
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Energy
+- key: copernicus_gc
+  name: Geoscience Communication (GC)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: gsw_geology
+  name: Geology (GSA)
+  source_kind: journal
+  publisher: GeoScienceWorld
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: gsw_geosphere
+  name: Geosphere
+  source_kind: journal
+  publisher: GeoScienceWorld
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: copernicus_gi
+  name: Geoscientific Instrumentation, Methods and Data Systems (GI)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: copernicus_gmd
+  name: Geoscientific Model Development (GMD)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: bmj_gut_of
+  name: Gut (Online First)
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: bmj_gut_ci
+  name: Gut (Current Issue)
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: bmj_heart_of
+  name: Heart (Online First)
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: bmj_heart_ci
+  name: Heart (Current Issue)
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: copernicus_hess
+  name: Hydrology and Earth System Sciences (HESS)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: jama_peds_of
+  name: JAMA Pediatrics (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_derm_of
+  name: JAMA Dermatology (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_onco_of
+  name: JAMA Oncology (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_internal_of
+  name: JAMA Internal Medicine (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_neuro_of
+  name: JAMA Neurology (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_psych_of
+  name: JAMA Psychiatry (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_cardio_of
+  name: JAMA Cardiology (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_surg_of
+  name: JAMA Surgery (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: jama_online_first
+  name: JAMA (Online First)
+  source_kind: journal
+  publisher: JAMA
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T0
+  disciplines:
+  - Medicine
+- key: bmj_jnis
+  name: JNIS
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: ams_bulletin_of_the_american_meteorological_society_bams
+  name: Bulletin of the American Meteorological Society (BAMS)
+  source_kind: journal
+  publisher: AMS
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T1
+  disciplines:
+  - EarthScience
+- key: plos_plos_climate_atom
+  name: PLOS Climate (atom)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: plos_plos_mental_health_atom
+  name: PLOS Mental Health (atom)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - psychology
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Psychology
+- key: plos_plos_one_atom
+  name: PLOS ONE (atom)
+  source_kind: journal
+  publisher: PLOS
+  topics:
+  - multidisciplinary
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Multidisciplinary
+- key: copernicus_nhess
+  name: Natural Hazards and Earth System Sciences (NHESS)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: copernicus_egu_nonlinear_processes_in_geophysics_npg
+  name: Nonlinear Processes in Geophysics (NPG)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: wiley_agu_journal_of_advances_in_modeling_earth_systems_james
+  name: Journal of Advances in Modeling Earth Systems (JAMES)
+  source_kind: journal
+  publisher: Wiley/AGU
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T1
+  disciplines:
+  - EarthScience
+- key: wiley_agu_water_resources_research_wrr
+  name: Water Resources Research (WRR)
+  source_kind: journal
+  publisher: Wiley/AGU
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T1
+  disciplines:
+  - EarthScience
+- key: wiley_agu_geophysical_research_letters_grl
+  name: Geophysical Research Letters (GRL)
+  source_kind: journal
+  publisher: Wiley/AGU
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T1
+  disciplines:
+  - EarthScience
+- key: bmj_openheart
+  name: Open Heart
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: optica_applied_optics_current
+  name: Applied Optics (current)
+  source_kind: journal
+  publisher: Optica
+  topics:
+  - physics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Physics
+- key: optica_journal_of_optical_communications_and_networking_current
+  name: Journal of Optical Communications and Networking (current)
+  source_kind: journal
+  publisher: Optica
+  topics:
+  - electronics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Electronics
+- key: optica_optics_express_current
+  name: Optics Express (current)
+  source_kind: journal
+  publisher: Optica
+  topics:
+  - physics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Physics
+- key: copernicus_os
+  name: Ocean Science (OS)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: philarchive_philarchive_recent_additions_rss
+  name: PhilArchive recent additions (RSS)
+  source_kind: working_papers
+  publisher: PhilArchive
+  topics:
+  - humanities
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Humanities
+- key: acs_catalysis
+  name: ACS Catalysis
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: acs_central_science
+  name: ACS Central Science
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: acs_nano
+  name: ACS Nano (axatoc)
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Materials
+- key: acs_chem_reviews
+  name: Chemical Reviews
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: acs_chem_materials
+  name: Chemistry of Materials (axatoc)
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Materials
+- key: acs_environmental_science_and_technology_axatoc
+  name: Environmental Science & Technology (axatoc)
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - environmental science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Environmental Science
+- key: acs_inorganic_chem
+  name: Inorganic Chemistry
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: acs_jpcl
+  name: J. Phys. Chem. Lett.
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: acs_nano_letters
+  name: Nano Letters (axatoc)
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Materials
+- key: acs_organometallics
+  name: Organometallics
+  source_kind: journal
+  publisher: ACS
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: elsevier_elsevier_01659936
+  name: Elsevier 01659936
+  source_kind: journal
+  publisher: Elsevier
+  topics:
+  - Chemistry
+  disciplines:
+  - Chemistry
+  status: temporarily_unavailable
+  origin: catalog_url_import
+- key: elsevier_elsevier_24681253
+  name: The Lancet Gastroenterology & Hepatology
+  source_kind: journal
+  publisher: Lancet
+  topics:
+  - medicine
+  disciplines:
+  - Medicine
+  status: active
+  origin: catalog_url_import
+- key: copernicus_se
+  name: Solid Earth (SE)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: bmj_bmj_recent_xml
+  name: BMJ Recent.Xml
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  disciplines:
+  - Medicine
+  status: active
+  origin: catalog_url_import
+- key: copernicus_tc
+  name: The Cryosphere (TC)
+  source_kind: journal
+  publisher: Copernicus/EGU
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: bmj_thorax_of
+  name: Thorax (Online First)
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: bmj_thorax_ci
+  name: Thorax (Current Issue)
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: bmj_bmj_recent_xml_a55863e0
+  name: BMJ Recent.Xml
+  source_kind: journal
+  publisher: BMJ
+  topics:
+  - medicine
+  disciplines:
+  - Medicine
+  status: active
+  origin: catalog_url_import
+- key: cambridge_appl_psycholing
+  name: Applied Psycholinguistics
+  source_kind: journal
+  publisher: Cambridge
+  topics:
+  - socialscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - SocialScience
+- key: cambridge_psychology
+  name: 'Cambridge Core: Psychology'
+  source_kind: journal
+  publisher: Cambridge
+  topics:
+  - socialscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - SocialScience
+- key: cell_reports_med
+  name: Cell Reports Medicine
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: cell_reports
+  name: Cell Reports
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: cell_press_chem_cell_press
+  name: Chem (Cell Press)
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: cell_curr_bio
+  name: Current Biology
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: cell_press_joule
+  name: Joule
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Energy
+- key: cell_press_matter
+  name: Matter
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Materials
+- key: cell_neuron
+  name: Neuron
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: cell_press_trends_in_chemistry
+  name: Trends in Chemistry
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Chemistry
+- key: cell_press_trends_in_ecology_and_evolution
+  name: Trends in Ecology & Evolution
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Earth Science
+- key: cell_press_trends_in_endocrinology_and_metabolism
+  name: Trends in Endocrinology & Metabolism
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - medicine
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T1
+  disciplines:
+  - Medicine
+- key: cell_press_cell_press_inpress_rss
+  name: Trends in Ecology & Evolution (in press)
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - life-sciences
+  disciplines:
+  - Life Science
+  - Environmental Science
+  status: active
+  origin: catalog_url_import
+- key: cell_press_cell_press_rss
+  name: Trends in Ecology & Evolution
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - life-sciences
+  disciplines:
+  - Life Science
+  - Environmental Science
+  status: temporarily_unavailable
+  origin: catalog_url_import
+- key: cell_press_cell_press_inpress_rss_a7effcd6
+  name: Trends in Endocrinology & Metabolism (in press)
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - medicine
+  disciplines:
+  - Medicine
+  status: active
+  origin: catalog_url_import
+- key: cell_press_cell_press_rss_43541b02
+  name: Trends in Endocrinology & Metabolism
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - medicine
+  disciplines:
+  - Medicine
+  status: temporarily_unavailable
+  origin: catalog_url_import
+- key: cell_trends_neuro
+  name: Trends in Neurosciences
+  source_kind: journal
+  publisher: Cell Press
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: sfn_jneurosci
+  name: Journal of Neuroscience
+  source_kind: journal
+  publisher: SfN
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T1
+  disciplines:
+  - Neuroscience
+- key: mdpi_aerospace
+  name: Aerospace
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - aerospace engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Aerospace Engineering
+- key: mdpi_agriculture
+  name: MDPI Agriculture
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_agronomy
+  name: MDPI Agronomy
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_algorithms
+  name: MDPI Algorithms
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - computerscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - ComputerScience
+- key: mdpi_animals
+  name: MDPI Animals
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_applsci
+  name: Applied Sciences
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - multidisciplinary
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Multidisciplinary
+- key: mdpi_atmosphere
+  name: Atmosphere
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Earth Science
+- key: mdpi_behavioral_sciences
+  name: Behavioral Sciences
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - psychology
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Psychology
+- key: mdpi_brain_sciences
+  name: Brain Sciences
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - neuroscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Neuroscience
+- key: mdpi_buildings
+  name: Buildings
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - civil engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Civil Engineering
+- key: mdpi_catalysts
+  name: Catalysts
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Chemistry
+- key: mdpi_climate
+  name: MDPI Climate
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - earthscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - EarthScience
+- key: mdpi_coatings
+  name: MDPI Coatings
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Materials
+- key: mdpi_economies
+  name: Economies
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - economics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Economics
+- key: mdpi_electronics
+  name: Electronics
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - electronics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Electronics
+- key: mdpi_energies
+  name: Energies
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - energy
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Energy
+- key: mdpi_foods
+  name: MDPI Foods
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_forests
+  name: MDPI Forests
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_geosciences
+  name: Geosciences
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Earth Science
+- key: mdpi_humanities
+  name: Humanities
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - humanities
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Humanities
+- key: mdpi_information
+  name: MDPI Information
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - computerscience
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - ComputerScience
+- key: mdpi_infrastructures
+  name: Infrastructures
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - civil engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Civil Engineering
+- key: mdpi_machines
+  name: Machines
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - mechanical engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Mechanical Engineering
+- key: mdpi_materials
+  name: Materials
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Materials
+- key: mdpi_metals
+  name: MDPI Metals
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Materials
+- key: mdpi_minerals
+  name: Minerals
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Earth Science
+- key: mdpi_molecules
+  name: Molecules
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - chemistry
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Chemistry
+- key: mdpi_nanomaterials
+  name: Nanomaterials
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Materials
+- key: mdpi_nutrients
+  name: MDPI Nutrients
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_plants
+  name: MDPI Plants
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - agriculture
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Agriculture
+- key: mdpi_polymers
+  name: Polymers
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - materials
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Materials
+- key: mdpi_remotesensing
+  name: Remote Sensing
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - earth science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Earth Science
+- key: mdpi_robotics
+  name: MDPI Robotics
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_flash_visibility_fix_and_sources.sql
+  tier: T2
+  disciplines:
+  - Engineering
+- key: mdpi_sensors
+  name: Sensors
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - electronics
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Electronics
+- key: mdpi_sustainability
+  name: Sustainability
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - environmental science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Environmental Science
+- key: mdpi_water
+  name: Water
+  source_kind: journal
+  publisher: MDPI
+  topics:
+  - environmental science
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_all_remaining_sources.sql
+  tier: T2
+  disciplines:
+  - Environmental Science
+- key: nature_nchem_ci
+  name: Nature Chemistry (Current Issue)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: nature_nchem_aop
+  name: Nature Chemistry (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - chem
+  status: active
+  origin: catalog_sql_import:add_chemistry_sources.sql
+  tier: T1
+  disciplines:
+  - chem
+- key: nature_ngeo_ci
+  name: Nature Geoscience (Current Issue)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - earth
+  status: active
+  origin: catalog_sql_import:add_earth_science_sources.sql
+  tier: T0
+  disciplines:
+  - earth
+- key: nature_ngeo_aop
+  name: Nature Geoscience (AOP)
+  source_kind: journal
+  publisher: Nature
+  topics:
+  - earth
+  status: active
+  origin: catalog_sql_import:add_earth_science_sources.sql
+  tier: T0
+  disciplines:
+  - earth
+- key: techrxiv_techrxiv_preprints
+  name: TechRxiv (Preprints)
+  source_kind: preprint
+  publisher: TechRxiv
+  topics:
+  - engineering
+  status: active
+  origin: catalog_sql_import:2026-02-26_add_eng_earth_sources.sql
+  tier: T2
+  disciplines:
+  - Engineering

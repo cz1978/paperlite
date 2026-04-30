@@ -1,0 +1,15 @@
+name: paperlite
+
+services:
+  paperlite:
+    build: .
+    env_file:
+      - .env
+    environment:
+      PAPERLITE_DB_PATH: /data/paperlite.sqlite3
+      PAPERLITE_HEALTH_SNAPSHOT_PATH: /data/endpoint_health_snapshot.json
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./.paperlite:/data
+    restart: unless-stopped
