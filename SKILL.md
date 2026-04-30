@@ -124,9 +124,7 @@ Useful endpoints:
 - `POST /agent/ask`
 - `GET /agent/manifest`
 
-## Agent Recipes
-
-## Result Output Contract
+## Agent Output Contract
 
 - The user's current prompt overrides these defaults. If the user asks for a different language, no translation, a table, a short list, Zotero-only output, or another format, follow that prompt.
 - After any crawl, cache read, organize, filter, rank, or topic search with nonzero results, send the paper list in the chat response.
@@ -134,7 +132,12 @@ Useful endpoints:
 - Start the answer with the scope used: discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings.
 - If there are 15 or fewer papers, list every paper. If there are more than 15, list at most 15, state exactly how many more are available in `paper_cache` or export output, and ask whether to AI-rank/optimize the set or add more search keywords to narrow it. Do not dump the whole set into chat.
 - Each listed paper should include a visible title, source or venue, date when present, DOI/arXiv-style identifier when present, URL when present, one short reason it matched the user's request, and a brief abstract/summary.
-- When the user is using Chinese and did not ask otherwise, every listed paper must follow the brief pattern: Chinese title first, original English title also present, DOI/arXiv-style identifier also present, then a one-sentence Chinese abstract/summary. Use `paper.display_title`, `paper.title_zh`, or `paper.brief_translation.title_zh` from `paper_research` for the Chinese title first; then include `paper.title_original` or `paper.title_en` as the English original. Include `paper.identifier_label` + `paper.identifier` for DOI, arXiv, PMID, PMCID, OpenAlex, or local ID. If the Chinese title is missing or unconfigured, translate `paper.title_original` or `paper.title` with the host agent model before displaying it. Do not display the raw English title as the only heading in Chinese answers. Use `paper.brief_translation.cn_flash_180` for the one-sentence summary; if missing, summarize from the returned title and abstract. If metadata has an abstract, summarize that abstract; if not, say the abstract is not available and provide a title/metadata-based note. Do this consistently for every item, not only some items.
+- Chinese default brief pattern: Chinese title first, original English title also present, DOI/arXiv-style identifier also present, then a one-sentence Chinese abstract/summary.
+- Chinese title source order: `paper.display_title`, `paper.title_zh`, `paper.brief_translation.title_zh`, then host-model translation of `paper.title_original` or `paper.title`.
+- English original: use `paper.title_original` or `paper.title_en`.
+- Identifier: include `paper.identifier_label` + `paper.identifier` for DOI, arXiv, PMID, PMCID, OpenAlex, or local ID when present.
+- Summary: use `paper.brief_translation.cn_flash_180`; if missing, summarize from returned title and abstract. If metadata has an abstract, summarize it; if not, say the abstract is not available and provide a title/metadata-based note.
+- Do not display raw English as the only heading in Chinese answers. Apply the same pattern to every listed item, not only some items.
 - Put any synthesis, highlights, translation, or trend summary after the list. Do not replace the list with highlights.
 - Do not answer only "整理完成", "已筛选出 N 篇", or "完整列表见 /daily".
 - Do not say PaperLite LLM is unconfigured, AI filtering is unavailable, cached papers were lost, a database was rebuilt, or a reinstall/reset happened unless the user asked about that diagnostic or a PaperLite tool explicitly returned it.
