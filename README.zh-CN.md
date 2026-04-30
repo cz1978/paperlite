@@ -101,29 +101,23 @@ PAPERLITE_LLM_MODEL=
 - `/agent/rag/index`、`/agent/ask`：手动元数据 RAG。
 - `/zotero/status`、`/zotero/items`、`/zotero/export`：Zotero 元数据流。
 
-## OpenClaw / QClaw / Hermes 接手
+## Agent 安装和使用
 
-先启动 PaperLite。
+PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/daily` 网页，`/daily` 是给人看的。
 
-如果 agent 能调用 HTTP 工具，给它 PaperLite 服务地址：
+### MCP 模式
 
-```text
-http://127.0.0.1:8000
+OpenClaw、QClaw、Hermes 或其他 agent 支持 stdio MCP server 时，用这个方式。
+
+安装 PaperLite MCP 依赖：
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite
+cd paperlite
+python -m pip install -e ".[mcp]"
 ```
 
-`127.0.0.1` 只代表同一台机器。agent 在另一台机器或云端时，填你的公网反代地址，例如：
-
-```text
-https://your-domain.example
-```
-
-可选发现接口：
-
-```text
-GET /agent/manifest
-```
-
-如果 agent 支持 MCP，把 PaperLite 加成 stdio MCP server：
+在 agent 的 MCP 配置里加入：
 
 ```json
 {
@@ -135,6 +129,51 @@ GET /agent/manifest
     }
   }
 }
+```
+
+常用工具：
+
+- `paper_sources`
+- `paper_rag_index`
+- `paper_ask`
+- `paper_filter`
+- `paper_translate`
+- `paper_zotero_status`
+- `paper_zotero_items`
+
+### HTTP API 模式
+
+agent 能调用 HTTP 接口时，用这个方式。先启动 PaperLite：
+
+```bash
+docker compose up -d --build
+```
+
+agent 和 PaperLite 在同一台机器时，服务地址填：
+
+```text
+http://127.0.0.1:8000
+```
+
+agent 在另一台机器或云端时，填你的公网反代地址，例如：
+
+```text
+https://your-domain.example
+```
+
+常用 JSON 接口：
+
+- `GET /daily/cache?format=json`
+- `GET /sources`
+- `POST /agent/rag/index`
+- `POST /agent/ask`
+- `POST /agent/filter`
+- `POST /agent/translate`
+
+支持能力发现的 agent 可以读取：
+
+```text
+GET /agent/manifest
 ```
 
 如果你用本地 Python 运行，把端口改成 `8768`。

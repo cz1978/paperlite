@@ -98,25 +98,23 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 - Enrichment/Zotero: `/daily/enrich`, `/zotero/status`, `/zotero/items`, `/zotero/export`
 - Discovery: `/agent/manifest`, `/.well-known/paperlite.json`
 
-## External Agents
+## Agent Setup
 
-Start PaperLite first.
+PaperLite supports two agent integration modes. Agents should not use `/daily`; that page is the human UI.
 
-For OpenClaw, QClaw, Hermes, or any agent that can call HTTP tools, give it the PaperLite base URL:
+### MCP Mode
 
-```text
-http://127.0.0.1:8000
+Use this when OpenClaw, QClaw, Hermes, or another agent can run stdio MCP servers.
+
+Install PaperLite with the MCP extra:
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite
+cd paperlite
+python -m pip install -e ".[mcp]"
 ```
 
-`127.0.0.1` only works on the same machine. If the agent runs elsewhere, use your public reverse-proxy URL instead, for example `https://your-domain.example`.
-
-Optional discovery endpoint:
-
-```text
-GET /agent/manifest
-```
-
-For an MCP client, add PaperLite as a stdio MCP server:
+Add this MCP server to your agent config:
 
 ```json
 {
@@ -128,6 +126,47 @@ For an MCP client, add PaperLite as a stdio MCP server:
     }
   }
 }
+```
+
+Useful MCP tools:
+
+- `paper_sources`
+- `paper_rag_index`
+- `paper_ask`
+- `paper_filter`
+- `paper_translate`
+- `paper_zotero_status`
+- `paper_zotero_items`
+
+### HTTP API Mode
+
+Use this when the agent can call HTTP endpoints. Start PaperLite first:
+
+```bash
+docker compose up -d --build
+```
+
+Agent base URL on the same machine:
+
+```text
+http://127.0.0.1:8000
+```
+
+If the agent runs elsewhere, use your public reverse-proxy URL instead, for example `https://your-domain.example`.
+
+Useful JSON endpoints:
+
+- `GET /daily/cache?format=json`
+- `GET /sources`
+- `POST /agent/rag/index`
+- `POST /agent/ask`
+- `POST /agent/filter`
+- `POST /agent/translate`
+
+Optional discovery endpoint for agents that support capability discovery:
+
+```text
+GET /agent/manifest
 ```
 
 Use port `8768` instead of `8000` when running with `python -m paperlite.cli serve --host 127.0.0.1 --port 8768`.

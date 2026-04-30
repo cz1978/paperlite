@@ -32,7 +32,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "## At A Glance" in readme
     assert "SQLite-first browsing" in readme
     assert "## Quality Gates" in readme
-    assert "## External Agents" in readme
+    assert "## Agent Setup" in readme
     assert "no silent network calls" in readme
     assert "CLI RAG" in readme
     assert "Related cached papers" in readme
@@ -43,14 +43,25 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Click `抓取`" in readme
     assert "Crawl completed with 0 items" in readme
     assert "[中文说明](README.zh-CN.md)" in readme
+    assert "Agents should not use `/daily`; that page is the human UI" in readme
+    assert "### MCP Mode" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
-    assert "Start PaperLite first" in readme
-    assert "PaperLite base URL" in readme
+    assert "python -m pip install -e \".[mcp]\"" in readme
+    assert '"command": "python"' in readme
+    assert '"args": ["-m", "paperlite.mcp_server"]' in readme
+    assert '"cwd": "<repo>/paperlite"' in readme
+    assert "`paper_sources`" in readme
+    assert "`paper_ask`" in readme
+    assert "### HTTP API Mode" in readme
+    assert "docker compose up -d --build" in readme
+    assert "Agent base URL on the same machine" in readme
     assert "http://127.0.0.1:8000" in readme
+    assert "Useful JSON endpoints" in readme
+    assert "GET /daily/cache?format=json" in readme
+    assert "POST /agent/ask" in readme
     assert "Optional discovery endpoint" in readme
     assert "GET /agent/manifest" in readme
     assert "stdio MCP server" in readme
-    assert '"args": ["-m", "paperlite.mcp_server"]' in readme
 
     assert "PaperLite 中文说明" in readme_zh
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
@@ -65,12 +76,26 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "不下载 PDF" in readme_zh
     assert "不在页面加载时自动调用 LLM 或 RAG" in readme_zh
     assert "127.0.0.1:8000" in readme_zh
-    assert "OpenClaw / QClaw / Hermes 接手" in readme_zh
-    assert "先启动 PaperLite" in readme_zh
-    assert "PaperLite 服务地址" in readme_zh
-    assert "`127.0.0.1` 只代表同一台机器" in readme_zh
+    assert "## Agent 安装和使用" in readme_zh
+    assert "agent 不访问 `/daily` 网页" in readme_zh
+    assert "### MCP 模式" in readme_zh
+    assert "OpenClaw、QClaw、Hermes" in readme_zh
+    assert "安装 PaperLite MCP 依赖" in readme_zh
+    assert '"command": "python"' in readme_zh
+    assert '"args": ["-m", "paperlite.mcp_server"]' in readme_zh
+    assert '"cwd": "<repo>/paperlite"' in readme_zh
+    assert "常用工具" in readme_zh
+    assert "`paper_sources`" in readme_zh
+    assert "`paper_ask`" in readme_zh
+    assert "### HTTP API 模式" in readme_zh
+    assert "agent 能调用 HTTP 接口时" in readme_zh
+    assert "docker compose up -d --build" in readme_zh
+    assert "服务地址填" in readme_zh
+    assert "常用 JSON 接口" in readme_zh
+    assert "GET /daily/cache?format=json" in readme_zh
+    assert "POST /agent/ask" in readme_zh
     assert "https://your-domain.example" in readme_zh
-    assert "可选发现接口" in readme_zh
+    assert "支持能力发现的 agent 可以读取" in readme_zh
     assert "GET /agent/manifest" in readme_zh
     assert "stdio MCP server" in readme_zh
 
