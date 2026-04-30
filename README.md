@@ -105,6 +105,8 @@ PaperLite supports two agent integration modes. Agents should not use `/daily`; 
 
 For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md). It is the short agent-facing entrypoint; this README is the human-facing guide.
 
+Default MCP mode does not need Docker. The agent runs `python -m paperlite.mcp_server` as a local stdio process, reads local `.env` if present, and stores metadata in local SQLite. Use Docker only for HTTP API mode or for the human `/daily` browser UI.
+
 Default agent workflow: call `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent's own model produce the answer. PaperLite's built-in LLM endpoints are optional fallback tools only when `.env` has LLM keys.
 
 Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Use `paper_sources(discipline="energy", q="energy", latest=true, limit=20)` to find crawl-capable source keys, `paper_crawl(...)` to fetch metadata, `paper_crawl_status(...)` to inspect the run, `paper_cache(...)` to read SQLite results, and `paper_agent_context(...)` to prepare messages for the host model. Return the selected papers and summary directly in the agent response.
@@ -115,7 +117,7 @@ If your agent can fetch and deploy GitHub repositories, this prompt is enough:
 https://github.com/cz1978/paperlite/ 把项目拉下来部署了
 ```
 
-Fallback shell deploy command:
+HTTP/browser deploy command, only when you need HTTP API mode or `/daily`:
 
 ```bash
 git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
@@ -124,6 +126,8 @@ git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && (
 ### MCP Mode
 
 Use this when OpenClaw, QClaw, Hermes, or another agent can run stdio MCP servers.
+
+No Docker is required for MCP mode.
 
 One-line MCP install:
 

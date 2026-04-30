@@ -54,6 +54,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Agents should not use `/daily`; that page is the human UI" in readme
     assert "[`SKILL.md`](SKILL.md)" in readme
     assert "Default agent workflow: call `paper_agent_context` or `POST /agent/context`" in readme
+    assert "Default MCP mode does not need Docker" in readme
+    assert "The agent runs `python -m paperlite.mcp_server` as a local stdio process" in readme
+    assert "Use Docker only for HTTP API mode or for the human `/daily` browser UI" in readme
     assert "host agent's own model" in readme
     assert "Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link" in readme
     assert "Return the selected papers and summary directly in the agent response" in readme
@@ -63,10 +66,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_cache`" in readme
     assert "this prompt is enough" in readme
     assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in readme
-    assert "Fallback shell deploy command" in readme
+    assert "HTTP/browser deploy command, only when you need HTTP API mode or `/daily`" in readme
     assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in readme
     assert "### MCP Mode" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
+    assert "No Docker is required for MCP mode" in readme
     assert "One-line MCP install" in readme
     assert 'git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"' in readme
     assert "python -m pip install -e \".[mcp]\"" in readme
@@ -111,6 +115,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "agent 不访问 `/daily` 网页" in readme_zh
     assert "[`SKILL.md`](SKILL.md)" in readme_zh
     assert "默认 agent 用法：调用 `paper_agent_context` 或 `POST /agent/context`" in readme_zh
+    assert "默认走 MCP 不需要 Docker" in readme_zh
+    assert "本地 stdio 进程启动" in readme_zh
+    assert "只有走 HTTP API，或者人要打开 `/daily` 网页时" in readme_zh
     assert "宿主 agent 用自己的大模型生成答案" in readme_zh
     assert "agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案" in readme_zh
     assert "最终回复要直接给论文标题、来源、日期、链接和筛选理由" in readme_zh
@@ -120,10 +127,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_cache`" in readme_zh
     assert "直接说这一句就行" in readme_zh
     assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in readme_zh
-    assert "如果平台要求 shell 命令，再用这条兜底" in readme_zh
+    assert "只有需要 HTTP API 或 `/daily` 网页时，才用这条 Docker 命令" in readme_zh
     assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in readme_zh
     assert "### MCP 模式" in readme_zh
     assert "OpenClaw、QClaw、Hermes" in readme_zh
+    assert "MCP 模式不需要 Docker" in readme_zh
     assert "一行安装 MCP 依赖" in readme_zh
     assert '"command": "python"' in readme_zh
     assert '"args": ["-m", "paperlite.mcp_server"]' in readme_zh
@@ -149,11 +157,15 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "local-first scholarly metadata workbench" in skill_doc
     assert "Default agent path: use `paper_agent_context` or `POST /agent/context`" in skill_doc
     assert "PaperLite's built-in LLM endpoints are optional fallback tools" in skill_doc
+    assert "Default agent use is MCP stdio. It does not need Docker" in skill_doc
+    assert "does not require a running HTTP server" in skill_doc
+    assert "把 PaperLite MCP 安装好" in skill_doc
+    assert "Use Docker only when the host needs HTTP endpoints or a human browser UI" in skill_doc
     assert "Do not tell users to open `/daily` for agent tasks" in skill_doc
     assert "Do not finish with a `/daily` link as the result" in skill_doc
-    assert "If the host can fetch and deploy GitHub repositories" in skill_doc
-    assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in skill_doc
-    assert "Fallback shell deploy command" in skill_doc
+    assert "If the host can fetch GitHub repositories and install MCP servers from natural language" in skill_doc
+    assert "https://github.com/cz1978/paperlite/ 把 PaperLite MCP 安装好" in skill_doc
+    assert "HTTP/browser deploy command" in skill_doc
     assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in skill_doc
     assert "One-line MCP install from the GitHub repository" in skill_doc
     assert 'git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"' in skill_doc

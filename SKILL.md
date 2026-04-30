@@ -11,32 +11,15 @@ Default agent path: use `paper_agent_context` or `POST /agent/context` to get me
 
 Do not tell users to open `/daily` for agent tasks. Do not finish with a `/daily` link as the result. Use the tools below and answer with the actual papers, counts, source keys, warnings, and next actions.
 
-## Start PaperLite
+## Choose MCP Or HTTP
 
-If the host can fetch and deploy GitHub repositories, this prompt is enough:
+Default agent use is MCP stdio. It does not need Docker, does not start `/daily`, and does not require a running HTTP server. Install the package, then let the host agent launch `python -m paperlite.mcp_server`.
+
+If the host can fetch GitHub repositories and install MCP servers from natural language, this prompt is enough:
 
 ```text
-https://github.com/cz1978/paperlite/ 把项目拉下来部署了
+https://github.com/cz1978/paperlite/ 把 PaperLite MCP 安装好
 ```
-
-Fallback shell deploy command:
-
-```bash
-git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
-```
-
-Prefer Docker Compose for a fresh checkout:
-
-```bash
-git clone https://github.com/cz1978/paperlite.git paperlite
-cd paperlite
-test -f .env || cp .env.example .env
-docker compose up -d --build
-```
-
-No key is required for browsing, source listing, metadata crawl, ordinary cached-result filtering, or export. Put optional LLM, embedding, or Zotero credentials only in the local `.env`.
-
-## Connect Through MCP
 
 One-line MCP install from the GitHub repository:
 
@@ -44,7 +27,17 @@ One-line MCP install from the GitHub repository:
 git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"
 ```
 
-Use MCP when the host can run a stdio server:
+Use Docker only when the host needs HTTP endpoints or a human browser UI. HTTP/browser deploy command:
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
+```
+
+No key is required for browsing, source listing, metadata crawl, ordinary cached-result filtering, or export. Put optional LLM, embedding, or Zotero credentials only in the local `.env`.
+
+## Connect Through MCP
+
+Use MCP when the host can run a local stdio server:
 
 ```bash
 python -m paperlite.mcp_server
