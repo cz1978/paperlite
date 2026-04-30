@@ -97,6 +97,16 @@ Useful endpoints:
 
 ## Agent Recipes
 
+## Result Output Contract
+
+- After any crawl, cache read, organize, filter, rank, or topic search with nonzero results, send the paper list in the chat response.
+- Start the answer with the scope used: discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings.
+- If there are 20 or fewer papers, list every paper. If there are more than 20, list the first 20 and state exactly how many more are available in `paper_cache` or export output.
+- Each listed paper should include title, source or venue, date when present, DOI/URL when present, and one short reason it matched the user's request.
+- Put any synthesis, highlights, translation, or trend summary after the list. Do not replace the list with highlights.
+- Do not answer only "整理完成", "已筛选出 N 篇", or "完整列表见 /daily".
+- If zero papers match, say zero, include crawl/source warnings when available, and suggest changing date/source/query.
+
 ### Default research workflow
 
 1. Install/connect through MCP unless the user specifically needs HTTP or `/daily`.
@@ -104,7 +114,7 @@ Useful endpoints:
 3. Use `paper_crawl(discipline="<discipline>", source="<source_key>", limit_per_source=20, run_now=true)`.
 4. Use `paper_crawl_status(run_id="<run_id>")` when the run is not clearly completed or has warnings.
 5. Use `paper_cache(discipline="<discipline>", source="<source_key>", q="<topic>", limit_per_source=50)` to read the actual papers.
-6. Reply in chat with the selected papers: title, source, date, DOI/URL when present, and why each matched. Do not send the user to `/daily`.
+6. Follow the Result Output Contract: list the actual papers first, then add a short synthesis.
 
 ### What to do after crawling
 

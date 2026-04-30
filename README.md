@@ -4,7 +4,7 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.3`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.2.4`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
@@ -111,6 +111,8 @@ Default agent workflow: call `paper_agent_context` or `POST /agent/context` to g
 
 Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Use `paper_sources(discipline="energy", q="energy", latest=true, limit=20)` to find crawl-capable source keys, `paper_crawl(...)` to fetch metadata, `paper_crawl_status(...)` to inspect the run, `paper_cache(...)` to read SQLite results, and `paper_agent_context(...)` to prepare messages for the host model. Return the selected papers and summary directly in the agent response.
 
+Agent result rule: after crawling, organizing, filtering, or ranking papers, the agent should state the scope first: discipline, source key/name, date range, query, run status, warnings, and total count. Then it should list the actual papers. If there are 20 or fewer papers, list all of them with title, source/venue, date, URL/DOI, and reason. Highlights or summaries come after the list, never instead of it.
+
 If your agent can fetch and deploy GitHub repositories, this prompt is enough:
 
 ```text
@@ -177,7 +179,7 @@ Typical agent flow:
 2. `paper_crawl(...)` to fetch metadata.
 3. `paper_crawl_status(...)` to inspect completion and warnings.
 4. `paper_cache(...)` to read the actual paper list.
-5. Reply with titles, sources, dates, links, and reasons.
+5. Reply with the actual paper list first: titles, sources, dates, links, and reasons. List all results when there are 20 or fewer.
 6. After crawling, summarize/rank with the host agent model by default. Translate only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
 
 Zotero flow:

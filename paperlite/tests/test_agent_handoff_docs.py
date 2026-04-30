@@ -33,7 +33,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "## At A Glance" in readme
     assert "local-first paper metadata workbench for researchers" in readme
-    assert "Current release: `0.2.3`" in readme
+    assert "Current release: `0.2.4`" in readme
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
@@ -60,6 +60,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "host agent's own model" in readme
     assert "Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link" in readme
     assert "Return the selected papers and summary directly in the agent response" in readme
+    assert "the agent should state the scope first" in readme
+    assert "discipline, source key/name, date range, query, run status, warnings, and total count" in readme
     assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in readme
     assert "`paper_crawl`" in readme
     assert "`paper_crawl_status`" in readme
@@ -101,7 +103,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "PaperLite 中文说明" in readme_zh
     assert "给科研人用的本地优先论文元数据工作台" in readme_zh
-    assert "当前版本：`0.2.3`" in readme_zh
+    assert "当前版本：`0.2.4`" in readme_zh
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
@@ -128,6 +130,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "宿主 agent 用自己的大模型生成答案" in readme_zh
     assert "agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案" in readme_zh
     assert "最终回复要直接给论文标题、来源、日期、链接和筛选理由" in readme_zh
+    assert "必须先说明本次范围" in readme_zh
+    assert "学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数" in readme_zh
     assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in readme_zh
     assert "`paper_crawl`" in readme_zh
     assert "`paper_crawl_status`" in readme_zh
@@ -190,6 +194,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_cache`" in skill_doc
     assert "`paper_zotero_export`" in skill_doc
     assert "Default research workflow" in skill_doc
+    assert "Start the answer with the scope used" in skill_doc
+    assert "discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings" in skill_doc
     assert "What to do after crawling" in skill_doc
     assert "Translate only when the user asks" in skill_doc
     assert "Run RAG only when the user asks a question" in skill_doc
@@ -210,6 +216,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
     assert "DEEPSEEK_API_KEY=" in skill_doc
 
+    assert "## 0.2.4 - 2026-04-30" in changelog
+    assert "state crawl/cache scope and list actual papers" in changelog
     assert "## 0.2.3 - 2026-04-30" in changelog
     assert "paper_zotero_export" in changelog
     assert "post-crawl translation/RAG decisions" in changelog

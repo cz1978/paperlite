@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4 - 2026-04-30
+
+- Tightened agent result output rules: agents must state crawl/cache scope and list actual papers before summaries or highlights.
+- Added manifest scope fields so agents report discipline, source, date range, query, run status, warnings, and total count.
+
 ## 0.2.3 - 2026-04-30
 
 - Added `paper_zotero_export` for MCP-only RIS/BibTeX export when Zotero sync is not configured.
