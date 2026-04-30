@@ -75,6 +75,9 @@ def agent_research(payload: dict):
             crawl_if_missing=payload_bool(payload, "crawl_if_missing", default=True),
             source_limit=payload_int(payload, "source_limit", default=15, minimum=1, maximum=50),
             limit_per_source=payload_int(payload, "limit_per_source", default=15, minimum=1, maximum=500),
+            translate_brief=payload_bool(payload, "translate_brief", default=True),
+            target_language=payload.get("target_language") or "zh-CN",
+            translation_profile=payload.get("translation_profile"),
         )
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc

@@ -60,6 +60,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "The agent runs `python -m paperlite.mcp_server` as a local stdio process" in readme
     assert "Use Docker only for HTTP API mode or for the human `/daily` browser UI" in readme
     assert "host agent's own model" in readme
+    assert "requests the `research_card_cn` brief translation by default" in readme
     assert "`result_contract`" in readme
     assert "Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link" in readme
     assert "Return the selected papers and summary directly in the agent response" in readme
@@ -68,6 +69,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "the user's current prompt wins" in readme
     assert "brief abstract/summary" in readme
     assert "one-sentence Chinese abstract/summary for every listed paper" in readme
+    assert "`paper.brief_translation.title_zh`" in readme
+    assert "Unconfigured PaperLite LLM, AI filter, or brief translation is not a blocker" in readme
+    assert "Do not claim cached papers were lost" in readme
     assert "If more than 15 papers match" in readme
     assert "AI-rank/optimize" in readme
     assert 'paper_research(topic="材料", date="<today>")' in readme
@@ -139,6 +143,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "本地 stdio 进程启动" in readme_zh
     assert "只有走 HTTP API，或者人要打开 `/daily` 网页时" in readme_zh
     assert "宿主 agent 用自己的大模型生成答案" in readme_zh
+    assert "默认请求 `research_card_cn` brief 翻译" in readme_zh
     assert "`result_contract`" in readme_zh
     assert "agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案" in readme_zh
     assert "最终回复要直接给论文标题、来源、日期、链接和筛选理由" in readme_zh
@@ -146,6 +151,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数" in readme_zh
     assert "用户当次 prompt 优先" in readme_zh
     assert "一句中文摘要/要点" in readme_zh
+    assert "`paper.brief_translation.title_zh`" in readme_zh
+    assert "未配置，不代表 QClaw、Hermes、OpenClaw" in readme_zh
+    assert "不要说缓存论文丢失、数据库重建、重装/reset" in readme_zh
     assert "摘要未提供" in readme_zh
     assert "超过 15 篇" in readme_zh
     assert "AI 优化排序" in readme_zh
@@ -209,6 +217,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "python -m paperlite.mcp_server" in skill_doc
     assert "`paper_agent_context`" in skill_doc
     assert "`paper_research`" in skill_doc
+    assert "request `research_card_cn` brief translation by default" in skill_doc
     assert "`paper_crawl`" in skill_doc
     assert "`paper_crawl_status`" in skill_doc
     assert "`paper_cache`" in skill_doc
@@ -222,9 +231,12 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "If there are 15 or fewer papers" in skill_doc
     assert "Do not dump the whole set into chat" in skill_doc
     assert "brief Chinese title translation plus a one-sentence Chinese abstract/summary" in skill_doc
+    assert "Use `paper.brief_translation.title_zh` and `paper.brief_translation.cn_flash_180`" in skill_doc
+    assert "Do not say PaperLite LLM is unconfigured" in skill_doc
+    assert "cached papers were lost" in skill_doc
     assert "if not, say the abstract is not available" in skill_doc
     assert "What to do after crawling" in skill_doc
-    assert "Full translation or Chinese research cards require user intent" in skill_doc
+    assert "Full translation or extra Chinese research cards require user intent" in skill_doc
     assert "Run RAG only when the user asks a question" in skill_doc
     assert "Save selected papers to Zotero" in skill_doc
     assert "paper_zotero_status()" in skill_doc

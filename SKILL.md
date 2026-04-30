@@ -57,7 +57,7 @@ python -m paperlite.mcp_server
 
 Useful tools:
 
-- `paper_research` - one-shot research request: resolve topic/scope, read cache, optionally run an explicit discipline crawl, and return up to 15 paper items.
+- `paper_research` - one-shot research request: resolve topic/scope, read cache, optionally run an explicit discipline crawl, request `research_card_cn` brief translation by default, and return up to 15 paper items.
 - `paper_sources` - list available sources; for manual crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit=15`.
 - `paper_crawl` - explicitly crawl a discipline/source/date range and write metadata to SQLite.
 - `paper_crawl_status` - inspect a crawl run.
@@ -107,9 +107,10 @@ Useful endpoints:
 - Start the answer with the scope used: discipline, source key/name, date or date range, query `q`, crawl run id/status, total count, and any warnings.
 - If there are 15 or fewer papers, list every paper. If there are more than 15, list at most 15, state exactly how many more are available in `paper_cache` or export output, and ask whether to AI-rank/optimize the set or add more search keywords to narrow it. Do not dump the whole set into chat.
 - Each listed paper should include title, source or venue, date when present, DOI/URL when present, one short reason it matched the user's request, and a brief abstract/summary.
-- When the user is using Chinese and did not ask otherwise, every listed paper must also include a brief Chinese title translation plus a one-sentence Chinese abstract/summary. If metadata has an abstract, summarize that abstract; if not, say the abstract is not available and provide a title/metadata-based note. Do this consistently for every item, not only some items.
+- When the user is using Chinese and did not ask otherwise, every listed paper must also include a brief Chinese title translation plus a one-sentence Chinese abstract/summary. Use `paper.brief_translation.title_zh` and `paper.brief_translation.cn_flash_180` from `paper_research` first. If they are missing or unconfigured, use the host agent model to translate/summarize from the returned title and abstract. If metadata has an abstract, summarize that abstract; if not, say the abstract is not available and provide a title/metadata-based note. Do this consistently for every item, not only some items.
 - Put any synthesis, highlights, translation, or trend summary after the list. Do not replace the list with highlights.
 - Do not answer only "整理完成", "已筛选出 N 篇", or "完整列表见 /daily".
+- Do not say PaperLite LLM is unconfigured, AI filtering is unavailable, cached papers were lost, a database was rebuilt, or a reinstall/reset happened unless the user asked about that diagnostic or a PaperLite tool explicitly returned it.
 - If zero papers match, say zero, include crawl/source warnings when available, and suggest changing date/source/query.
 
 ### Default research workflow
@@ -124,7 +125,7 @@ Useful endpoints:
 ### What to do after crawling
 
 - Summarize or rank by default with the host agent model over `paper_cache` results; no PaperLite LLM key is needed.
-- Full translation or Chinese research cards require user intent. Brief Chinese title/summary lines in a Chinese final answer are part of the default output contract and can use the host agent model; they do not require PaperLite LLM keys.
+- Full translation or extra Chinese research cards require user intent. `paper_research` requests brief Chinese title/summary fields by default; if PaperLite LLM is not configured, brief Chinese lines in the final answer must still be produced by the host agent model.
 - Filter with `paper_filter` only when the user asks for LLM-based recommendation; otherwise use the host agent model to rank from metadata.
 - Run RAG only when the user asks a question over the cached papers. Use `paper_rag_index` and `paper_ask`; do not auto-index after every crawl.
 - Sync to Zotero only when the user asks to save/send papers. Use the Zotero workflow below.

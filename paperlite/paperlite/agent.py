@@ -7,7 +7,7 @@ from typing import Any
 from paperlite.daily_crawl import create_daily_crawl, run_daily_crawl
 from paperlite.daily_export import daily_cache_export_papers, daily_date_range
 from paperlite.integrations import agent_result_policy
-from paperlite.llm import complete_chat, create_embeddings, embedding_status
+from paperlite.llm import LLMRequestError, complete_chat, create_embeddings, embedding_status
 from paperlite.models import Paper
 from paperlite.registry import list_sources
 from paperlite.runner import split_keys
@@ -489,11 +489,100 @@ def _research_crawl_warnings(run: dict[str, Any] | None) -> tuple[list[str], lis
     return list(dict.fromkeys(warnings)), source_warnings
 
 
+def _empty_research_brief_translation(
+    *,
+    requested: bool,
+    target_language: str,
+    translation_profile: str | None,
+    status: str,
+    warnings: list[str] | None = None,
+) -> dict[str, Any]:
+    return {
+        "requested": requested,
+        "status": status,
+        "target_language": target_language,
+        "style": "brief",
+        "translation_profile": translation_profile or "research_card_cn",
+        "configured": False,
+        "title_zh": "",
+        "cn_flash_180": "",
+        "card_headline": "",
+        "card_bullets": [],
+        "card_tags": [],
+        "translation": "",
+        "warnings": list(warnings or []),
+        "cached": False,
+    }
+
+
+def _research_brief_translation(
+    paper: Paper,
+    *,
+    enabled: bool,
+    target_language: str,
+    translation_profile: str | None,
+    cache_path: str | None,
+) -> dict[str, Any]:
+    if not enabled:
+        return _empty_research_brief_translation(
+            requested=False,
+            target_language=target_language,
+            translation_profile=translation_profile,
+            status="disabled",
+        )
+    try:
+        from paperlite.translation import translate_paper
+
+        result = translate_paper(
+            paper,
+            target_language=target_language,
+            style="brief",
+            translation_profile=translation_profile,
+            cache_path=cache_path,
+        )
+    except (LLMRequestError, ValueError) as exc:
+        return _empty_research_brief_translation(
+            requested=True,
+            target_language=target_language,
+            translation_profile=translation_profile,
+            status="error",
+            warnings=[str(exc)],
+        )
+
+    brief = result.get("brief") if isinstance(result.get("brief"), dict) else {}
+    title_zh = str(result.get("title_zh") or result.get("card_headline") or brief.get("card_headline") or "").strip()
+    cn_flash = str(result.get("cn_flash_180") or brief.get("cn_flash_180") or "").strip()
+    status = "ok" if title_zh or cn_flash else "empty"
+    if not result.get("configured"):
+        status = "unconfigured"
+    return {
+        "requested": True,
+        "status": status,
+        "target_language": result.get("target_language") or target_language,
+        "style": result.get("style") or "brief",
+        "translation_profile": result.get("translation_profile") or translation_profile or "research_card_cn",
+        "translation_profile_version": result.get("translation_profile_version") or "",
+        "translation_profile_hash": result.get("translation_profile_hash") or "",
+        "configured": bool(result.get("configured")),
+        "title_zh": title_zh,
+        "cn_flash_180": cn_flash,
+        "card_headline": str(result.get("card_headline") or brief.get("card_headline") or "").strip(),
+        "card_bullets": list(result.get("card_bullets") or brief.get("card_bullets") or []),
+        "card_tags": list(result.get("card_tags") or brief.get("card_tags") or []),
+        "translation": str(result.get("translation") or "").strip(),
+        "warnings": list(result.get("warnings") or []),
+        "cached": bool(result.get("cached")),
+        "abstract_missing": bool(result.get("abstract_missing")),
+        "brief_skipped": bool(result.get("brief_skipped")),
+    }
+
+
 def _research_paper_item(
     paper: Paper,
     *,
     scope: dict[str, Any],
     display_names: dict[str, str],
+    brief_translation: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     payload = _citation_paper(paper)
     source_name = str(paper.source or "")
@@ -505,6 +594,20 @@ def _research_paper_item(
     if scope.get("q"):
         reason_bits.append(f"matches query: {scope['q']}")
     reason = "; ".join(reason_bits) or "matches requested PaperLite scope"
+    brief = brief_translation or _empty_research_brief_translation(
+        requested=False,
+        target_language="zh-CN",
+        translation_profile=None,
+        status="disabled",
+    )
+    title_zh = str(brief.get("title_zh") or brief.get("card_headline") or "").strip()
+    cn_flash = str(brief.get("cn_flash_180") or "").strip()
+    if cn_flash:
+        summary_or_point = cn_flash
+    elif brief.get("requested") and not brief.get("configured"):
+        summary_or_point = "中文 brief 未生成；请宿主 agent 基于标题和摘要给出一句中文说明。"
+    else:
+        summary_or_point = abstract or "摘要未提供；请宿主 agent 基于标题、期刊/来源和分类给出一句元数据要点。"
     return {
         "paper": payload,
         "title": paper.title,
@@ -515,8 +618,9 @@ def _research_paper_item(
         "url": paper.url,
         "doi": paper.doi,
         "reason": reason,
-        "short_title_zh": "",
-        "summary_or_point": abstract or "摘要未提供；请宿主 agent 基于标题、期刊/来源和分类给出一句元数据要点。",
+        "short_title_zh": title_zh,
+        "summary_or_point": summary_or_point,
+        "brief_translation": brief,
         "abstract_available": bool(abstract),
     }
 
@@ -548,6 +652,9 @@ def paper_research(
     crawl_if_missing: bool = True,
     source_limit: int = RESEARCH_SOURCE_LIMIT,
     limit_per_source: int = RESEARCH_DEFAULT_LIMIT,
+    translate_brief: bool = True,
+    target_language: str = "zh-CN",
+    translation_profile: str | None = None,
     cache_path: str | None = None,
 ) -> dict[str, Any]:
     scope = resolve_research_scope(
@@ -634,6 +741,24 @@ def paper_research(
         for item in list_sources()
     }
     selected_papers = after[:selected_limit]
+    brief_translations = [
+        _research_brief_translation(
+            paper,
+            enabled=translate_brief,
+            target_language=target_language,
+            translation_profile=translation_profile,
+            cache_path=cache_path,
+        )
+        for paper in selected_papers
+    ]
+    translation_warnings = list(
+        dict.fromkeys(
+            str(warning)
+            for item in brief_translations
+            for warning in item.get("warnings", [])
+            if warning
+        )
+    )
     remaining = max(0, len(after) - len(selected_papers))
     unique_warnings = list(dict.fromkeys(warnings))
     return {
@@ -670,15 +795,34 @@ def paper_research(
             ),
         },
         "papers": [
-            _research_paper_item(paper, scope=scope, display_names=display_names)
-            for paper in selected_papers
+            _research_paper_item(
+                paper,
+                scope=scope,
+                display_names=display_names,
+                brief_translation=brief_translation,
+            )
+            for paper, brief_translation in zip(selected_papers, brief_translations)
         ],
+        "translation": {
+            "brief_requested": translate_brief,
+            "target_language": target_language,
+            "translation_profile": translation_profile or "research_card_cn",
+            "attempted_count": len(brief_translations) if translate_brief else 0,
+            "translated_count": sum(
+                1
+                for item in brief_translations
+                if item.get("title_zh") or item.get("cn_flash_180")
+            ),
+            "configured_count": sum(1 for item in brief_translations if item.get("configured")),
+            "warnings": translation_warnings,
+        },
         "result_contract": {
             **agent_result_policy(),
             "host_agent_rendering": (
-                "Use the host model for the final Chinese answer: state discipline/source/date scope, "
-                "translate every returned title briefly, provide one concise point per paper, and say "
-                "'摘要未提供' when abstracts are missing."
+                "Use each paper.brief_translation.title_zh and cn_flash_180 first when present. "
+                "If brief translation is unconfigured or empty, use the host model to translate the title "
+                "and provide one concise Chinese point from the paper metadata; say '摘要未提供' when "
+                "abstracts are missing."
             ),
         },
         "warnings": unique_warnings,

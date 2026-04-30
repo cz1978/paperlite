@@ -110,11 +110,13 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 默认走 MCP 不需要 Docker。agent 会把 `python -m paperlite.mcp_server` 当成本地 stdio 进程启动；它会读取本地 `.env`，元数据写本地 SQLite。只有走 HTTP API，或者人要打开 `/daily` 网页时，才需要 Docker 或其他 Web 服务启动方式。
 
-默认 agent 用法：普通自然语言请求先调用 `paper_research` 或 `POST /agent/research`，例如“看一下今天关于材料的文章”。它会确定学科、检查当天 SQLite 缓存；如果该学科今天还没有缓存，会执行一次明确的学科抓取，然后返回论文、数量、抓取 warning 和 `result_contract`，再让宿主 agent 用自己的大模型生成答案。`paper_agent_context` 或 `POST /agent/context` 只在 explain/filter/ask 这类需要构造 messages 的场景使用。
+默认 agent 用法：普通自然语言请求先调用 `paper_research` 或 `POST /agent/research`，例如“看一下今天关于材料的文章”。它会确定学科、检查当天 SQLite 缓存；如果该学科今天还没有缓存，会执行一次明确的学科抓取，并默认请求 `research_card_cn` brief 翻译，然后返回论文、数量、抓取 warning 和 `result_contract`；缺失的 brief 字段由宿主 agent 用自己的大模型生成答案并补齐。`paper_agent_context` 或 `POST /agent/context` 只在 explain/filter/ask 这类需要构造 messages 的场景使用。
 
 agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案。优先走 MCP 工具；普通主题请求直接 `paper_research(topic="材料", date="<today>")`，再根据返回的 scope、papers、count、warning 和 next_actions 回复。最终回复要直接给论文标题、来源、日期、链接和筛选理由。只有手动排错、指定来源、指定 run，或 MCP 不可用时，才用 `paper_sources`、`paper_crawl`、`paper_crawl_status`、`paper_cache` 或 `POST /daily/crawl` 这类 HTTP JSON API。
 
-agent 输出规则：用户当次 prompt 优先。用户没有指定其他格式时，抓取、整理、筛选或排序后，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。然后发真实论文清单。15 篇以内要全列，每篇至少给标题、来源/期刊、日期、URL/DOI、筛选理由、简短中文译名和一句中文摘要/要点。如果超过 15 篇，只先列最多 15 篇，说明还剩多少篇，并询问用户要不要 AI 优化排序，或者追加搜索关键词继续筛选。如果元数据里没有 abstract，要写“摘要未提供”，再给基于标题/元数据的简短要点。亮点总结只能放在清单后面，不能代替清单。
+agent 输出规则：用户当次 prompt 优先。用户没有指定其他格式时，抓取、整理、筛选或排序后，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。然后发真实论文清单。15 篇以内要全列，每篇至少给标题、来源/期刊、日期、URL/DOI、筛选理由、简短中文译名和一句中文摘要/要点。中文 brief 优先使用 `paper.brief_translation.title_zh` 和 `paper.brief_translation.cn_flash_180`；如果为空或未配置，宿主 agent 仍必须基于返回的标题和摘要补出中文译名和一句中文要点。如果超过 15 篇，只先列最多 15 篇，说明还剩多少篇，并询问用户要不要 AI 优化排序，或者追加搜索关键词继续筛选。如果元数据里没有 abstract，要写“摘要未提供”，再给基于标题/元数据的简短要点。亮点总结只能放在清单后面，不能代替清单。
+
+PaperLite 自己的 LLM、AI 筛选或 brief 翻译未配置，不代表 QClaw、Hermes、OpenClaw 这类宿主 agent 不能继续；宿主 agent 要用自己的模型基于返回元数据完成排序、摘要和中文 brief。不要说缓存论文丢失、数据库重建、重装/reset，除非 PaperLite 工具明确返回了这个事实。
 
 如果你的 agent 支持从 GitHub 拉取并部署项目，直接说这一句就行：
 

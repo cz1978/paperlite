@@ -268,6 +268,9 @@ def paper_research(
     crawl_if_missing: bool | str = True,
     source_limit: int = 15,
     limit_per_source: int = 15,
+    translate_brief: bool | str = True,
+    target_language: str = "zh-CN",
+    translation_profile: str | None = None,
 ) -> dict[str, Any]:
     return run_paper_research(
         topic=topic,
@@ -281,6 +284,9 @@ def paper_research(
         crawl_if_missing=_as_bool(crawl_if_missing),
         source_limit=_bounded_limit(source_limit, default=15, maximum=50),
         limit_per_source=_bounded_limit(limit_per_source, default=15, maximum=500),
+        translate_brief=_as_bool(translate_brief),
+        target_language=target_language,
+        translation_profile=translation_profile,
     )
 
 

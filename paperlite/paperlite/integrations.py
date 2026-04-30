@@ -38,10 +38,20 @@ def agent_result_policy() -> dict[str, Any]:
             "brief_abstract_or_summary",
         ],
         "brief_translation_default": (
-            "When responding in Chinese and the user did not ask otherwise, include "
-            "a brief Chinese title translation and one-sentence Chinese "
-            "abstract/summary for every listed paper. If metadata has no abstract, "
-            "say it is unavailable and provide a title/metadata-based note."
+            "paper_research requests the research_card_cn brief translation by "
+            "default and returns it as paper.brief_translation when a PaperLite "
+            "LLM is configured or cached. When responding in Chinese and the user "
+            "did not ask otherwise, use those fields first; if they are missing, "
+            "the host agent must still include a brief Chinese title translation "
+            "and one-sentence Chinese abstract/summary for every listed paper. "
+            "If metadata has no abstract, say it is unavailable and provide a "
+            "title/metadata-based note."
+        ),
+        "host_model_fallback": (
+            "Unconfigured PaperLite LLM, AI filter, or brief translation is not a "
+            "blocker for MCP-compatible host agents. Use the host model over the "
+            "returned metadata to rank, summarize, and produce Chinese brief lines "
+            "unless the user explicitly asked to test PaperLite's own LLM."
         ),
         "transport_policy": (
             "Prefer MCP tools. Use REST JSON endpoints such as /daily/crawl only "
@@ -51,7 +61,9 @@ def agent_result_policy() -> dict[str, Any]:
         "do_not": (
             "Do not replace the paper list with highlights, and do not use /daily "
             "as the completion link unless the user explicitly asks for the human "
-            "interface."
+            "interface. Do not claim cached papers were lost, a database was "
+            "rebuilt, or a reinstall/reset happened unless a PaperLite tool "
+            "explicitly returned that fact."
         ),
     }
 

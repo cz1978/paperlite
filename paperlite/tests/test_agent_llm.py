@@ -78,7 +78,12 @@ def test_paper_research_uses_existing_cache_without_crawl(tmp_path):
         path=db_path,
     )
 
-    result = agent.paper_research(topic="材料", date_value="2024-01-02", cache_path=db_path)
+    result = agent.paper_research(
+        topic="材料",
+        date_value="2024-01-02",
+        translate_brief=False,
+        cache_path=db_path,
+    )
 
     assert result["scope"]["discipline"] == "materials"
     assert result["cache"]["used_existing"] is True
@@ -86,6 +91,76 @@ def test_paper_research_uses_existing_cache_without_crawl(tmp_path):
     assert result["total_count"] == 1
     assert result["papers"][0]["source"] == "acs_chem_materials"
     assert result["papers"][0]["summary_or_point"]
+
+
+def test_paper_research_includes_default_brief_translation(monkeypatch):
+    paper = make_material_paper()
+    monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: [paper])
+
+    def fake_brief(paper_item, **kwargs):
+        assert paper_item.id == paper.id
+        assert kwargs["enabled"] is True
+        assert kwargs["target_language"] == "zh-CN"
+        return {
+            "requested": True,
+            "status": "ok",
+            "target_language": "zh-CN",
+            "style": "brief",
+            "translation_profile": "research_card_cn",
+            "configured": True,
+            "title_zh": "材料论文中文题目",
+            "cn_flash_180": "这篇研究材料结构和性能之间的关系。",
+            "card_headline": "材料结构研究",
+            "card_bullets": [],
+            "card_tags": [],
+            "translation": "标题：材料论文中文题目\n摘要：这篇研究材料结构和性能之间的关系。",
+            "warnings": [],
+            "cached": False,
+        }
+
+    monkeypatch.setattr(agent, "_research_brief_translation", fake_brief)
+
+    result = agent.paper_research(topic="材料", date_value="2024-01-02", crawl_if_missing=False)
+
+    item = result["papers"][0]
+    assert item["short_title_zh"] == "材料论文中文题目"
+    assert item["summary_or_point"] == "这篇研究材料结构和性能之间的关系。"
+    assert item["brief_translation"]["translation_profile"] == "research_card_cn"
+    assert result["translation"]["brief_requested"] is True
+    assert result["translation"]["attempted_count"] == 1
+    assert result["translation"]["translated_count"] == 1
+
+
+def test_paper_research_scopes_unconfigured_brief_warning(monkeypatch):
+    paper = make_material_paper()
+    monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: [paper])
+
+    def fake_brief(*_args, **_kwargs):
+        return {
+            "requested": True,
+            "status": "unconfigured",
+            "target_language": "zh-CN",
+            "style": "brief",
+            "translation_profile": "research_card_cn",
+            "configured": False,
+            "title_zh": "",
+            "cn_flash_180": "",
+            "card_headline": "",
+            "card_bullets": [],
+            "card_tags": [],
+            "translation": "",
+            "warnings": ["llm_not_configured"],
+            "cached": False,
+        }
+
+    monkeypatch.setattr(agent, "_research_brief_translation", fake_brief)
+
+    result = agent.paper_research(topic="材料", date_value="2024-01-02", crawl_if_missing=False)
+
+    assert result["warnings"] == []
+    assert result["translation"]["warnings"] == ["llm_not_configured"]
+    assert result["papers"][0]["brief_translation"]["status"] == "unconfigured"
+    assert "host model" in result["result_contract"]["host_agent_rendering"]
 
 
 def test_paper_research_crawls_when_scope_cache_missing(monkeypatch):
@@ -113,7 +188,7 @@ def test_paper_research_crawls_when_scope_cache_missing(monkeypatch):
         lambda run_id, **_kwargs: {"run_id": run_id, "status": "completed", "total_items": 1, "warnings": []},
     )
 
-    result = agent.paper_research(topic="材料", date_value="2024-01-02")
+    result = agent.paper_research(topic="材料", date_value="2024-01-02", translate_brief=False)
 
     assert result["crawl"]["triggered"] is True
     assert calls["created"]["discipline"] == "materials"
@@ -149,7 +224,7 @@ def test_paper_research_surfaces_empty_crawl_warnings(monkeypatch):
         },
     )
 
-    result = agent.paper_research(topic="材料", date_value="2024-01-02")
+    result = agent.paper_research(topic="材料", date_value="2024-01-02", translate_brief=False)
 
     assert result["crawl"]["triggered"] is True
     assert result["total_count"] == 0
@@ -163,7 +238,12 @@ def test_paper_research_caps_overflow(monkeypatch):
     papers = [make_material_paper(index) for index in range(1, 17)]
     monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: papers)
 
-    result = agent.paper_research(topic="材料", date_value="2024-01-02", crawl_if_missing=False)
+    result = agent.paper_research(
+        topic="材料",
+        date_value="2024-01-02",
+        crawl_if_missing=False,
+        translate_brief=False,
+    )
 
     assert result["returned_count"] == 15
     assert result["total_count"] == 16

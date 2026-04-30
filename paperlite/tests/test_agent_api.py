@@ -108,6 +108,9 @@ def test_agent_research_endpoint(monkeypatch):
             "date": "2026-04-30",
             "limit": 12,
             "crawl_if_missing": True,
+            "translate_brief": False,
+            "target_language": "zh-CN",
+            "translation_profile": "research_card_cn",
         },
     )
 
@@ -119,6 +122,9 @@ def test_agent_research_endpoint(monkeypatch):
     assert calls[0]["date_value"] == "2026-04-30"
     assert calls[0]["limit"] == 12
     assert calls[0]["crawl_if_missing"] is True
+    assert calls[0]["translate_brief"] is False
+    assert calls[0]["target_language"] == "zh-CN"
+    assert calls[0]["translation_profile"] == "research_card_cn"
 
 
 def test_agent_rag_endpoints(monkeypatch):

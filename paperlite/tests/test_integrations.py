@@ -28,8 +28,13 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "title" in result_policy["paper_fields"]
     assert "brief_translation" in result_policy["paper_fields"]
     assert "brief_abstract_or_summary" in result_policy["paper_fields"]
+    assert "paper_research requests the research_card_cn brief translation" in result_policy["brief_translation_default"]
+    assert "use those fields first" in result_policy["brief_translation_default"]
     assert "one-sentence Chinese abstract/summary" in result_policy["brief_translation_default"]
+    assert "not a blocker for MCP-compatible host agents" in result_policy["host_model_fallback"]
+    assert "Use the host model" in result_policy["host_model_fallback"]
     assert "Do not replace the paper list with highlights" in result_policy["do_not"]
+    assert "Do not claim cached papers were lost" in result_policy["do_not"]
     assert manifest["interfaces"]["rest"]["daily"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["rest"]["daily_cache"] == "http://paperlite.local/daily/cache"
     assert manifest["interfaces"]["rest"]["daily_cache_json"] == "http://paperlite.local/daily/cache?format=json"
