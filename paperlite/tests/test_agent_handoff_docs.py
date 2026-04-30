@@ -217,6 +217,19 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "default discipline/topic and preferred sources" in skill_doc
     assert '"抓今日新闻"' in skill_doc
     assert 'paper_research(topic="<default discipline/topic>", source=<default sources>, date="<today>")' in skill_doc
+    assert "## What This Skill Can Do" in skill_doc
+    assert "Install or connect the PaperLite MCP server" in skill_doc
+    assert "Ask for and reuse a default reading scope after setup" in skill_doc
+    assert "List available scholarly sources with `paper_sources`" in skill_doc
+    assert "Produce Chinese brief results that keep the user's requested shape" in skill_doc
+    assert "Chinese title, original English title, DOI/arXiv-style identifier" in skill_doc
+    assert "Run explicit metadata-only RAG with `paper_rag_index` and `paper_ask`" in skill_doc
+    assert "Save selected metadata to Zotero or export RIS/BibTeX" in skill_doc
+    assert "## Example Requests" in skill_doc
+    assert '"以后默认看 AI/ML，优先 arxiv_cs_cl、arxiv_cs_lg"' in skill_doc
+    assert '"brief：中文题目 + English title + 一句话"' in skill_doc
+    assert 'paper_sources(discipline="materials", latest=true, limit=15)' in skill_doc
+    assert "`paper_rag_index` then `paper_ask`" in skill_doc
     assert "Do not tell users to open `/daily` for agent tasks" in skill_doc
     assert "Do not finish with a `/daily` link as the result" in skill_doc
     assert "If the host can fetch GitHub repositories and install MCP servers from natural language" in skill_doc

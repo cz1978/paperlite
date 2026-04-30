@@ -37,6 +37,31 @@ No key is required for browsing, source listing, metadata crawl, ordinary cached
 
 After install or deploy succeeds, do one short onboarding turn before ending the setup task: ask the user for their default reading scope, especially default discipline/topic and preferred sources or source families. If the host supports memory or saved preferences, remember those defaults. Later shorthand such as "抓今日新闻", "抓今日论文", or "看看今天的" should use those saved defaults and call `paper_research(topic="<default discipline/topic>", source=<default sources>, date="<today>")`; if no defaults are saved, ask one concise question instead of doing an all-source crawl.
 
+## What This Skill Can Do
+
+- Install or connect the PaperLite MCP server for local scholarly metadata work.
+- Ask for and reuse a default reading scope after setup: discipline/topic plus preferred sources or source families.
+- List available scholarly sources with `paper_sources` before narrowing a crawl.
+- Crawl or refresh discipline-scoped metadata with `paper_research` or explicit `paper_crawl`; never do hidden all-source crawls.
+- Read cached SQLite metadata with `paper_cache` and answer directly in chat instead of sending the user to `/daily`.
+- Produce Chinese brief results that keep the user's requested shape: Chinese title, original English title, DOI/arXiv-style identifier when present, source, link, and one-sentence Chinese summary.
+- Rank, group, or summarize returned metadata with the host agent model when the user asks for recommendations; PaperLite's own LLM key is not required for that.
+- Run explicit metadata-only RAG with `paper_rag_index` and `paper_ask` when the user asks questions over cached papers.
+- Save selected metadata to Zotero or export RIS/BibTeX through the Zotero tools.
+- Fall back to HTTP JSON endpoints only when MCP is unavailable or the user specifically needs HTTP/API/browser deployment.
+
+## Example Requests
+
+- "把 PaperLite MCP 安装好" -> install/connect MCP, then ask the user for default discipline/topic and preferred sources.
+- "以后默认看 AI/ML，优先 arxiv_cs_cl、arxiv_cs_lg" -> save those defaults when host memory/preferences are available.
+- "抓今日新闻" or "抓今日论文" -> use saved defaults and call `paper_research(topic="<saved default>", source=<saved sources>, date="<today>")`; if defaults are missing, ask one concise setup question.
+- "列一下材料相关来源" -> call `paper_sources(discipline="materials", latest=true, limit=15)` and show source keys/names.
+- "抓今天材料里的电池论文" -> call `paper_research(topic="材料里的电池", date="<today>")` and return the actual paper list.
+- "brief：中文题目 + English title + 一句话" -> keep that exact format and include DOI/arXiv-style identifier when present.
+- "从这批里挑 5 篇最值得看" -> rank returned cached metadata with the host model; use `paper_filter` only if the user explicitly asks for PaperLite LLM filtering.
+- "问这批文章有什么共同趋势" -> use explicit metadata-only RAG (`paper_rag_index` then `paper_ask`) when the user wants an evidence-backed question over cached papers.
+- "把这几篇导出到 Zotero" -> check `paper_zotero_status`, then create Zotero items or export RIS/BibTeX metadata.
+
 ## Connect Through MCP
 
 Use MCP when the host can run a local stdio server:
