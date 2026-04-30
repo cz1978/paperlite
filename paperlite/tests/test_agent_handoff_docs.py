@@ -9,6 +9,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     readme_zh = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+    skill_doc = (ROOT / "SKILL.md").read_text(encoding="utf-8")
     deployment = (ROOT / "DEPLOYMENT.md").read_text(encoding="utf-8")
     env_example = (ROOT / ".env.example").read_text(encoding="utf-8")
     package_readme = (ROOT / "paperlite" / "README.md").read_text(encoding="utf-8")
@@ -30,6 +31,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not wire new work into old" in agents
 
     assert "## At A Glance" in readme
+    assert "local-first paper metadata workbench for researchers" in readme
+    assert "In the first few minutes, you can:" in readme
+    assert "No API key is required for browsing, crawling, filtering, export" in readme
     assert "SQLite-first browsing" in readme
     assert "## Quality Gates" in readme
     assert "## Agent Setup" in readme
@@ -45,6 +49,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Crawl completed with 0 items" in readme
     assert "[中文说明](README.zh-CN.md)" in readme
     assert "Agents should not use `/daily`; that page is the human UI" in readme
+    assert "[`SKILL.md`](SKILL.md)" in readme
     assert "### MCP Mode" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
     assert "python -m pip install -e \".[mcp]\"" in readme
@@ -65,6 +70,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "stdio MCP server" in readme
 
     assert "PaperLite 中文说明" in readme_zh
+    assert "给科研人用的本地优先论文元数据工作台" in readme_zh
+    assert "第一次几分钟就能做" in readme_zh
+    assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
     assert "test -f .env || cp .env.example .env" in readme_zh
     assert "多数人只需要 Docker Compose" in readme_zh
@@ -80,6 +88,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "127.0.0.1:8000" in readme_zh
     assert "## Agent 安装和使用" in readme_zh
     assert "agent 不访问 `/daily` 网页" in readme_zh
+    assert "[`SKILL.md`](SKILL.md)" in readme_zh
     assert "### MCP 模式" in readme_zh
     assert "OpenClaw、QClaw、Hermes" in readme_zh
     assert "安装 PaperLite MCP 依赖" in readme_zh
@@ -100,6 +109,17 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "支持能力发现的 agent 可以读取" in readme_zh
     assert "GET /agent/manifest" in readme_zh
     assert "stdio MCP server" in readme_zh
+
+    assert "name: paperlite" in skill_doc
+    assert "local-first scholarly metadata workbench" in skill_doc
+    assert "python -m paperlite.mcp_server" in skill_doc
+    assert "`paper_sources`" in skill_doc
+    assert "`paper_ask`" in skill_doc
+    assert "GET /daily/cache?format=json" in skill_doc
+    assert "POST /agent/ask" in skill_doc
+    assert "Treat `/daily` as the human web UI" in skill_doc
+    assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
+    assert "DEEPSEEK_API_KEY=" in skill_doc
 
     assert "## Design Shape" in package_readme
     assert "`daily_export.py` owns daily date resolution" in package_readme

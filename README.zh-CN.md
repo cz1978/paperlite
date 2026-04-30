@@ -1,6 +1,16 @@
 # PaperLite 中文说明
 
-PaperLite 是一个自托管的论文元数据工作台。它把已配置的学术来源抓取到本地 SQLite，让你在 `/daily` 里按学科、来源、日期和关键词筛选，做翻译、AI 筛选、元数据 RAG、导出和 Zotero 元数据同步。
+PaperLite 是给科研人用的本地优先论文元数据工作台：每天打开 `/daily`，选学科和来源，把新论文元数据抓到 SQLite，再筛选、翻译、导出或同步到 Zotero。
+
+第一次几分钟就能做：
+
+- 用 Docker Compose 启动；
+- 打开 `/daily`，选一个学科，抓一个小范围来源；
+- 按日期、来源、学科、关键词筛论文；
+- 导出 RIS、BibTeX、Markdown、JSON、JSONL 或 RSS；
+- 可选接入 Zotero、LLM 筛选、翻译和元数据 RAG。
+
+普通浏览、抓取、筛选、导出都不需要 API key。只有你主动使用 LLM、embedding 或 Zotero 同步时，才需要在本地 `.env` 里填密钥。
 
 PaperLite 的边界很明确：不下载 PDF，不读取全文，不在页面加载时自动抓取，不在页面加载时自动调用 LLM 或 RAG。所有外部网络抓取都需要你明确选择学科后手动触发，或通过你配置的计划任务触发。
 
@@ -93,6 +103,8 @@ PAPERLITE_LLM_MODEL=
 ## Agent 安装和使用
 
 PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/daily` 网页，`/daily` 是给人看的。
+
+如果是 skill 型 agent 或技能市场，先读 [`SKILL.md`](SKILL.md)。它是短的 agent 入口说明；README 是给人看的完整说明。
 
 ### MCP 模式
 

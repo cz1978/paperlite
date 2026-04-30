@@ -2,21 +2,21 @@
 
 [中文说明](README.zh-CN.md)
 
-PaperLite is a self-hosted research-noise reducer: it crawls configured scholarly metadata sources into local SQLite, lets you review them in `/daily`, learns a local single-user preference profile from reading actions, and keeps source/catalog operations visible in `/ops`.
+PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-It is the active runtime in this repository. The old app, route chain, publishing workers, and retired reader are not part of the launch surface.
+Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
-## At A Glance
+In the first few minutes, you can:
 
-| Surface | Role | Design line |
-| --- | --- | --- |
-| `/daily` | Research workbench | SQLite-first browsing, filtering, enrichment, translation, export, and Zotero metadata flow. |
-| `/daily/crawl` | Cache writer | Manual and scheduled fetching stay discipline-scoped; page load never crawls. |
-| `/ops` | Operations panel | Doctor checks, run history, schedules, source health, and audit snapshots stay visible. |
-| YAML catalog | Source truth | `sources.yaml`, `endpoints.yaml`, `taxonomy.yaml`, and `profiles.yaml` remain reviewable data files. |
-| SQLite | Local memory | Cache, runs, schedules, library state, saved views, translations, and preference signals are local. |
+- start it with Docker Compose;
+- open `/daily`, choose a discipline, and crawl a small source set;
+- filter papers by date, source, discipline, and keyword;
+- export RIS, BibTeX, Markdown, JSON, JSONL, or RSS;
+- optionally connect Zotero, LLM filtering, translation, or metadata RAG.
 
-PaperLite's bias is explicit work: no silent network calls, no default all-source crawl, no PDF/full-text handling, and no hidden LLM automation.
+No API key is required for browsing, crawling, filtering, export, or the Zotero fallback. Keys are only for optional LLM, embedding, and Zotero sync features.
+
+PaperLite is deliberately metadata-only: no silent network calls on page load, no default all-source crawl, no PDF/full-text handling, and no hidden LLM automation.
 
 ## What It Does
 
@@ -27,6 +27,16 @@ PaperLite's bias is explicit work: no silent network calls, no default all-sourc
 - Related papers: `/daily` details can use the configured embedding provider to fill local cached-paper vectors and recommend similar cached metadata.
 - Source operations: `/ops`, `paperlite doctor`, catalog validation, endpoint health checks, and source content audit help maintain hundreds of sources without checking them one by one.
 - Metadata only: PaperLite never downloads, caches, proxies, uploads, or parses PDFs/full text.
+
+## At A Glance
+
+| Surface | Role | Design line |
+| --- | --- | --- |
+| `/daily` | Research workbench | SQLite-first browsing, filtering, enrichment, translation, export, and Zotero metadata flow. |
+| `/daily/crawl` | Cache writer | Manual and scheduled fetching stay discipline-scoped; page load never crawls. |
+| `/ops` | Operations panel | Doctor checks, run history, schedules, source health, and audit snapshots stay visible. |
+| YAML catalog | Source truth | `sources.yaml`, `endpoints.yaml`, `taxonomy.yaml`, and `profiles.yaml` remain reviewable data files. |
+| SQLite | Local memory | Cache, runs, schedules, library state, saved views, translations, and preference signals are local. |
 
 ## Quick Start
 
@@ -90,6 +100,8 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 ## Agent Setup
 
 PaperLite supports two agent integration modes. Agents should not use `/daily`; that page is the human UI.
+
+For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md). It is the short agent-facing entrypoint; this README is the human-facing guide.
 
 ### MCP Mode
 
