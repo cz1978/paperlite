@@ -106,7 +106,13 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 如果是 skill 型 agent 或技能市场，先读 [`SKILL.md`](SKILL.md)。它是短的 agent 入口说明；README 是给人看的完整说明。
 
-给 agent host 的一行部署命令：
+如果你的 agent 支持从 GitHub 拉取并部署项目，直接说这一句就行：
+
+```text
+https://github.com/cz1978/paperlite/ 把项目拉下来部署了
+```
+
+如果平台要求 shell 命令，再用这条兜底：
 
 ```bash
 git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build

@@ -50,7 +50,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[中文说明](README.zh-CN.md)" in readme
     assert "Agents should not use `/daily`; that page is the human UI" in readme
     assert "[`SKILL.md`](SKILL.md)" in readme
-    assert "One-line deploy for an agent host" in readme
+    assert "this prompt is enough" in readme
+    assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in readme
+    assert "Fallback shell deploy command" in readme
     assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in readme
     assert "### MCP Mode" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
@@ -93,7 +95,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "## Agent 安装和使用" in readme_zh
     assert "agent 不访问 `/daily` 网页" in readme_zh
     assert "[`SKILL.md`](SKILL.md)" in readme_zh
-    assert "给 agent host 的一行部署命令" in readme_zh
+    assert "直接说这一句就行" in readme_zh
+    assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in readme_zh
+    assert "如果平台要求 shell 命令，再用这条兜底" in readme_zh
     assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in readme_zh
     assert "### MCP 模式" in readme_zh
     assert "OpenClaw、QClaw、Hermes" in readme_zh
@@ -118,7 +122,9 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "name: paperlite" in skill_doc
     assert "local-first scholarly metadata workbench" in skill_doc
-    assert "One-line deploy from the GitHub repository" in skill_doc
+    assert "If the host can fetch and deploy GitHub repositories" in skill_doc
+    assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in skill_doc
+    assert "Fallback shell deploy command" in skill_doc
     assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in skill_doc
     assert "One-line MCP install from the GitHub repository" in skill_doc
     assert 'git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"' in skill_doc

@@ -9,7 +9,13 @@ PaperLite helps a research agent work with paper metadata that is stored locally
 
 ## Start PaperLite
 
-One-line deploy from the GitHub repository:
+If the host can fetch and deploy GitHub repositories, this prompt is enough:
+
+```text
+https://github.com/cz1978/paperlite/ 把项目拉下来部署了
+```
+
+Fallback shell deploy command:
 
 ```bash
 git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
