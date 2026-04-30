@@ -35,6 +35,8 @@ git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && (
 
 No key is required for browsing, source listing, metadata crawl, ordinary cached-result filtering, or export. Put optional LLM, embedding, or Zotero credentials only in the local `.env`.
 
+After install or deploy succeeds, do one short onboarding turn before ending the setup task: ask the user for their default reading scope, especially default discipline/topic and preferred sources or source families. If the host supports memory or saved preferences, remember those defaults. Later shorthand such as "抓今日新闻", "抓今日论文", or "看看今天的" should use those saved defaults and call `paper_research(topic="<default discipline/topic>", source=<default sources>, date="<today>")`; if no defaults are saved, ask one concise question instead of doing an all-source crawl.
+
 ## Connect Through MCP
 
 Use MCP when the host can run a local stdio server:
@@ -116,11 +118,13 @@ Useful endpoints:
 ### Default research workflow
 
 1. Install/connect through MCP unless the user specifically needs HTTP or `/daily`.
-2. Use `paper_research(topic="<topic>", date="<today>")` for ordinary requests like "看一下今天关于材料的文章".
-3. If the returned `scope.discipline` is wrong or unresolved, ask one clarifying question or retry with explicit `discipline`.
-4. If `papers` is non-empty, follow the Result Output Contract: list the actual papers first, then add a short synthesis.
-5. If `warnings` or `crawl.source_warnings` are present, report them directly.
-6. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback, source-specific requests, or troubleshooting.
+2. After install/deploy, ask for default discipline/topic and preferred sources so future shorthand can be scoped.
+3. Use `paper_research(topic="<topic>", date="<today>")` for ordinary requests like "看一下今天关于材料的文章".
+4. For shorthand like "抓今日新闻" or "抓今日论文", use the saved default discipline/topic and sources; if none exist, ask one concise setup question.
+5. If the returned `scope.discipline` is wrong or unresolved, ask one clarifying question or retry with explicit `discipline`.
+6. If `papers` is non-empty, follow the Result Output Contract: list the actual papers first, then add a short synthesis.
+7. If `warnings` or `crawl.source_warnings` are present, report them directly.
+8. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback, source-specific requests, or troubleshooting.
 
 ### What to do after crawling
 

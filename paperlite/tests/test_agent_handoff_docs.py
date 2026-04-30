@@ -206,6 +206,10 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`/daily/crawl` and `/daily/cache` are JSON API endpoints" in skill_doc
     assert "把 PaperLite MCP 安装好" in skill_doc
     assert "Use Docker only when the host needs HTTP endpoints or a human browser UI" in skill_doc
+    assert "After install or deploy succeeds" in skill_doc
+    assert "default discipline/topic and preferred sources" in skill_doc
+    assert '"抓今日新闻"' in skill_doc
+    assert 'paper_research(topic="<default discipline/topic>", source=<default sources>, date="<today>")' in skill_doc
     assert "Do not tell users to open `/daily` for agent tasks" in skill_doc
     assert "Do not finish with a `/daily` link as the result" in skill_doc
     assert "If the host can fetch GitHub repositories and install MCP servers from natural language" in skill_doc
@@ -223,6 +227,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_cache`" in skill_doc
     assert "`paper_zotero_export`" in skill_doc
     assert "Default research workflow" in skill_doc
+    assert "After install/deploy, ask for default discipline/topic and preferred sources" in skill_doc
+    assert "For shorthand like \"抓今日新闻\" or \"抓今日论文\"" in skill_doc
     assert "The user's current prompt overrides these defaults" in skill_doc
     assert "`paper_research` and `paper_agent_context` return the same rules in `result_contract`" in skill_doc
     assert "Start the answer with the scope used" in skill_doc
