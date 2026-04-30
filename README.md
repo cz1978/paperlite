@@ -1,5 +1,7 @@
 # PaperLite
 
+[中文说明](README.zh-CN.md)
+
 PaperLite is a self-hosted research-noise reducer: it crawls configured scholarly metadata sources into local SQLite, lets you review them in `/daily`, learns a local single-user preference profile from reading actions, and keeps source/catalog operations visible in `/ops`.
 
 It is the active runtime in this repository. The old app, route chain, publishing workers, and retired reader are not part of the launch surface.

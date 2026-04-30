@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_agent_handoff_docs_cover_current_runtime():
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    readme_zh = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
     deployment = (ROOT / "DEPLOYMENT.md").read_text(encoding="utf-8")
     env_example = (ROOT / ".env.example").read_text(encoding="utf-8")
     package_readme = (ROOT / "paperlite" / "README.md").read_text(encoding="utf-8")
@@ -40,6 +41,18 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Click `学科：全部`" in readme
     assert "Click `抓取`" in readme
     assert "Crawl completed with 0 items" in readme
+    assert "[中文说明](README.zh-CN.md)" in readme
+
+    assert "PaperLite 中文说明" in readme_zh
+    assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
+    assert "test -f .env || cp .env.example .env" in readme_zh
+    assert "if (!(Test-Path .env)) { Copy-Item .env.example .env }" in readme_zh
+    assert "点 `学科：全部`" in readme_zh
+    assert "点 `抓取`" in readme_zh
+    assert "不要把真实 `.env` 推到 GitHub" in readme_zh
+    assert "不下载 PDF" in readme_zh
+    assert "不在页面加载时自动调用 LLM 或 RAG" in readme_zh
+    assert "127.0.0.1:8000" in readme_zh
 
     assert "## Design Shape" in package_readme
     assert "`daily_export.py` owns daily date resolution" in package_readme
