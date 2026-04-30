@@ -38,7 +38,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Related cached papers" in readme
     assert "python -m paperlite.cli sources --format markdown" in readme
     assert "test -f .env || cp .env.example .env" in readme
-    assert "if (!(Test-Path .env)) { Copy-Item .env.example .env }" in readme
+    assert "Most users only need Docker Compose" in readme
+    assert "do not overwrite an existing `.env`" in readme
     assert "Click `学科：全部`" in readme
     assert "Click `抓取`" in readme
     assert "Crawl completed with 0 items" in readme
@@ -66,7 +67,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "PaperLite 中文说明" in readme_zh
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
     assert "test -f .env || cp .env.example .env" in readme_zh
-    assert "if (!(Test-Path .env)) { Copy-Item .env.example .env }" in readme_zh
+    assert "多数人只需要 Docker Compose" in readme_zh
+    assert "手动把 `.env.example` 复制成 `.env` 一次" in readme_zh
     assert "点 `学科：全部`" in readme_zh
     assert "点 `抓取`" in readme_zh
     assert "不要把真实 `.env` 推到 GitHub" in readme_zh
@@ -129,7 +131,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Docker Compose" in deployment
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in deployment
     assert "test -f .env || cp .env.example .env" in deployment
-    assert "if (!(Test-Path .env)) { Copy-Item .env.example .env }" in deployment
+    assert "create `.env` from `.env.example` once" in deployment
     assert "docker compose up -d --build" in deployment
     assert "systemd" in deployment
     assert "PAPERLITE_DB_PATH" in deployment

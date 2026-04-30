@@ -30,9 +30,7 @@ PaperLite's bias is explicit work: no silent network calls, no default all-sourc
 
 ## Quick Start
 
-From GitHub with Docker Compose:
-
-Linux/macOS:
+Most users only need Docker Compose:
 
 ```bash
 git clone https://github.com/cz1978/paperlite.git paperlite
@@ -41,16 +39,7 @@ test -f .env || cp .env.example .env
 docker compose up -d --build
 ```
 
-PowerShell:
-
-```powershell
-git clone https://github.com/cz1978/paperlite.git paperlite
-cd paperlite
-if (!(Test-Path .env)) { Copy-Item .env.example .env }
-docker compose up -d --build
-```
-
-Edit `.env` before the first start if you want LLM, Zotero, or training-data export settings.
+Edit `.env` only if you want optional LLM, embedding, Zotero, or training-data export settings. If you are on Windows, create `.env` from `.env.example` once and keep the same Docker command; do not overwrite an existing `.env`.
 
 Open `http://127.0.0.1:8000/daily`. If you change `.env` after PaperLite is already running, run `docker compose up -d` again so the container receives the new values.
 

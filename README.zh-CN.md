@@ -6,23 +6,12 @@ PaperLite 的边界很明确：不下载 PDF，不读取全文，不在页面加
 
 ## 快速开始
 
-Docker Compose 是最省心的方式。
-
-Linux/macOS:
+多数人只需要 Docker Compose：
 
 ```bash
 git clone https://github.com/cz1978/paperlite.git paperlite
 cd paperlite
 test -f .env || cp .env.example .env
-docker compose up -d --build
-```
-
-PowerShell:
-
-```powershell
-git clone https://github.com/cz1978/paperlite.git paperlite
-cd paperlite
-if (!(Test-Path .env)) { Copy-Item .env.example .env }
 docker compose up -d --build
 ```
 
@@ -32,7 +21,7 @@ docker compose up -d --build
 http://127.0.0.1:8000/daily
 ```
 
-如果你已经有 `.env`，不要覆盖。真实 API key 只放在本地 `.env`，不要提交到 GitHub。
+如果你在 Windows 上，就手动把 `.env.example` 复制成 `.env` 一次，然后照样运行 `docker compose up -d --build`。如果你已经有 `.env`，不要覆盖。真实 API key 只放在本地 `.env`，不要提交到 GitHub。
 
 ## 第一次抓取
 
