@@ -103,14 +103,25 @@ PaperLite supports two agent integration modes. Agents should not use `/daily`; 
 
 For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md). It is the short agent-facing entrypoint; this README is the human-facing guide.
 
+One-line deploy for an agent host:
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
+```
+
 ### MCP Mode
 
 Use this when OpenClaw, QClaw, Hermes, or another agent can run stdio MCP servers.
 
-Install PaperLite with the MCP extra:
+One-line MCP install:
 
 ```bash
-git clone https://github.com/cz1978/paperlite.git paperlite
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"
+```
+
+Or, from an existing checkout:
+
+```bash
 cd paperlite
 python -m pip install -e ".[mcp]"
 ```

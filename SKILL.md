@@ -9,6 +9,12 @@ PaperLite helps a research agent work with paper metadata that is stored locally
 
 ## Start PaperLite
 
+One-line deploy from the GitHub repository:
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
+```
+
 Prefer Docker Compose for a fresh checkout:
 
 ```bash
@@ -21,6 +27,12 @@ docker compose up -d --build
 No key is required for browsing, source listing, metadata crawl, filtering, or export. Put optional LLM, embedding, or Zotero credentials only in the local `.env`.
 
 ## Connect Through MCP
+
+One-line MCP install from the GitHub repository:
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"
+```
 
 Use MCP when the host can run a stdio server:
 

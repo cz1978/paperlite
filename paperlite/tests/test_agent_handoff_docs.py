@@ -50,8 +50,12 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[中文说明](README.zh-CN.md)" in readme
     assert "Agents should not use `/daily`; that page is the human UI" in readme
     assert "[`SKILL.md`](SKILL.md)" in readme
+    assert "One-line deploy for an agent host" in readme
+    assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in readme
     assert "### MCP Mode" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
+    assert "One-line MCP install" in readme
+    assert 'git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"' in readme
     assert "python -m pip install -e \".[mcp]\"" in readme
     assert '"command": "python"' in readme
     assert '"args": ["-m", "paperlite.mcp_server"]' in readme
@@ -89,9 +93,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "## Agent 安装和使用" in readme_zh
     assert "agent 不访问 `/daily` 网页" in readme_zh
     assert "[`SKILL.md`](SKILL.md)" in readme_zh
+    assert "给 agent host 的一行部署命令" in readme_zh
+    assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in readme_zh
     assert "### MCP 模式" in readme_zh
     assert "OpenClaw、QClaw、Hermes" in readme_zh
-    assert "安装 PaperLite MCP 依赖" in readme_zh
+    assert "一行安装 MCP 依赖" in readme_zh
     assert '"command": "python"' in readme_zh
     assert '"args": ["-m", "paperlite.mcp_server"]' in readme_zh
     assert '"cwd": "<repo>/paperlite"' in readme_zh
@@ -112,6 +118,10 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "name: paperlite" in skill_doc
     assert "local-first scholarly metadata workbench" in skill_doc
+    assert "One-line deploy from the GitHub repository" in skill_doc
+    assert "([ -f .env ] || cp .env.example .env) && docker compose up -d --build" in skill_doc
+    assert "One-line MCP install from the GitHub repository" in skill_doc
+    assert 'git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"' in skill_doc
     assert "python -m paperlite.mcp_server" in skill_doc
     assert "`paper_sources`" in skill_doc
     assert "`paper_ask`" in skill_doc

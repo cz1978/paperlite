@@ -106,14 +106,25 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 如果是 skill 型 agent 或技能市场，先读 [`SKILL.md`](SKILL.md)。它是短的 agent 入口说明；README 是给人看的完整说明。
 
+给 agent host 的一行部署命令：
+
+```bash
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && ([ -f .env ] || cp .env.example .env) && docker compose up -d --build
+```
+
 ### MCP 模式
 
 OpenClaw、QClaw、Hermes 或其他 agent 支持 stdio MCP server 时，用这个方式。
 
-安装 PaperLite MCP 依赖：
+一行安装 MCP 依赖：
 
 ```bash
-git clone https://github.com/cz1978/paperlite.git paperlite
+git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"
+```
+
+如果已经 clone 过：
+
+```bash
 cd paperlite
 python -m pip install -e ".[mcp]"
 ```
