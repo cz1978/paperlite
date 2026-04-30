@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 - 2026-04-30
+
+- Tightened the agent skill instructions so agents return papers and summaries directly instead of linking users to `/daily`.
+- Changed the agent manifest `reader` interface to JSON cache output and moved the browser workbench to `human_ui`.
+- Added manifest and docs guardrails for the no-frontend agent result policy.
+
 ## 0.2.1 - 2026-04-30
 
 - Added agent-first MCP crawl/cache tools: `paper_crawl`, `paper_crawl_status`, and `paper_cache`.

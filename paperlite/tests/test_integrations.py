@@ -9,11 +9,13 @@ def test_agent_manifest_declares_reserved_interfaces():
     manifest = agent_manifest("http://paperlite.local")
 
     assert manifest["name"] == "paperlite"
-    assert manifest["version"] == "0.2.1"
-    assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily"
+    assert manifest["version"] == "0.2.2"
+    assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily/cache?format=json"
+    assert manifest["interfaces"]["human_ui"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_agent_context"
     assert manifest["interfaces"]["agent_default"]["rest"] == "http://paperlite.local/agent/context"
-    assert "/daily is the human web UI" in manifest["interfaces"]["agent_default"]["note"]
+    assert "Return results in chat/tool output" in manifest["interfaces"]["agent_default"]["note"]
+    assert "Do not use /daily as the completion link" in manifest["interfaces"]["agent_result_policy"]["do_not"]
     assert manifest["interfaces"]["rest"]["daily"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["rest"]["daily_cache"] == "http://paperlite.local/daily/cache"
     assert manifest["interfaces"]["rest"]["daily_cache_json"] == "http://paperlite.local/daily/cache?format=json"

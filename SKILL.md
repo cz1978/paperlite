@@ -9,7 +9,7 @@ PaperLite helps a research agent work with paper metadata that is stored locally
 
 Default agent path: use `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent use its own model. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys.
 
-Do not tell users to open `/daily` for agent tasks. Use the tools below.
+Do not tell users to open `/daily` for agent tasks. Do not finish with a `/daily` link as the result. Use the tools below and answer with the actual papers, counts, source keys, warnings, and next actions.
 
 ## Start PaperLite
 
@@ -95,7 +95,6 @@ Useful endpoints:
 - `GET /daily/cache?format=json`
 - `GET /daily/export?format=ris|bibtex|markdown|json|jsonl|rss`
 - `GET /daily/related`
-- `POST /daily/crawl`
 - `POST /agent/filter`
 - `POST /agent/translate`
 - `POST /agent/rag/index`
@@ -111,7 +110,8 @@ Useful endpoints:
 3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=20, run_now=true)`.
 4. If the run is still queued/running, call `paper_crawl_status(run_id="<run_id>")`.
 5. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=20)`.
-6. Use your own host model to summarize, rank, or translate the returned papers. For a ready prompt, call `paper_agent_context(action="ask", question="Summarize today's energy papers", discipline="energy", source="<source_key>", q="energy")`.
+6. Reply in chat with the actual selected papers: title, source, date, DOI/URL when present, and why each matched. Do not send the user to `/daily` for the list.
+7. Use your own host model to summarize, rank, or translate the returned papers. For a ready prompt, call `paper_agent_context(action="ask", question="Summarize today's energy papers", discipline="energy", source="<source_key>", q="energy")`.
 
 ### Use HTTP instead of MCP
 
@@ -125,6 +125,8 @@ Useful endpoints:
 
 - Treat `/daily` as the human web UI, not an agent control surface.
 - Use MCP tools or JSON endpoints for agent actions.
+- Return task results directly in the conversation. Mention `/daily` only if the user explicitly asks for the human browser interface.
+- For long result sets, show the top items and say how many more are in `paper_cache`; offer `daily/export` formats instead of a frontend link.
 - Prefer `paper_agent_context` or `/agent/context` when OpenClaw, QClaw, Hermes, or another host agent should use its own model.
 - Keep crawls discipline-scoped; do not default to all-source crawls.
 - Do not crawl on page load or without explicit user intent.

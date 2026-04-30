@@ -83,15 +83,20 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
-            "reader": f"{root}/daily",
+            "reader": f"{root}/daily/cache?format=json",
+            "human_ui": f"{root}/daily",
             "agent_default": {
                 "mcp_tool": "paper_agent_context",
                 "rest": f"{root}/agent/context",
                 "model_source": "agent_host",
-                "note": "Use this for host-agent model workflows. /daily is the human web UI.",
+                "note": "Use this for host-agent model workflows. Return results in chat/tool output; /daily is only the human web UI.",
+            },
+            "agent_result_policy": {
+                "default": "Return summaries, selected papers, and source/run status directly from MCP tools or JSON endpoints.",
+                "do_not": "Do not use /daily as the completion link or tell agents to inspect the web UI unless the user explicitly asks for the human interface.",
             },
             "rest": rest,
             "mcp": {
