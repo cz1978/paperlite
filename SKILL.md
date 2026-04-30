@@ -9,6 +9,8 @@ PaperLite helps a research agent work with paper metadata that is stored locally
 
 Default agent path: use `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent use its own model. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys.
 
+Do not tell users to open `/daily` for agent tasks. Use the tools below.
+
 ## Start PaperLite
 
 If the host can fetch and deploy GitHub repositories, this prompt is enough:
@@ -32,7 +34,7 @@ test -f .env || cp .env.example .env
 docker compose up -d --build
 ```
 
-No key is required for browsing, source listing, metadata crawl, filtering, or export. Put optional LLM, embedding, or Zotero credentials only in the local `.env`.
+No key is required for browsing, source listing, metadata crawl, ordinary cached-result filtering, or export. Put optional LLM, embedding, or Zotero credentials only in the local `.env`.
 
 ## Connect Through MCP
 
@@ -62,8 +64,11 @@ python -m paperlite.mcp_server
 
 Useful tools:
 
+- `paper_sources` - list available sources; for crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit`.
+- `paper_crawl` - explicitly crawl a discipline/source/date range and write metadata to SQLite.
+- `paper_crawl_status` - inspect a crawl run.
+- `paper_cache` - read cached metadata from SQLite after a crawl.
 - `paper_agent_context` - return metadata-backed messages for the host agent model; no PaperLite LLM key needed.
-- `paper_sources` - list available sources.
 - `paper_rag_index` - explicitly index cached metadata for a scoped query.
 - `paper_ask` - ask questions over indexed cached metadata.
 - `paper_filter` - classify cached papers with the configured LLM.
@@ -85,6 +90,8 @@ Useful endpoints:
 
 - `POST /agent/context`
 - `GET /sources`
+- `POST /daily/crawl`
+- `GET /daily/crawl/{run_id}`
 - `GET /daily/cache?format=json`
 - `GET /daily/export?format=ris|bibtex|markdown|json|jsonl|rss`
 - `GET /daily/related`
@@ -95,6 +102,25 @@ Useful endpoints:
 - `POST /agent/ask`
 - `GET /agent/manifest`
 
+## Agent Recipes
+
+### Find and crawl today's energy papers
+
+1. Call `paper_sources(discipline="energy", q="energy", latest=true, limit=20)`.
+2. Pick one or a few source keys from `sources[*].name`, for example `nature_nature_energy_aop` when present.
+3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=20, run_now=true)`.
+4. If the run is still queued/running, call `paper_crawl_status(run_id="<run_id>")`.
+5. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=20)`.
+6. Use your own host model to summarize, rank, or translate the returned papers. For a ready prompt, call `paper_agent_context(action="ask", question="Summarize today's energy papers", discipline="energy", source="<source_key>", q="energy")`.
+
+### Use HTTP instead of MCP
+
+1. `GET /sources?discipline=Energy&format=json`
+2. `POST /daily/crawl` with `{"discipline":"energy","source":"<source_key>","limit_per_source":20}`
+3. `GET /daily/crawl/{run_id}` until done.
+4. `GET /daily/cache?format=json&discipline=energy&source=<source_key>`
+5. `POST /agent/context` when the host agent should use its own model.
+
 ## Operating Rules
 
 - Treat `/daily` as the human web UI, not an agent control surface.
@@ -104,7 +130,7 @@ Useful endpoints:
 - Do not crawl on page load or without explicit user intent.
 - Do not download, cache, upload, or parse PDFs or full text.
 - Do not auto-index or auto-ask RAG; RAG must be explicit and metadata-only.
-- Prefer narrow filters: `date`, `date_from`, `date_to`, `discipline`, `source`, and `q`.
+- Prefer narrow filters: `date`, `date_from`, `date_to`, `discipline`, `source`, `q`, and `latest=true` when choosing crawl sources.
 - If a crawl returns zero items, inspect `/ops/status` or source warnings before assuming failure.
 
 ## Optional Credentials

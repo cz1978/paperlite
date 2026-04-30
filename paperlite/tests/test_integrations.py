@@ -9,7 +9,7 @@ def test_agent_manifest_declares_reserved_interfaces():
     manifest = agent_manifest("http://paperlite.local")
 
     assert manifest["name"] == "paperlite"
-    assert manifest["version"] == "0.2.0"
+    assert manifest["version"] == "0.2.1"
     assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_agent_context"
     assert manifest["interfaces"]["agent_default"]["rest"] == "http://paperlite.local/agent/context"
@@ -58,6 +58,9 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "zotero_metadata_import" in manifest["capabilities"]
     assert "paper_rank" not in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_latest" not in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_crawl" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_crawl_status" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_cache" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_agent_context" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_filter" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_ask" in manifest["interfaces"]["mcp"]["tools"]
@@ -98,6 +101,8 @@ def test_mcp_agent_manifest_tool():
     assert manifest["interfaces"]["mcp"]["command"] == "python -m paperlite.mcp_server"
     assert "Hermes-style agents" in manifest["compatible_with"]
     assert "paper_translate" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_crawl" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_cache" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_agent_context" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_translation_profiles" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_filter" in manifest["interfaces"]["mcp"]["tools"]

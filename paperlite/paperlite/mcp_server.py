@@ -8,10 +8,13 @@ from paperlite.agent import paper_explain as run_paper_explain
 from paperlite.agent import paper_rag_index as run_paper_rag_index
 from paperlite.ai_filter import DEFAULT_AI_FILTER_QUERY, filter_paper as run_filter_paper
 from paperlite.core import enrich_paper
+from paperlite.daily_crawl import create_daily_crawl as run_create_daily_crawl
+from paperlite.daily_crawl import run_daily_crawl
+from paperlite.daily_export import daily_cache_export_papers, daily_cache_payload, daily_date_range
 from paperlite.integrations import agent_manifest
 from paperlite.models import Paper
 from paperlite.registry import list_sources
-from paperlite.storage import get_relevant_preference_profile, record_preference_query
+from paperlite.storage import get_crawl_run, get_relevant_preference_profile, record_preference_query
 from paperlite.translation import translate_paper as run_translate_paper
 from paperlite.translation_profiles import list_translation_profiles as run_list_translation_profiles
 from paperlite.zotero import (
@@ -27,8 +30,167 @@ def paper_enrich(paper: dict, sources: str | None = None) -> dict:
     return enrich_paper(parsed, sources).to_dict()
 
 
-def paper_sources() -> list[dict]:
-    return list_sources()
+def _matches_text(item: dict[str, Any], query: str | None) -> bool:
+    q = str(query or "").strip().lower()
+    if not q:
+        return True
+    haystack = " ".join(
+        str(value)
+        for value in [
+            item.get("name"),
+            item.get("display_name"),
+            item.get("source_type"),
+            item.get("source_kind_label"),
+            item.get("primary_area_label"),
+            item.get("primary_discipline_label"),
+            *(item.get("discipline_keys") or []),
+            *(item.get("canonical_disciplines") or []),
+            *(item.get("topics") or []),
+        ]
+        if value
+    ).lower()
+    return q in haystack
+
+
+def _bounded_limit(value: int | str | None, *, default: int = 50, maximum: int = 500) -> int:
+    if value in (None, ""):
+        return default
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return default
+    return max(1, min(maximum, parsed))
+
+
+def _as_bool(value: bool | str | None, *, default: bool = True) -> bool:
+    if value is None or value == "":
+        return default
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def paper_sources(
+    discipline: str | None = None,
+    area: str | None = None,
+    kind: str | None = None,
+    core: bool | str | None = None,
+    health: str | None = None,
+    latest: bool | str | None = None,
+    q: str | None = None,
+    limit: int = 50,
+) -> dict[str, Any]:
+    items = [
+        item
+        for item in list_sources(discipline=discipline, area=area, kind=kind, core=core, health=health)
+        if _matches_text(item, q)
+    ]
+    if latest not in (None, ""):
+        wanted_latest = _as_bool(latest)
+        items = [item for item in items if bool(item.get("supports_latest")) is wanted_latest]
+    selected_limit = _bounded_limit(limit)
+    return {
+        "count": len(items),
+        "returned": min(len(items), selected_limit),
+        "truncated": len(items) > selected_limit,
+        "sources": items[:selected_limit],
+        "filters": {
+            "discipline": discipline,
+            "area": area,
+            "kind": kind,
+            "core": core,
+            "health": health,
+            "latest": latest,
+            "q": q,
+            "limit": selected_limit,
+        },
+    }
+
+
+def paper_crawl(
+    discipline: str,
+    source: str | list[str] | None = None,
+    date: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    limit_per_source: int = 20,
+    run_now: bool | str = True,
+) -> dict[str, Any]:
+    try:
+        days = daily_date_range(date_value=date, date_from=date_from, date_to=date_to)
+        run = run_create_daily_crawl(
+            date_from=days[0],
+            date_to=days[-1],
+            discipline=discipline,
+            source=source,
+            limit_per_source=_bounded_limit(limit_per_source, default=20),
+        )
+    except ValueError as exc:
+        return {
+            "status": "error",
+            "error": str(exc),
+            "discipline": discipline,
+            "source": source,
+        }
+    if _as_bool(run_now) and not run.get("reused") and run.get("status") == "queued":
+        run_daily_crawl(str(run["run_id"]))
+        return get_crawl_run(str(run["run_id"])) or run
+    return run
+
+
+def paper_crawl_status(run_id: str) -> dict[str, Any]:
+    run = get_crawl_run(str(run_id or "").strip())
+    if run is None:
+        return {"found": False, "run_id": run_id, "error": "crawl run not found"}
+    return {"found": True, **run}
+
+
+def paper_cache(
+    date: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    discipline: str | None = None,
+    source: str | list[str] | None = None,
+    q: str | None = None,
+    limit_per_source: int = 50,
+) -> dict[str, Any]:
+    try:
+        days = daily_date_range(date_value=date, date_from=date_from, date_to=date_to)
+    except ValueError as exc:
+        return {
+            "status": "error",
+            "error": str(exc),
+            "date": date,
+            "date_from": date_from,
+            "date_to": date_to,
+        }
+    selected_limit = _bounded_limit(limit_per_source)
+    if q:
+        papers = daily_cache_export_papers(
+            date_from=days[0],
+            date_to=days[-1],
+            discipline=discipline,
+            source=source,
+            q=q,
+            limit_per_source=selected_limit,
+        )
+        return {
+            "date_from": days[0],
+            "date_to": days[-1],
+            "discipline": discipline,
+            "source": source,
+            "q": q,
+            "limit_per_source": selected_limit,
+            "count": len(papers),
+            "papers": [paper.to_dict() for paper in papers],
+        }
+    return daily_cache_payload(
+        date_from=days[0],
+        date_to=days[-1],
+        discipline=discipline,
+        source=source,
+        limit_per_source=selected_limit,
+    )
 
 
 def paper_explain(
@@ -191,6 +353,9 @@ def build_mcp():
     mcp = FastMCP("paperlite")
     mcp.tool(name="paper_enrich")(paper_enrich)
     mcp.tool(name="paper_sources")(paper_sources)
+    mcp.tool(name="paper_crawl")(paper_crawl)
+    mcp.tool(name="paper_crawl_status")(paper_crawl_status)
+    mcp.tool(name="paper_cache")(paper_cache)
     mcp.tool(name="paper_explain")(paper_explain)
     mcp.tool(name="paper_agent_context")(paper_agent_context)
     mcp.tool(name="paper_translate")(paper_translate)

@@ -33,7 +33,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "## At A Glance" in readme
     assert "local-first paper metadata workbench for researchers" in readme
-    assert "Current release: `0.2.0`" in readme
+    assert "Current release: `0.2.1`" in readme
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
@@ -55,6 +55,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[`SKILL.md`](SKILL.md)" in readme
     assert "Default agent workflow: call `paper_agent_context` or `POST /agent/context`" in readme
     assert "host agent's own model" in readme
+    assert "Agents should not open `/daily` to crawl" in readme
+    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in readme
+    assert "`paper_crawl`" in readme
+    assert "`paper_crawl_status`" in readme
+    assert "`paper_cache`" in readme
     assert "this prompt is enough" in readme
     assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in readme
     assert "Fallback shell deploy command" in readme
@@ -84,7 +89,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "PaperLite 中文说明" in readme_zh
     assert "给科研人用的本地优先论文元数据工作台" in readme_zh
-    assert "当前版本：`0.2.0`" in readme_zh
+    assert "当前版本：`0.2.1`" in readme_zh
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
@@ -106,6 +111,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[`SKILL.md`](SKILL.md)" in readme_zh
     assert "默认 agent 用法：调用 `paper_agent_context` 或 `POST /agent/context`" in readme_zh
     assert "宿主 agent 用自己的大模型生成答案" in readme_zh
+    assert "agent 抓取不要打开 `/daily`" in readme_zh
+    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in readme_zh
+    assert "`paper_crawl`" in readme_zh
+    assert "`paper_crawl_status`" in readme_zh
+    assert "`paper_cache`" in readme_zh
     assert "直接说这一句就行" in readme_zh
     assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in readme_zh
     assert "如果平台要求 shell 命令，再用这条兜底" in readme_zh
@@ -137,6 +147,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "local-first scholarly metadata workbench" in skill_doc
     assert "Default agent path: use `paper_agent_context` or `POST /agent/context`" in skill_doc
     assert "PaperLite's built-in LLM endpoints are optional fallback tools" in skill_doc
+    assert "Do not tell users to open `/daily` for agent tasks" in skill_doc
     assert "If the host can fetch and deploy GitHub repositories" in skill_doc
     assert "https://github.com/cz1978/paperlite/ 把项目拉下来部署了" in skill_doc
     assert "Fallback shell deploy command" in skill_doc
@@ -145,6 +156,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert 'git clone https://github.com/cz1978/paperlite.git paperlite && cd paperlite && python -m pip install -e ".[mcp]"' in skill_doc
     assert "python -m paperlite.mcp_server" in skill_doc
     assert "`paper_agent_context`" in skill_doc
+    assert "`paper_crawl`" in skill_doc
+    assert "`paper_crawl_status`" in skill_doc
+    assert "`paper_cache`" in skill_doc
+    assert "Find and crawl today's energy papers" in skill_doc
+    assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in skill_doc
     assert "POST /agent/context" in skill_doc
     assert "`paper_sources`" in skill_doc
     assert "`paper_ask`" in skill_doc
@@ -154,6 +170,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
     assert "DEEPSEEK_API_KEY=" in skill_doc
 
+    assert "## 0.2.1 - 2026-04-30" in changelog
+    assert "agent-first MCP crawl/cache tools" in changelog
     assert "## 0.2.0 - 2026-04-30" in changelog
     assert "host-agent context mode" in changelog
     assert "## 0.1.0 - 2026-04-30" in changelog

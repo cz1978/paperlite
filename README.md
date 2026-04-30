@@ -4,7 +4,7 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.2.1`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
@@ -107,6 +107,8 @@ For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md
 
 Default agent workflow: call `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent's own model produce the answer. PaperLite's built-in LLM endpoints are optional fallback tools only when `.env` has LLM keys.
 
+Agents should not open `/daily` to crawl. Use `paper_sources(discipline="energy", q="energy", latest=true, limit=20)` to find crawl-capable source keys, `paper_crawl(...)` to fetch metadata, `paper_crawl_status(...)` to inspect the run, `paper_cache(...)` to read SQLite results, and `paper_agent_context(...)` to prepare messages for the host model.
+
 If your agent can fetch and deploy GitHub repositories, this prompt is enough:
 
 ```text
@@ -152,8 +154,11 @@ Add this MCP server to your agent config:
 
 Useful MCP tools:
 
-- `paper_agent_context`
 - `paper_sources`
+- `paper_crawl`
+- `paper_crawl_status`
+- `paper_cache`
+- `paper_agent_context`
 - `paper_rag_index`
 - `paper_ask`
 - `paper_filter`
@@ -180,8 +185,10 @@ If the agent runs elsewhere, use your public reverse-proxy URL instead, for exam
 Useful JSON endpoints:
 
 - `POST /agent/context`
-- `GET /daily/cache?format=json`
 - `GET /sources`
+- `POST /daily/crawl`
+- `GET /daily/crawl/{run_id}`
+- `GET /daily/cache?format=json`
 - `POST /agent/rag/index`
 - `POST /agent/ask`
 - `POST /agent/filter`

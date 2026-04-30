@@ -5,7 +5,23 @@ from paperlite import mcp_server
 def test_mcp_sources_returns_capabilities():
     result = mcp_server.paper_sources()
 
-    assert any(item["name"] == "openalex" and "enrich" in item["capabilities"] for item in result)
+    assert result["count"] >= result["returned"] > 0
+    assert len(result["sources"]) <= 50
+    assert isinstance(result["truncated"], bool)
+
+    openalex = mcp_server.paper_sources(q="openalex", limit=10)
+    assert any(item["name"] == "openalex" and "enrich" in item["capabilities"] for item in openalex["sources"])
+
+
+def test_mcp_sources_filters_and_limits_for_agents():
+    result = mcp_server.paper_sources(discipline="energy", q="energy", latest=True, limit=5)
+
+    assert result["returned"] <= 5
+    assert result["filters"]["discipline"] == "energy"
+    assert result["filters"]["latest"] is True
+    assert result["filters"]["q"] == "energy"
+    assert all(item["supports_latest"] is True for item in result["sources"])
+    assert all("energy" in " ".join(str(value) for value in item.values()).lower() for item in result["sources"])
 
 
 def test_mcp_enrich_returns_paper_dict(monkeypatch):
@@ -53,6 +69,14 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     monkeypatch.setattr(mcp_server, "run_filter_paper", lambda **kwargs: {"group": "recommend", "paper": kwargs["paper"]})
     monkeypatch.setattr(mcp_server, "run_paper_ask", lambda **kwargs: {"answer": "Answer [1].", "question": kwargs["question"]})
     monkeypatch.setattr(mcp_server, "run_paper_rag_index", lambda **kwargs: {"indexed": 1, "date_from": kwargs["date_value"]})
+    monkeypatch.setattr(mcp_server, "run_create_daily_crawl", lambda **kwargs: {"run_id": "run-1", "status": "queued", "reused": False, **kwargs})
+    monkeypatch.setattr(mcp_server, "run_daily_crawl", lambda run_id: None)
+    monkeypatch.setattr(mcp_server, "get_crawl_run", lambda run_id: {"run_id": run_id, "status": "completed", "total_items": 2})
+    monkeypatch.setattr(
+        mcp_server,
+        "daily_cache_payload",
+        lambda **kwargs: {"groups": [], "total_items": 0, **kwargs},
+    )
     monkeypatch.setattr(mcp_server, "get_relevant_preference_profile", lambda **kwargs: None)
     monkeypatch.setattr(mcp_server, "record_preference_query", lambda **kwargs: None)
     monkeypatch.setattr(mcp_server, "run_zotero_status", lambda: {"configured": True, "library_type": "user", "library_id": "1"})
@@ -82,6 +106,10 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     assert mcp_server.paper_filter(paper.to_dict(), query="useful")["group"] == "recommend"
     assert mcp_server.paper_ask("question?", date="2026-04-29")["answer"] == "Answer [1]."
     assert mcp_server.paper_rag_index(date="2026-04-29")["indexed"] == 1
+    assert mcp_server.paper_crawl(discipline="energy", source="mdpi_energies", date="2026-04-29")["status"] == "completed"
+    assert mcp_server.paper_crawl_status("run-1")["found"] is True
+    assert mcp_server.paper_cache(date="2026-04-29", discipline="energy")["total_items"] == 0
+    assert mcp_server.paper_cache(date_from="2026-04-30", date_to="2026-04-01")["status"] == "error"
     assert mcp_server.paper_zotero_status()["configured"] is True
     zotero_result = mcp_server.paper_zotero_items([paper.to_dict()])
     assert zotero_result["submitted"] == 1

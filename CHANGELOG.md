@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 - 2026-04-30
+
+- Added agent-first MCP crawl/cache tools: `paper_crawl`, `paper_crawl_status`, and `paper_cache`.
+- Made `paper_sources` filterable, bounded by default, and able to return only crawl-capable sources.
+- Updated `SKILL.md` and README agent guidance so agents use MCP/JSON tools instead of opening the human `/daily` page.
+
 ## 0.2.0 - 2026-04-30
 
 - Added host-agent context mode with `paper_agent_context` and `POST /agent/context`, so OpenClaw, QClaw, Hermes, and other agents can use their own model over PaperLite metadata without configuring a PaperLite LLM key.

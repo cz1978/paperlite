@@ -39,6 +39,9 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
     tools = [
         "paper_enrich",
         "paper_sources",
+        "paper_crawl",
+        "paper_crawl_status",
+        "paper_cache",
         "paper_agent_context",
         "paper_explain",
         "paper_translate",
@@ -80,7 +83,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily",
