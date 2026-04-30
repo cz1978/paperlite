@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from paperlite.agent import paper_agent_context as run_paper_agent_context
 from paperlite.agent import paper_ask as run_paper_ask
 from paperlite.agent import paper_explain as run_paper_explain
 from paperlite.agent import paper_rag_index as run_paper_rag_index
@@ -55,6 +56,40 @@ def paper_translate(
 def paper_translation_profiles() -> dict[str, Any]:
     profiles = run_list_translation_profiles()
     return {"count": len(profiles), "profiles": profiles}
+
+
+def paper_agent_context(
+    action: str,
+    paper: dict | None = None,
+    question: str | None = None,
+    query: str | None = None,
+    target_language: str = "zh-CN",
+    style: str = "plain",
+    date: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    discipline: str | None = None,
+    source: str | list[str] | None = None,
+    q: str | None = None,
+    top_k: int = 8,
+    limit_per_source: int = 100,
+) -> dict[str, Any]:
+    return run_paper_agent_context(
+        action=action,
+        paper=paper,
+        question=question,
+        query=query,
+        target_language=target_language,
+        style=style,
+        date_value=date,
+        date_from=date_from,
+        date_to=date_to,
+        discipline=discipline,
+        source=source,
+        q=q,
+        top_k=top_k,
+        limit_per_source=limit_per_source,
+    )
 
 
 def paper_filter(
@@ -157,6 +192,7 @@ def build_mcp():
     mcp.tool(name="paper_enrich")(paper_enrich)
     mcp.tool(name="paper_sources")(paper_sources)
     mcp.tool(name="paper_explain")(paper_explain)
+    mcp.tool(name="paper_agent_context")(paper_agent_context)
     mcp.tool(name="paper_translate")(paper_translate)
     mcp.tool(name="paper_translation_profiles")(paper_translation_profiles)
     mcp.tool(name="paper_filter")(paper_filter)

@@ -9,7 +9,11 @@ def test_agent_manifest_declares_reserved_interfaces():
     manifest = agent_manifest("http://paperlite.local")
 
     assert manifest["name"] == "paperlite"
+    assert manifest["version"] == "0.2.0"
     assert manifest["interfaces"]["reader"] == "http://paperlite.local/daily"
+    assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_agent_context"
+    assert manifest["interfaces"]["agent_default"]["rest"] == "http://paperlite.local/agent/context"
+    assert "/daily is the human web UI" in manifest["interfaces"]["agent_default"]["note"]
     assert manifest["interfaces"]["rest"]["daily"] == "http://paperlite.local/daily"
     assert manifest["interfaces"]["rest"]["daily_cache"] == "http://paperlite.local/daily/cache"
     assert manifest["interfaces"]["rest"]["daily_cache_json"] == "http://paperlite.local/daily/cache?format=json"
@@ -18,6 +22,7 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert manifest["interfaces"]["rest"]["daily_export_rss"] == "http://paperlite.local/daily/export?format=rss"
     assert manifest["interfaces"]["rest"]["daily_crawl"] == "http://paperlite.local/daily/crawl"
     assert manifest["interfaces"]["rest"]["daily_enrich"] == "http://paperlite.local/daily/enrich"
+    assert manifest["interfaces"]["rest"]["agent_context"] == "http://paperlite.local/agent/context"
     assert manifest["interfaces"]["rest"]["agent_filter"] == "http://paperlite.local/agent/filter"
     assert manifest["interfaces"]["rest"]["agent_ask"] == "http://paperlite.local/agent/ask"
     assert manifest["interfaces"]["rest"]["agent_rag_index"] == "http://paperlite.local/agent/rag/index"
@@ -44,6 +49,7 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "manual_discipline_crawl" in manifest["capabilities"]
     assert "catalog_coverage" in manifest["capabilities"]
     assert "doctor_diagnostics" in manifest["capabilities"]
+    assert "host_agent_model_context" in manifest["capabilities"]
     assert "optional_llm_filter" in manifest["capabilities"]
     assert "metadata_rag" in manifest["capabilities"]
     assert "vector_cache_search" in manifest["capabilities"]
@@ -52,6 +58,7 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "zotero_metadata_import" in manifest["capabilities"]
     assert "paper_rank" not in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_latest" not in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_agent_context" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_filter" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_ask" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_rag_index" in manifest["interfaces"]["mcp"]["tools"]
@@ -69,6 +76,7 @@ def test_agent_manifest_rest_endpoint():
 
     assert response.status_code == 200
     assert response.json()["interfaces"]["rest"]["agent_translate"].endswith("/agent/translate")
+    assert response.json()["interfaces"]["rest"]["agent_context"].endswith("/agent/context")
     assert response.json()["interfaces"]["rest"]["agent_translation_profiles"].endswith("/agent/translation-profiles")
     assert response.json()["interfaces"]["rest"]["agent_filter"].endswith("/agent/filter")
     assert response.json()["interfaces"]["rest"]["agent_ask"].endswith("/agent/ask")
@@ -90,6 +98,7 @@ def test_mcp_agent_manifest_tool():
     assert manifest["interfaces"]["mcp"]["command"] == "python -m paperlite.mcp_server"
     assert "Hermes-style agents" in manifest["compatible_with"]
     assert "paper_translate" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_agent_context" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_translation_profiles" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_filter" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_ask" in manifest["interfaces"]["mcp"]["tools"]

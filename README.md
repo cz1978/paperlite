@@ -4,6 +4,8 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
+Current release: `0.2.0`. See [CHANGELOG.md](CHANGELOG.md).
+
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
 In the first few minutes, you can:
@@ -103,6 +105,8 @@ PaperLite supports two agent integration modes. Agents should not use `/daily`; 
 
 For skill-based runtimes or agent marketplaces, start with [`SKILL.md`](SKILL.md). It is the short agent-facing entrypoint; this README is the human-facing guide.
 
+Default agent workflow: call `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent's own model produce the answer. PaperLite's built-in LLM endpoints are optional fallback tools only when `.env` has LLM keys.
+
 If your agent can fetch and deploy GitHub repositories, this prompt is enough:
 
 ```text
@@ -148,6 +152,7 @@ Add this MCP server to your agent config:
 
 Useful MCP tools:
 
+- `paper_agent_context`
 - `paper_sources`
 - `paper_rag_index`
 - `paper_ask`
@@ -174,6 +179,7 @@ If the agent runs elsewhere, use your public reverse-proxy URL instead, for exam
 
 Useful JSON endpoints:
 
+- `POST /agent/context`
 - `GET /daily/cache?format=json`
 - `GET /sources`
 - `POST /agent/rag/index`

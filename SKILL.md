@@ -7,6 +7,8 @@ description: Use PaperLite as a local-first scholarly metadata workbench. Trigge
 
 PaperLite helps a research agent work with paper metadata that is stored locally in SQLite. It is useful for building a daily reading queue, filtering cached scholarly metadata, exporting references, syncing Zotero metadata, and running explicit metadata-only RAG.
 
+Default agent path: use `paper_agent_context` or `POST /agent/context` to get metadata-backed messages, then let the host agent use its own model. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys.
+
 ## Start PaperLite
 
 If the host can fetch and deploy GitHub repositories, this prompt is enough:
@@ -60,6 +62,7 @@ python -m paperlite.mcp_server
 
 Useful tools:
 
+- `paper_agent_context` - return metadata-backed messages for the host agent model; no PaperLite LLM key needed.
 - `paper_sources` - list available sources.
 - `paper_rag_index` - explicitly index cached metadata for a scoped query.
 - `paper_ask` - ask questions over indexed cached metadata.
@@ -80,6 +83,7 @@ Use a public reverse-proxy URL instead when the agent runs on another machine.
 
 Useful endpoints:
 
+- `POST /agent/context`
 - `GET /sources`
 - `GET /daily/cache?format=json`
 - `GET /daily/export?format=ris|bibtex|markdown|json|jsonl|rss`
@@ -95,6 +99,7 @@ Useful endpoints:
 
 - Treat `/daily` as the human web UI, not an agent control surface.
 - Use MCP tools or JSON endpoints for agent actions.
+- Prefer `paper_agent_context` or `/agent/context` when OpenClaw, QClaw, Hermes, or another host agent should use its own model.
 - Keep crawls discipline-scoped; do not default to all-source crawls.
 - Do not crawl on page load or without explicit user intent.
 - Do not download, cache, upload, or parse PDFs or full text.

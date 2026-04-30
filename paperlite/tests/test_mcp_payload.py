@@ -39,6 +39,11 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
         return payload
 
     monkeypatch.setattr(mcp_server, "run_paper_explain", lambda **kwargs: payload)
+    monkeypatch.setattr(
+        mcp_server,
+        "run_paper_agent_context",
+        lambda **kwargs: {"model_source": "agent_host", "action": kwargs["action"]},
+    )
     monkeypatch.setattr(mcp_server, "run_translate_paper", fake_translate)
     monkeypatch.setattr(
         mcp_server,
@@ -66,6 +71,10 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     )
 
     assert mcp_server.paper_explain(paper.to_dict()) == payload
+    assert mcp_server.paper_agent_context("explain", paper=paper.to_dict()) == {
+        "model_source": "agent_host",
+        "action": "explain",
+    }
     assert mcp_server.paper_translate(paper.to_dict(), translation_profile="research_card_cn") == payload
     assert translate_call["style"] is None
     assert translate_call["translation_profile"] == "research_card_cn"

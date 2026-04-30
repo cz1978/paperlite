@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from paperlite.agent import paper_ask, paper_explain, paper_rag_index, paper_related
+from paperlite.agent import paper_agent_context, paper_ask, paper_explain, paper_rag_index, paper_related
 from paperlite.ai_filter import filter_paper
 from paperlite.api_agent import router as agent_router
 from paperlite.api_catalog import router as catalog_router
@@ -43,6 +43,7 @@ __all__ = [
     "filter_paper",
     "get_relevant_preference_profile",
     "paper_ask",
+    "paper_agent_context",
     "paper_explain",
     "paper_rag_index",
     "paper_related",
@@ -69,7 +70,7 @@ def create_app() -> FastAPI:
         start_schedule_loop()
         yield
 
-    app = FastAPI(title="PaperLite", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="PaperLite", version="0.2.0", lifespan=lifespan)
     app.include_router(daily_router)
     app.include_router(ops_router)
     app.include_router(library_router)

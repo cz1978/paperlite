@@ -162,6 +162,59 @@ def test_agent_explain_uses_mock_llm(monkeypatch):
     assert explain["papers"][0]["id"] == "arxiv:1"
 
 
+def test_paper_agent_context_uses_host_model_without_llm(monkeypatch, tmp_path):
+    def fail_complete(*_args, **_kwargs):
+        raise AssertionError("paper_agent_context must not call PaperLite LLM")
+
+    monkeypatch.setattr(agent, "complete_chat", fail_complete)
+    explain = agent.paper_agent_context(action="explain", paper=make_paper().to_dict(), question="Why read it?")
+
+    assert explain["model_source"] == "agent_host"
+    assert explain["paperlite_llm_used"] is False
+    assert explain["action"] == "explain"
+    assert explain["papers"][0]["id"] == "arxiv:1"
+    assert "Why read it?" in explain["messages"][1]["content"]
+
+    db_path = tmp_path / "paperlite.sqlite3"
+    rag = make_paper()
+    rag.id = "arxiv:rag"
+    rag.title = "RAG agent benchmark"
+    rag.abstract = "Retrieval augmented generation benchmark with agent evaluation."
+    run = storage.create_crawl_run(
+        date_from="2024-01-02",
+        date_to="2024-01-02",
+        discipline_key="computer_science",
+        source_keys=["arxiv"],
+        limit_per_source=10,
+        path=db_path,
+    )
+    storage.store_daily_papers(
+        run_id=run["run_id"],
+        entry_date="2024-01-02",
+        discipline_key="computer_science",
+        source_key="arxiv",
+        papers=[rag],
+        path=db_path,
+    )
+
+    ask = agent.paper_agent_context(
+        action="ask",
+        question="Which RAG paper should I read?",
+        date_value="2024-01-02",
+        discipline="computer_science",
+        q="RAG",
+        cache_path=db_path,
+    )
+
+    assert ask["model_source"] == "agent_host"
+    assert ask["retrieval"]["q"] == "RAG"
+    assert ask["retrieval"]["semantic_search"] is False
+    assert ask["retrieval"]["candidates"] == 1
+    assert ask["papers"][0]["id"] == "arxiv:rag"
+    assert "RAG agent benchmark" in ask["messages"][1]["content"]
+    assert "agent_host_model_required" in ask["warnings"]
+
+
 def test_paper_ask_uses_indexed_metadata_only(monkeypatch, tmp_path):
     db_path = tmp_path / "paperlite.sqlite3"
     rag = make_paper()

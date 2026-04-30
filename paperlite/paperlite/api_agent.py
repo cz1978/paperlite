@@ -37,6 +37,29 @@ def agent_explain(payload: dict):
     except LLMRequestError as exc:
         raise llm_http_exception(exc) from exc
 
+@router.post("/agent/context")
+def agent_context(payload: dict):
+    try:
+        limit_key = "limit_per_source" if "limit_per_source" in payload else "limit"
+        return _api_facade().paper_agent_context(
+            action=str(payload.get("action") or ""),
+            paper=payload.get("paper"),
+            question=payload.get("question"),
+            query=payload.get("query") or payload.get("criteria"),
+            target_language=payload.get("target_language") or "zh-CN",
+            style=payload.get("style") or "plain",
+            date_value=payload.get("date"),
+            date_from=payload.get("date_from"),
+            date_to=payload.get("date_to"),
+            discipline=payload.get("discipline"),
+            source=payload.get("source"),
+            q=payload.get("q"),
+            top_k=payload_int(payload, "top_k", default=8, minimum=1, maximum=20),
+            limit_per_source=payload_int(payload, limit_key, default=100, minimum=1, maximum=500),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
 @router.post("/agent/rag/index")
 def agent_rag_index(payload: dict):
     try:

@@ -47,6 +47,41 @@ def test_agent_explain_endpoint(monkeypatch):
     assert response.json()["answer"] == "Explanation."
 
 
+def test_agent_context_endpoint_uses_host_model(monkeypatch):
+    calls = []
+
+    def fake_context(**kwargs):
+        calls.append(kwargs)
+        return {
+            "configured": True,
+            "model_source": "agent_host",
+            "paperlite_llm_used": False,
+            "action": kwargs["action"],
+            "messages": [{"role": "user", "content": "Use host model."}],
+            "papers": [kwargs["paper"]],
+            "retrieval": {},
+            "warnings": ["agent_host_model_required"],
+        }
+
+    monkeypatch.setattr(api, "paper_agent_context", fake_context)
+    client = TestClient(api.create_app())
+
+    response = client.post(
+        "/agent/context",
+        json={
+            "action": "filter",
+            "paper": paper_payload(),
+            "query": "important",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["model_source"] == "agent_host"
+    assert response.json()["paperlite_llm_used"] is False
+    assert calls[0]["action"] == "filter"
+    assert calls[0]["query"] == "important"
+
+
 def test_agent_rag_endpoints(monkeypatch):
     index_calls = []
     ask_calls = []

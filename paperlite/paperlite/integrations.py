@@ -28,6 +28,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
         "zotero_status": f"{root}/zotero/status",
         "zotero_items": f"{root}/zotero/items",
         "zotero_export": f"{root}/zotero/export",
+        "agent_context": f"{root}/agent/context",
         "agent_explain": f"{root}/agent/explain",
         "agent_translate": f"{root}/agent/translate",
         "agent_translation_profiles": f"{root}/agent/translation-profiles",
@@ -38,6 +39,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
     tools = [
         "paper_enrich",
         "paper_sources",
+        "paper_agent_context",
         "paper_explain",
         "paper_translate",
         "paper_translation_profiles",
@@ -56,6 +58,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
         "metadata_search",
         "json_export",
         "mcp_tools",
+        "host_agent_model_context",
         "sqlite_daily_cache",
         "cache_export",
         "manual_discipline_crawl",
@@ -77,10 +80,16 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily",
+            "agent_default": {
+                "mcp_tool": "paper_agent_context",
+                "rest": f"{root}/agent/context",
+                "model_source": "agent_host",
+                "note": "Use this for host-agent model workflows. /daily is the human web UI.",
+            },
             "rest": rest,
             "mcp": {
                 "command": "python -m paperlite.mcp_server",

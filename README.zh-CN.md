@@ -2,6 +2,8 @@
 
 PaperLite 是给科研人用的本地优先论文元数据工作台：每天打开 `/daily`，选学科和来源，把新论文元数据抓到 SQLite，再筛选、翻译、导出或同步到 Zotero。
 
+当前版本：`0.2.0`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
+
 第一次几分钟就能做：
 
 - 用 Docker Compose 启动；
@@ -106,6 +108,8 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 如果是 skill 型 agent 或技能市场，先读 [`SKILL.md`](SKILL.md)。它是短的 agent 入口说明；README 是给人看的完整说明。
 
+默认 agent 用法：调用 `paper_agent_context` 或 `POST /agent/context` 拿到基于论文元数据整理好的 messages，然后让 OpenClaw、QClaw、Hermes 这类宿主 agent 用自己的大模型生成答案。PaperLite 内置 LLM 接口只是可选兜底，只有 `.env` 配了 LLM key 才用。
+
 如果你的 agent 支持从 GitHub 拉取并部署项目，直接说这一句就行：
 
 ```text
@@ -151,6 +155,7 @@ python -m pip install -e ".[mcp]"
 
 常用工具：
 
+- `paper_agent_context`
 - `paper_sources`
 - `paper_rag_index`
 - `paper_ask`
@@ -181,6 +186,7 @@ https://your-domain.example
 
 常用 JSON 接口：
 
+- `POST /agent/context`
 - `GET /daily/cache?format=json`
 - `GET /sources`
 - `POST /agent/rag/index`

@@ -50,6 +50,181 @@ def _result(papers: list[Paper], llm_result: dict[str, Any], warnings: list[str]
     }
 
 
+def _host_context_result(
+    *,
+    action: str,
+    messages: list[dict[str, str]],
+    papers: list[Paper],
+    retrieval: dict[str, Any] | None = None,
+    warnings: list[str] | None = None,
+) -> dict[str, Any]:
+    return {
+        "configured": True,
+        "model_source": "agent_host",
+        "paperlite_llm_used": False,
+        "action": action,
+        "messages": messages,
+        "papers": [paper.to_dict() for paper in papers],
+        "retrieval": retrieval or {},
+        "warnings": list(warnings or []),
+    }
+
+
+def _single_paper_context(
+    *,
+    action: str,
+    paper: dict[str, Any] | Paper,
+    question: str | None,
+    query: str | None,
+    target_language: str,
+    style: str,
+) -> dict[str, Any]:
+    parsed = parse_paper(paper)
+    metadata = paper_prompt(parsed)
+    if action == "explain":
+        messages = [
+            {
+                "role": "system",
+                "content": "Explain research paper metadata using only the supplied metadata. Do not use PDFs, full text, or outside knowledge.",
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Explain this paper in a {style} style. "
+                    f"Question: {question or 'What is this paper about and why might it matter?'}\n\n"
+                    f"{metadata}"
+                ),
+            },
+        ]
+    elif action == "filter":
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "Classify this paper metadata as recommend, maybe, or reject. "
+                    "Return JSON with group, importance, reason, confidence, and noise_tags. "
+                    "Use only supplied metadata."
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"Filter criteria: {query or 'prioritize clearly useful research papers for today'}\n\n{metadata}",
+            },
+        ]
+    elif action == "translate":
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    f"Translate research paper metadata into {target_language}. "
+                    "Preserve technical terms when needed. Use only supplied metadata."
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"Style: {style}\n\n{metadata}",
+            },
+        ]
+    else:
+        raise ValueError("action must be explain, filter, translate, or ask")
+    return _host_context_result(action=action, messages=messages, papers=[parsed])
+
+
+def paper_agent_context(
+    *,
+    action: str,
+    paper: dict[str, Any] | Paper | None = None,
+    question: str | None = None,
+    query: str | None = None,
+    target_language: str = "zh-CN",
+    style: str = "plain",
+    date_value: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    discipline: str | None = None,
+    source: str | list[str] | None = None,
+    q: str | None = None,
+    top_k: int = 8,
+    limit_per_source: int = 100,
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    selected_action = str(action or "").strip().lower()
+    if selected_action in {"explain", "filter", "translate"}:
+        if paper is None:
+            raise ValueError("paper is required for explain, filter, and translate context")
+        return _single_paper_context(
+            action=selected_action,
+            paper=paper,
+            question=question,
+            query=query,
+            target_language=target_language,
+            style=style,
+        )
+    if selected_action != "ask":
+        raise ValueError("action must be explain, filter, translate, or ask")
+    clean_question = str(question or "").strip()
+    if not clean_question:
+        raise ValueError("question is required for ask context")
+    start, end = _date_scope(date_value=date_value, date_from=date_from, date_to=date_to)
+    selected_top_k = _bounded_int(top_k, default=8, minimum=1, maximum=20)
+    selected_limit = _bounded_int(limit_per_source, default=100, minimum=1, maximum=500)
+    clean_q = _clean_query(q)
+    papers = _papers_for_rag_scope(
+        start=start,
+        end=end,
+        discipline=discipline,
+        source=source,
+        limit_per_source=selected_limit,
+        q=clean_q,
+        cache_path=cache_path,
+    )
+    selected_papers = papers[:selected_top_k]
+    citations = [
+        {
+            "index": index,
+            "score": None,
+            "paper": _citation_paper(paper_item),
+        }
+        for index, paper_item in enumerate(selected_papers, start=1)
+    ]
+    retrieval = {
+        "date_from": start,
+        "date_to": end,
+        "discipline": discipline,
+        "source": source,
+        "q": clean_q,
+        "top_k": selected_top_k,
+        "limit_per_source": selected_limit,
+        "candidates": len(papers),
+        "matches": len(citations),
+        "semantic_search": False,
+    }
+    warnings: list[str] = ["agent_host_model_required", "agent_context_not_semantic_search"]
+    if not citations:
+        warnings.append("agent_context_empty")
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "Answer using only the supplied PaperLite paper metadata. "
+                "Do not use PDFs, full text, or outside knowledge. "
+                "If the metadata is insufficient, say so. Cite claims with bracketed numbers like [1]."
+            ),
+        },
+        {
+            "role": "user",
+            "content": f"Question: {clean_question}\n\nPaperLite metadata evidence:\n\n{_evidence_block(citations)}",
+        },
+    ]
+    return _host_context_result(
+        action="ask",
+        messages=messages,
+        papers=selected_papers,
+        retrieval=retrieval,
+        warnings=warnings,
+    )
+
+
 def paper_explain(
     paper: dict[str, Any] | Paper,
     question: str | None = None,
