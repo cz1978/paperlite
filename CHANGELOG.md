@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.9 - 2026-04-30
+
+- Fixed agent paper identifiers for arXiv sources whose local `paper_id` is a `url:<hash>` fallback. `paper_research` now derives the visible `arXiv` identifier from `paper.url`, so host agents can display entries such as `arXiv: 2604.25817` instead of local hash IDs.
+- Added a regression test and verified an agent-style Chinese brief render against cached arXiv metadata.
+
 ## 0.2.8 - 2026-04-30
 
 - Fixed the default agent brief path so `paper_research` returns usable Chinese brief translation fields when configured, while host agents can still fill missing brief text with their own model.

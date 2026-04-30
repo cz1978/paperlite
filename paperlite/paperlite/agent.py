@@ -6,6 +6,7 @@ from typing import Any
 
 from paperlite.daily_crawl import create_daily_crawl, run_daily_crawl
 from paperlite.daily_export import daily_cache_export_papers, daily_date_range
+from paperlite.identity import arxiv_id_from_url, normalize_arxiv_id
 from paperlite.integrations import agent_result_policy
 from paperlite.llm import LLMRequestError, complete_chat, create_embeddings, embedding_status
 from paperlite.models import Paper
@@ -586,9 +587,13 @@ def _research_identifier(paper: Paper) -> dict[str, str]:
         return {"identifier": paper.pmcid, "identifier_label": "PMCID", "identifier_kind": "pmcid"}
     if paper.openalex_id:
         return {"identifier": paper.openalex_id, "identifier_label": "OpenAlex", "identifier_kind": "openalex"}
+    arxiv_id = arxiv_id_from_url(paper.url)
+    if arxiv_id:
+        return {"identifier": arxiv_id, "identifier_label": "arXiv", "identifier_kind": "arxiv"}
     paper_id = str(paper.id or "").strip()
     if paper_id.lower().startswith("arxiv:"):
-        return {"identifier": paper_id.split(":", 1)[1], "identifier_label": "arXiv", "identifier_kind": "arxiv"}
+        arxiv_id = normalize_arxiv_id(paper_id)
+        return {"identifier": arxiv_id or paper_id.split(":", 1)[1], "identifier_label": "arXiv", "identifier_kind": "arxiv"}
     return {"identifier": paper_id, "identifier_label": "ID", "identifier_kind": "id"} if paper_id else {
         "identifier": "",
         "identifier_label": "",

@@ -4,7 +4,7 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.8`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.2.9`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 

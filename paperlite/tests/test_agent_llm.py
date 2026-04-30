@@ -177,6 +177,28 @@ def test_paper_research_scopes_unconfigured_brief_warning(monkeypatch):
     assert "original English title" in result["result_contract"]["host_agent_rendering"]
 
 
+def test_paper_research_extracts_arxiv_identifier_from_url_hash_id(monkeypatch):
+    paper = make_paper()
+    paper.id = "url:035024fc69818ea9"
+    paper.source = "arxiv_stat_ml"
+    paper.url = "https://arxiv.org/abs/2604.25817v1"
+    monkeypatch.setattr(agent, "daily_cache_export_papers", lambda **_kwargs: [paper])
+
+    result = agent.paper_research(
+        discipline="mathematics",
+        source="arxiv_stat_ml",
+        date_value="2024-01-02",
+        crawl_if_missing=False,
+        translate_brief=False,
+    )
+
+    item = result["papers"][0]
+    assert item["paper_id"] == "url:035024fc69818ea9"
+    assert item["identifier_label"] == "arXiv"
+    assert item["identifier"] == "2604.25817"
+    assert item["identifier_kind"] == "arxiv"
+
+
 def test_paper_research_crawls_when_scope_cache_missing(monkeypatch):
     calls = {"exports": 0, "created": None, "ran": None}
     paper = make_material_paper()
