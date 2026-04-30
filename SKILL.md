@@ -84,19 +84,23 @@ python -m paperlite.mcp_server
 
 Useful tools:
 
+- `paper_enrich` - enrich one paper's metadata from configured metadata sources; still metadata-only, no PDF/full text.
 - `paper_research` - one-shot research request: resolve topic/scope, read cache, optionally run an explicit discipline crawl, request `research_card_cn` brief translation by default, and return up to 15 paper items.
 - `paper_sources` - list available sources; for manual crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit=15`.
 - `paper_crawl` - explicitly crawl a discipline/source/date range and write metadata to SQLite.
 - `paper_crawl_status` - inspect a crawl run.
 - `paper_cache` - read cached metadata from SQLite after a crawl.
+- `paper_explain` - explain one supplied paper from metadata only.
 - `paper_agent_context` - return metadata-backed messages for the host agent model; no PaperLite LLM key needed.
 - `paper_rag_index` - explicitly index cached metadata for a scoped query.
 - `paper_ask` - ask questions over indexed cached metadata.
 - `paper_filter` - classify cached papers with the configured LLM.
 - `paper_translate` - translate cached paper metadata.
+- `paper_translation_profiles` - list server-registered translation profiles such as `research_card_cn`.
 - `paper_zotero_status` - inspect Zotero configuration.
 - `paper_zotero_items` - create Zotero metadata items when Zotero is configured.
 - `paper_zotero_export` - export selected metadata as RIS or BibTeX when Zotero is not configured or the user wants a file-style import.
+- `paper_agent_manifest` - return the agent capability manifest.
 
 ## Connect Through HTTP
 

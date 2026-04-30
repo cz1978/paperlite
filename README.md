@@ -169,19 +169,23 @@ Add this MCP server to your agent config:
 
 Useful MCP tools:
 
+- `paper_enrich`
 - `paper_sources`
 - `paper_research`
 - `paper_crawl`
 - `paper_crawl_status`
 - `paper_cache`
+- `paper_explain`
 - `paper_agent_context`
 - `paper_rag_index`
 - `paper_ask`
 - `paper_filter`
 - `paper_translate`
+- `paper_translation_profiles`
 - `paper_zotero_status`
 - `paper_zotero_items`
 - `paper_zotero_export`
+- `paper_agent_manifest`
 
 Typical agent flow:
 

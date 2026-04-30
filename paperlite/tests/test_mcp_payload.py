@@ -1,5 +1,46 @@
+import inspect
+import re
+from pathlib import Path
+
 from paperlite.models import Paper
 from paperlite import mcp_server
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def test_mcp_registered_tools_are_documented():
+    source = inspect.getsource(mcp_server.build_mcp)
+    registered = set(re.findall(r'mcp\.tool\(name="([^"]+)"\)', source))
+    expected = {
+        "paper_enrich",
+        "paper_sources",
+        "paper_crawl",
+        "paper_crawl_status",
+        "paper_cache",
+        "paper_explain",
+        "paper_agent_context",
+        "paper_research",
+        "paper_translate",
+        "paper_translation_profiles",
+        "paper_filter",
+        "paper_ask",
+        "paper_rag_index",
+        "paper_zotero_status",
+        "paper_zotero_items",
+        "paper_zotero_export",
+        "paper_agent_manifest",
+    }
+    assert registered == expected
+
+    docs = "\n".join(
+        [
+            (ROOT / "README.md").read_text(encoding="utf-8"),
+            (ROOT / "README.zh-CN.md").read_text(encoding="utf-8"),
+            (ROOT / "SKILL.md").read_text(encoding="utf-8"),
+        ]
+    )
+    for name in sorted(registered):
+        assert f"`{name}`" in docs
 
 
 def test_mcp_sources_returns_capabilities():

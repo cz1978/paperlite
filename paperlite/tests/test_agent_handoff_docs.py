@@ -98,9 +98,13 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert '"cwd": "<repo>/paperlite"' in readme
     assert "`paper_agent_context`" in readme
     assert "`paper_research`" in readme
+    assert "`paper_enrich`" in readme
+    assert "`paper_explain`" in readme
     assert "`paper_sources`" in readme
     assert "`paper_ask`" in readme
+    assert "`paper_translation_profiles`" in readme
     assert "`paper_zotero_export`" in readme
+    assert "`paper_agent_manifest`" in readme
     assert "Typical agent flow" in readme
     assert "Full translation only when requested" in readme
     assert "Run RAG only for explicit questions" in readme
@@ -186,9 +190,13 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "常用工具" in readme_zh
     assert "`paper_agent_context`" in readme_zh
     assert "`paper_research`" in readme_zh
+    assert "`paper_enrich`" in readme_zh
+    assert "`paper_explain`" in readme_zh
     assert "`paper_sources`" in readme_zh
     assert "`paper_ask`" in readme_zh
+    assert "`paper_translation_profiles`" in readme_zh
     assert "`paper_zotero_export`" in readme_zh
+    assert "`paper_agent_manifest`" in readme_zh
     assert "agent 典型流程" in readme_zh
     assert "完整翻译只有用户明确要求时才做" in readme_zh
     assert "只有用户要问答时才 RAG" in readme_zh
@@ -246,11 +254,15 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "python -m paperlite.mcp_server" in skill_doc
     assert "`paper_agent_context`" in skill_doc
     assert "`paper_research`" in skill_doc
+    assert "`paper_enrich`" in skill_doc
+    assert "`paper_explain`" in skill_doc
     assert "request `research_card_cn` brief translation by default" in skill_doc
     assert "`paper_crawl`" in skill_doc
     assert "`paper_crawl_status`" in skill_doc
     assert "`paper_cache`" in skill_doc
+    assert "`paper_translation_profiles`" in skill_doc
     assert "`paper_zotero_export`" in skill_doc
+    assert "`paper_agent_manifest`" in skill_doc
     assert "Default research workflow" in skill_doc
     assert "After install/deploy, ask for default discipline/topic and preferred sources" in skill_doc
     assert "For shorthand like \"抓今日新闻\" or \"抓今日论文\"" in skill_doc
