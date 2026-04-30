@@ -103,7 +103,7 @@ PAPERLITE_LLM_MODEL=
 
 ## OpenClaw / QClaw / Hermes 接手
 
-正常只填这个地址：
+先启动 PaperLite。OpenClaw、QClaw、Hermes 和 PaperLite 在同一台机器时，正常只填这个地址：
 
 ```text
 http://127.0.0.1:8000/agent/manifest
@@ -115,7 +115,7 @@ http://127.0.0.1:8000/agent/manifest
 http://127.0.0.1:8000
 ```
 
-如果你用本地 Python 运行，把端口改成 `8768`。
+`127.0.0.1` 是本机地址，不是互联网地址，也不是拿去搜索的关键词。如果 agent 在另一台机器或云端，把它换成你的公网域名，例如 `https://your-domain.example/agent/manifest`。如果你用本地 Python 运行，把端口改成 `8768`。
 
 ## 常用检查
 

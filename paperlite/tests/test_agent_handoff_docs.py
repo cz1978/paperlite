@@ -44,8 +44,11 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Crawl completed with 0 items" in readme
     assert "[中文说明](README.zh-CN.md)" in readme
     assert "OpenClaw, QClaw, Hermes" in readme
-    assert "normally only need this URL" in readme
+    assert "Start PaperLite first" in readme
+    assert "normally only needs this URL" in readme
     assert "http://127.0.0.1:8000/agent/manifest" in readme
+    assert "127.0.0.1` is a local address" in readme
+    assert "https://your-domain.example/agent/manifest" in readme
     assert "service base URL" in readme
 
     assert "PaperLite 中文说明" in readme_zh
@@ -62,9 +65,12 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "不在页面加载时自动调用 LLM 或 RAG" in readme_zh
     assert "127.0.0.1:8000" in readme_zh
     assert "OpenClaw / QClaw / Hermes 接手" in readme_zh
+    assert "先启动 PaperLite" in readme_zh
     assert "正常只填这个地址" in readme_zh
     assert "http://127.0.0.1:8000/agent/manifest" in readme_zh
     assert "如果它只问“服务地址”" in readme_zh
+    assert "不是互联网地址，也不是拿去搜索的关键词" in readme_zh
+    assert "https://your-domain.example/agent/manifest" in readme_zh
 
     assert "## Design Shape" in package_readme
     assert "`daily_export.py` owns daily date resolution" in package_readme
