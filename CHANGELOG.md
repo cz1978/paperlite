@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3 - 2026-04-30
+
+- Added `paper_zotero_export` for MCP-only RIS/BibTeX export when Zotero sync is not configured.
+- Expanded agent skill guidance with setup, crawl, post-crawl translation/RAG decisions, and Zotero sync/export workflows.
+- Clarified that translation, filtering, RAG, and Zotero actions stay explicit after crawl.
+
 ## 0.2.2 - 2026-04-30
 
 - Tightened the agent skill instructions so agents return papers and summaries directly instead of linking users to `/daily`.

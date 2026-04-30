@@ -2,7 +2,7 @@
 
 PaperLite 是给科研人用的本地优先论文元数据工作台：每天打开 `/daily`，选学科和来源，把新论文元数据抓到 SQLite，再筛选、翻译、导出或同步到 Zotero。
 
-当前版本：`0.2.2`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.2.3`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 第一次几分钟就能做：
 
@@ -172,6 +172,24 @@ python -m pip install -e ".[mcp]"
 - `paper_translate`
 - `paper_zotero_status`
 - `paper_zotero_items`
+- `paper_zotero_export`
+
+agent 典型流程：
+
+1. `paper_sources(discipline="<学科>", q="<主题>", latest=true, limit=20)` 找可抓取来源。
+2. `paper_crawl(...)` 抓元数据。
+3. `paper_crawl_status(...)` 看是否完成、有无 warning。
+4. `paper_cache(...)` 读真实论文列表。
+5. 直接在回复里给标题、来源、日期、链接和筛选理由。
+6. 抓完默认用宿主 agent 自己的大模型总结/排序；只有用户明确要翻译时才翻译；只有用户要问答时才 RAG；只有用户要保存时才走 Zotero。
+
+Zotero 用法：
+
+1. 先 `paper_zotero_status()`。
+2. 已配置就 `paper_zotero_items([论文元数据])` 同步到 Zotero。
+3. 未配置或用户想手动导入，就 `paper_zotero_export([论文元数据], format="ris")` 或 `format="bibtex"`，把返回的内容给用户导入 Zotero。
+4. 真同步需要本地 `.env` 填 `ZOTERO_API_KEY`、`ZOTERO_LIBRARY_TYPE`、`ZOTERO_LIBRARY_ID`，可选 `ZOTERO_COLLECTION_KEY`。
+5. Zotero 只处理元数据，不上传 PDF 或全文。
 
 ### HTTP API 模式
 

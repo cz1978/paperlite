@@ -8,6 +8,7 @@ from paperlite.agent import paper_explain as run_paper_explain
 from paperlite.agent import paper_rag_index as run_paper_rag_index
 from paperlite.ai_filter import DEFAULT_AI_FILTER_QUERY, filter_paper as run_filter_paper
 from paperlite.core import enrich_paper
+from paperlite.core import export as export_paper_metadata
 from paperlite.daily_crawl import create_daily_crawl as run_create_daily_crawl
 from paperlite.daily_crawl import run_daily_crawl
 from paperlite.daily_export import daily_cache_export_papers, daily_cache_payload, daily_date_range
@@ -339,6 +340,22 @@ def paper_zotero_items(items: list[dict]) -> dict[str, Any]:
         }
 
 
+def paper_zotero_export(items: list[dict], format: str = "ris") -> dict[str, Any]:
+    fmt = str(format or "ris").strip().lower()
+    if fmt not in {"ris", "bib", "bibtex"}:
+        return {"status": "error", "error": "format must be ris or bibtex"}
+    papers = [Paper.model_validate(item) if hasattr(Paper, "model_validate") else Paper.parse_obj(item) for item in items]
+    extension = "bib" if fmt in {"bib", "bibtex"} else "ris"
+    return {
+        "status": "ok",
+        "format": "bibtex" if extension == "bib" else "ris",
+        "extension": extension,
+        "filename": f"paperlite-zotero.{extension}",
+        "count": len(papers),
+        "content": export_paper_metadata(papers, format=fmt),
+    }
+
+
 
 def paper_agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
     return agent_manifest(base_url)
@@ -365,6 +382,7 @@ def build_mcp():
     mcp.tool(name="paper_rag_index")(paper_rag_index)
     mcp.tool(name="paper_zotero_status")(paper_zotero_status)
     mcp.tool(name="paper_zotero_items")(paper_zotero_items)
+    mcp.tool(name="paper_zotero_export")(paper_zotero_export)
     mcp.tool(name="paper_agent_manifest")(paper_agent_manifest)
     return mcp
 

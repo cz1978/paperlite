@@ -51,6 +51,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
         "paper_rag_index",
         "paper_zotero_status",
         "paper_zotero_items",
+        "paper_zotero_export",
         "paper_agent_manifest",
     ]
     capabilities = [
@@ -83,7 +84,7 @@ def agent_manifest(base_url: str = "http://127.0.0.1:8765") -> dict[str, Any]:
 
     return {
         "name": "paperlite",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "description": "Agent-ready research feed for preprints, top journals, and scholarly metadata.",
         "interfaces": {
             "reader": f"{root}/daily/cache?format=json",

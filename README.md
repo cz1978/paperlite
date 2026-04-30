@@ -4,7 +4,7 @@
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.2`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.2.3`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
@@ -169,6 +169,24 @@ Useful MCP tools:
 - `paper_translate`
 - `paper_zotero_status`
 - `paper_zotero_items`
+- `paper_zotero_export`
+
+Typical agent flow:
+
+1. `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=20)` to find crawl-capable sources.
+2. `paper_crawl(...)` to fetch metadata.
+3. `paper_crawl_status(...)` to inspect completion and warnings.
+4. `paper_cache(...)` to read the actual paper list.
+5. Reply with titles, sources, dates, links, and reasons.
+6. After crawling, summarize/rank with the host agent model by default. Translate only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
+
+Zotero flow:
+
+1. Call `paper_zotero_status()`.
+2. If configured, call `paper_zotero_items([paper_metadata])` to sync selected metadata.
+3. If not configured, or if the user wants manual import, call `paper_zotero_export([paper_metadata], format="ris")` or `format="bibtex"` and return the filename plus content.
+4. Real Zotero sync needs local `.env` values: `ZOTERO_API_KEY`, `ZOTERO_LIBRARY_TYPE`, `ZOTERO_LIBRARY_ID`, and optional `ZOTERO_COLLECTION_KEY`.
+5. Zotero remains metadata-only; no PDF or full text is uploaded.
 
 ### HTTP API Mode
 

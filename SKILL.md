@@ -67,7 +67,8 @@ Useful tools:
 - `paper_filter` - classify cached papers with the configured LLM.
 - `paper_translate` - translate cached paper metadata.
 - `paper_zotero_status` - inspect Zotero configuration.
-- `paper_zotero_items` - read Zotero metadata.
+- `paper_zotero_items` - create Zotero metadata items when Zotero is configured.
+- `paper_zotero_export` - export selected metadata as RIS or BibTeX when Zotero is not configured or the user wants a file-style import.
 
 ## Connect Through HTTP
 
@@ -96,15 +97,39 @@ Useful endpoints:
 
 ## Agent Recipes
 
+### Default research workflow
+
+1. Install/connect through MCP unless the user specifically needs HTTP or `/daily`.
+2. Use `paper_sources(discipline="<discipline>", q="<topic>", latest=true, limit=20)` to find crawl-capable source keys.
+3. Use `paper_crawl(discipline="<discipline>", source="<source_key>", limit_per_source=20, run_now=true)`.
+4. Use `paper_crawl_status(run_id="<run_id>")` when the run is not clearly completed or has warnings.
+5. Use `paper_cache(discipline="<discipline>", source="<source_key>", q="<topic>", limit_per_source=50)` to read the actual papers.
+6. Reply in chat with the selected papers: title, source, date, DOI/URL when present, and why each matched. Do not send the user to `/daily`.
+
+### What to do after crawling
+
+- Summarize or rank by default with the host agent model over `paper_cache` results; no PaperLite LLM key is needed.
+- Translate only when the user asks for translation or Chinese research cards. If PaperLite LLM is configured, use `paper_translate`; otherwise translate with the host agent model from `paper_cache` or `paper_agent_context`.
+- Filter with `paper_filter` only when the user asks for LLM-based recommendation; otherwise use the host agent model to rank from metadata.
+- Run RAG only when the user asks a question over the cached papers. Use `paper_rag_index` and `paper_ask`; do not auto-index after every crawl.
+- Sync to Zotero only when the user asks to save/send papers. Use the Zotero workflow below.
+
 ### Find and crawl today's energy papers
 
 1. Call `paper_sources(discipline="energy", q="energy", latest=true, limit=20)`.
 2. Pick one or a few source keys from `sources[*].name`, for example `nature_nature_energy_aop` when present.
 3. Call `paper_crawl(discipline="energy", source="<source_key>", limit_per_source=20, run_now=true)`.
-4. If the run is still queued/running, call `paper_crawl_status(run_id="<run_id>")`.
-5. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=20)`.
-6. Reply in chat with the actual selected papers: title, source, date, DOI/URL when present, and why each matched. Do not send the user to `/daily` for the list.
-7. Use your own host model to summarize, rank, or translate the returned papers. For a ready prompt, call `paper_agent_context(action="ask", question="Summarize today's energy papers", discipline="energy", source="<source_key>", q="energy")`.
+4. Call `paper_cache(discipline="energy", source="<source_key>", q="energy", limit_per_source=20)`.
+5. Reply with the actual paper list and a short synthesis. If the user asked for Chinese, translate the summary and titles in the final answer.
+
+### Save selected papers to Zotero
+
+1. Start from selected paper objects returned by `paper_cache`; do not invent Zotero items from text-only summaries.
+2. Call `paper_zotero_status()`.
+3. If `configured` is true, call `paper_zotero_items([<selected_paper_dicts>])` and report created/failed counts plus failed reasons.
+4. If Zotero is not configured, call `paper_zotero_export([<selected_paper_dicts>], format="ris")` or `format="bibtex"` and return the filename plus content for import.
+5. Tell the user Zotero sync needs local `.env` values: `ZOTERO_API_KEY`, `ZOTERO_LIBRARY_TYPE`, `ZOTERO_LIBRARY_ID`, and optional `ZOTERO_COLLECTION_KEY`.
+6. Zotero flow is metadata-only; do not upload PDFs or full text.
 
 ### Use HTTP instead of MCP
 
@@ -113,6 +138,7 @@ Useful endpoints:
 3. `GET /daily/crawl/{run_id}` until done.
 4. `GET /daily/cache?format=json&discipline=energy&source=<source_key>`
 5. `POST /agent/context` when the host agent should use its own model.
+6. `POST /zotero/items` to sync selected metadata, or `POST /zotero/export?format=ris` to produce a Zotero import file.
 
 ## Operating Rules
 

@@ -33,7 +33,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "## At A Glance" in readme
     assert "local-first paper metadata workbench for researchers" in readme
-    assert "Current release: `0.2.2`" in readme
+    assert "Current release: `0.2.3`" in readme
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
@@ -80,6 +80,13 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_agent_context`" in readme
     assert "`paper_sources`" in readme
     assert "`paper_ask`" in readme
+    assert "`paper_zotero_export`" in readme
+    assert "Typical agent flow" in readme
+    assert "Translate only when requested" in readme
+    assert "Run RAG only for explicit questions" in readme
+    assert "Zotero flow" in readme
+    assert "paper_zotero_status()" in readme
+    assert 'paper_zotero_export([paper_metadata], format="ris")' in readme
     assert "### HTTP API Mode" in readme
     assert "docker compose up -d --build" in readme
     assert "Agent base URL on the same machine" in readme
@@ -94,7 +101,7 @@ def test_agent_handoff_docs_cover_current_runtime():
 
     assert "PaperLite 中文说明" in readme_zh
     assert "给科研人用的本地优先论文元数据工作台" in readme_zh
-    assert "当前版本：`0.2.2`" in readme_zh
+    assert "当前版本：`0.2.3`" in readme_zh
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
@@ -140,6 +147,13 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_agent_context`" in readme_zh
     assert "`paper_sources`" in readme_zh
     assert "`paper_ask`" in readme_zh
+    assert "`paper_zotero_export`" in readme_zh
+    assert "agent 典型流程" in readme_zh
+    assert "只有用户明确要翻译时才翻译" in readme_zh
+    assert "只有用户要问答时才 RAG" in readme_zh
+    assert "Zotero 用法" in readme_zh
+    assert "paper_zotero_status()" in readme_zh
+    assert 'paper_zotero_export([论文元数据], format="ris")' in readme_zh
     assert "### HTTP API 模式" in readme_zh
     assert "agent 能调用 HTTP 接口时" in readme_zh
     assert "docker compose up -d --build" in readme_zh
@@ -174,9 +188,17 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`paper_crawl`" in skill_doc
     assert "`paper_crawl_status`" in skill_doc
     assert "`paper_cache`" in skill_doc
+    assert "`paper_zotero_export`" in skill_doc
+    assert "Default research workflow" in skill_doc
+    assert "What to do after crawling" in skill_doc
+    assert "Translate only when the user asks" in skill_doc
+    assert "Run RAG only when the user asks a question" in skill_doc
+    assert "Save selected papers to Zotero" in skill_doc
+    assert "paper_zotero_status()" in skill_doc
+    assert 'paper_zotero_export([<selected_paper_dicts>], format="ris")' in skill_doc
     assert "Find and crawl today's energy papers" in skill_doc
     assert 'paper_sources(discipline="energy", q="energy", latest=true, limit=20)' in skill_doc
-    assert "Reply in chat with the actual selected papers" in skill_doc
+    assert "Reply with the actual paper list" in skill_doc
     assert "Return task results directly in the conversation" in skill_doc
     assert "Mention `/daily` only if the user explicitly asks" in skill_doc
     assert "POST /agent/context" in skill_doc
@@ -188,6 +210,9 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
     assert "DEEPSEEK_API_KEY=" in skill_doc
 
+    assert "## 0.2.3 - 2026-04-30" in changelog
+    assert "paper_zotero_export" in changelog
+    assert "post-crawl translation/RAG decisions" in changelog
     assert "## 0.2.2 - 2026-04-30" in changelog
     assert "no-frontend agent result policy" in changelog
     assert "## 0.2.1 - 2026-04-30" in changelog

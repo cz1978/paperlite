@@ -114,6 +114,12 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     zotero_result = mcp_server.paper_zotero_items([paper.to_dict()])
     assert zotero_result["submitted"] == 1
     assert zotero_result["created"][0]["paper_id"] == "arxiv:1"
+    export_result = mcp_server.paper_zotero_export([paper.to_dict()], format="bibtex")
+    assert export_result["status"] == "ok"
+    assert export_result["extension"] == "bib"
+    assert export_result["count"] == 1
+    assert "Paper" in export_result["content"]
+    assert mcp_server.paper_zotero_export([paper.to_dict()], format="pdf")["status"] == "error"
 
 
 def test_mcp_zotero_items_returns_fallback_when_unconfigured(monkeypatch):
