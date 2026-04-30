@@ -37,6 +37,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
+    assert "Agent-only MCP setup does not require Docker or `docker compose up --build`" in readme
+    assert 'python -m pip install -e ".[mcp]"' in readme
     assert "SQLite-first browsing" in readme
     assert "## Quality Gates" in readme
     assert "## Agent Setup" in readme
@@ -123,6 +125,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
+    assert "只给 agent 用 MCP 时，不需要 Docker" in readme_zh
+    assert 'python -m pip install -e ".[mcp]"' in readme_zh
     assert "git clone https://github.com/cz1978/paperlite.git paperlite" in readme_zh
     assert "test -f .env || cp .env.example .env" in readme_zh
     assert "多数人只需要 Docker Compose" in readme_zh

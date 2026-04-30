@@ -20,6 +20,8 @@ No API key is required for browsing, crawling, filtering, export, or the Zotero 
 
 PaperLite is deliberately metadata-only: no silent network calls on page load, no default all-source crawl, no PDF/full-text handling, and no hidden LLM automation.
 
+Agent-only MCP setup does not require Docker or `docker compose up --build`. Install the package with `python -m pip install -e ".[mcp]"`, then configure the agent to launch `python -m paperlite.mcp_server`.
+
 ## What It Does
 
 - Daily workbench at `/daily`: choose scope, crawl/cache, review, enrich/translate/filter, export, or send metadata to Zotero.
