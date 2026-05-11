@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a reproducible PaperLite bug / 报告可复现问题
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please do not paste real `.env` values, API keys, SQLite databases, private URLs, or screenshots with sensitive data.
+
+        感谢反馈问题。请不要粘贴真实 `.env`、API key、SQLite 数据库、私有 URL，或包含敏感信息的截图。
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened? / 发生了什么？
+      description: Describe the visible behavior and why it looks wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce / 复现步骤
+      placeholder: |
+        1. Start PaperLite with ...
+        2. Open/call ...
+        3. See ...
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface / 入口
+      options:
+        - /daily UI
+        - /ops UI
+        - REST API
+        - MCP tool
+        - CLI
+        - Docker/deploy
+        - Source catalog/crawl
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit / 版本或 commit
+      placeholder: "0.3.0 or commit SHA"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output / 相关输出
+      description: Paste logs or JSON responses after removing secrets and private paths.
+      render: text
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Safety checks / 安全检查
+      options:
+        - label: I removed real keys, `.env` values, private URLs, and sensitive local paths.
+          required: true
+        - label: This report does not ask PaperLite to download, cache, proxy, upload, or parse PDFs/full text.
+          required: true

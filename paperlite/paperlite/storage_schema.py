@@ -10,7 +10,7 @@ from typing import Any, Iterable
 
 from paperlite.config import runtime_config
 
-SCHEMA_VERSION = 9
+SCHEMA_VERSION = 10
 _CONNECT_INIT_LOCK = threading.Lock()
 
 EXPECTED_SCHEMA_COLUMNS: dict[str, tuple[str, ...]] = {
@@ -149,6 +149,47 @@ EXPECTED_SCHEMA_COLUMNS: dict[str, tuple[str, ...]] = {
         "signal_counts_json TEXT NOT NULL DEFAULT '{}'",
         "generated_at TEXT NOT NULL DEFAULT ''",
         "updated_at TEXT NOT NULL DEFAULT ''",
+    ),
+    "research_missions": (
+        "mission_id TEXT",
+        "name TEXT NOT NULL DEFAULT ''",
+        "topic TEXT NOT NULL DEFAULT ''",
+        "discipline_key TEXT NOT NULL DEFAULT ''",
+        "source_keys_json TEXT NOT NULL DEFAULT '[]'",
+        "q TEXT NOT NULL DEFAULT ''",
+        "include_terms_json TEXT NOT NULL DEFAULT '[]'",
+        "exclude_terms_json TEXT NOT NULL DEFAULT '[]'",
+        "prefer_terms_json TEXT NOT NULL DEFAULT '[]'",
+        "instructions TEXT NOT NULL DEFAULT ''",
+        "crawl_if_missing INTEGER NOT NULL DEFAULT 1",
+        "limit_per_source INTEGER NOT NULL DEFAULT 15",
+        "status TEXT NOT NULL DEFAULT 'active'",
+        "created_at TEXT NOT NULL DEFAULT ''",
+        "updated_at TEXT NOT NULL DEFAULT ''",
+    ),
+    "research_mission_runs": (
+        "run_id TEXT",
+        "mission_id TEXT NOT NULL DEFAULT ''",
+        "status TEXT NOT NULL DEFAULT ''",
+        "date_from TEXT NOT NULL DEFAULT ''",
+        "date_to TEXT NOT NULL DEFAULT ''",
+        "scope_json TEXT NOT NULL DEFAULT '{}'",
+        "crawl_run_id TEXT",
+        "counts_json TEXT NOT NULL DEFAULT '{}'",
+        "radar_json TEXT NOT NULL DEFAULT '{}'",
+        "warnings_json TEXT NOT NULL DEFAULT '[]'",
+        "error TEXT",
+        "started_at TEXT NOT NULL DEFAULT ''",
+        "finished_at TEXT",
+    ),
+    "research_mission_seen": (
+        "mission_id TEXT NOT NULL DEFAULT ''",
+        "paper_id TEXT NOT NULL DEFAULT ''",
+        "first_seen_run_id TEXT NOT NULL DEFAULT ''",
+        "first_seen_at TEXT NOT NULL DEFAULT ''",
+        "last_seen_run_id TEXT NOT NULL DEFAULT ''",
+        "last_seen_at TEXT NOT NULL DEFAULT ''",
+        "seen_count INTEGER NOT NULL DEFAULT 1",
     ),
 }
 
@@ -396,6 +437,53 @@ def init_db(connection: sqlite3.Connection) -> None:
           generated_at TEXT NOT NULL,
           updated_at TEXT NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS research_missions (
+          mission_id TEXT PRIMARY KEY,
+          name TEXT NOT NULL UNIQUE,
+          topic TEXT NOT NULL,
+          discipline_key TEXT NOT NULL,
+          source_keys_json TEXT NOT NULL DEFAULT '[]',
+          q TEXT NOT NULL DEFAULT '',
+          include_terms_json TEXT NOT NULL DEFAULT '[]',
+          exclude_terms_json TEXT NOT NULL DEFAULT '[]',
+          prefer_terms_json TEXT NOT NULL DEFAULT '[]',
+          instructions TEXT NOT NULL DEFAULT '',
+          crawl_if_missing INTEGER NOT NULL DEFAULT 1,
+          limit_per_source INTEGER NOT NULL DEFAULT 15,
+          status TEXT NOT NULL DEFAULT 'active',
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS research_mission_runs (
+          run_id TEXT PRIMARY KEY,
+          mission_id TEXT NOT NULL,
+          status TEXT NOT NULL,
+          date_from TEXT NOT NULL,
+          date_to TEXT NOT NULL,
+          scope_json TEXT NOT NULL DEFAULT '{}',
+          crawl_run_id TEXT,
+          counts_json TEXT NOT NULL DEFAULT '{}',
+          radar_json TEXT NOT NULL DEFAULT '{}',
+          warnings_json TEXT NOT NULL DEFAULT '[]',
+          error TEXT,
+          started_at TEXT NOT NULL,
+          finished_at TEXT,
+          FOREIGN KEY (mission_id) REFERENCES research_missions(mission_id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS research_mission_seen (
+          mission_id TEXT NOT NULL,
+          paper_id TEXT NOT NULL,
+          first_seen_run_id TEXT NOT NULL,
+          first_seen_at TEXT NOT NULL,
+          last_seen_run_id TEXT NOT NULL,
+          last_seen_at TEXT NOT NULL,
+          seen_count INTEGER NOT NULL DEFAULT 1,
+          PRIMARY KEY (mission_id, paper_id),
+          FOREIGN KEY (mission_id) REFERENCES research_missions(mission_id) ON DELETE CASCADE
+        );
         """
     )
     _apply_schema_migrations(connection)
@@ -433,6 +521,12 @@ def init_db(connection: sqlite3.Connection) -> None:
           ON preference_prompts (enabled, updated_at);
         CREATE INDEX IF NOT EXISTS idx_preference_query_history_updated
           ON preference_query_history (updated_at);
+        CREATE INDEX IF NOT EXISTS idx_research_missions_status
+          ON research_missions (status, updated_at);
+        CREATE INDEX IF NOT EXISTS idx_research_mission_runs_lookup
+          ON research_mission_runs (mission_id, started_at);
+        CREATE INDEX IF NOT EXISTS idx_research_mission_seen_last
+          ON research_mission_seen (mission_id, last_seen_at);
         """
     )
     connection.execute(

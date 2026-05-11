@@ -288,6 +288,162 @@ def test_paper_research_caps_overflow(monkeypatch):
     assert "AI-rank" in result["overflow"]["message"]
 
 
+def test_paper_mission_run_builds_radar_and_seen_memory(monkeypatch, tmp_path):
+    db_path = tmp_path / "paperlite.sqlite3"
+    mission = storage.save_research_mission(
+        name="AI agents for materials discovery",
+        topic="AI agents for materials discovery",
+        discipline="materials",
+        source_keys=["acs_chem_materials"],
+        q="materials discovery",
+        exclude_terms=["survey", "benchmark-only"],
+        prefer_terms=["experimental", "open source", "reproducible", "code"],
+        instructions="Prefer experimental results with code.",
+        path=db_path,
+    )
+    run = storage.create_crawl_run(
+        date_from="2024-01-02",
+        date_to="2024-01-02",
+        discipline_key="materials",
+        source_keys=["acs_chem_materials"],
+        limit_per_source=20,
+        path=db_path,
+    )
+    important = make_material_paper(1)
+    important.title = "Open source AI agents for materials discovery"
+    important.abstract = "Experimental materials discovery with reproducible code and open source agents."
+    important.concepts = ["AI agents", "materials discovery"]
+    survey = make_material_paper(2)
+    survey.title = "Survey of benchmark-only materials discovery agents"
+    survey.abstract = "A survey and benchmark-only overview of AI agents for materials discovery."
+    maybe = make_material_paper(3)
+    maybe.title = "Materials discovery workflow"
+    maybe.abstract = "A metadata record about materials discovery workflows."
+    storage.store_daily_papers(
+        run_id=run["run_id"],
+        entry_date="2024-01-02",
+        discipline_key="materials",
+        source_key="acs_chem_materials",
+        papers=[important, survey, maybe],
+        path=db_path,
+    )
+    monkeypatch.setattr(agent, "complete_chat", lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("no llm")))
+
+    first = agent.paper_mission_run(
+        mission_id=mission["mission_id"],
+        date_value="2024-01-02",
+        use_llm=False,
+        cache_path=db_path,
+    )
+    second = agent.paper_mission_run(
+        mission_id=mission["mission_id"],
+        date_value="2024-01-02",
+        use_llm=False,
+        cache_path=db_path,
+    )
+
+    assert first["status"] == "ok"
+    assert first["crawl"]["triggered"] is False
+    assert first["counts"]["candidate_count"] == 2
+    assert first["counts"]["excluded_count"] == 1
+    assert first["counts"]["new_count"] == 2
+    assert first["radar"]["important_papers"][0]["paper_id"] == important.id
+    assert first["radar"]["important_papers"][0]["prefer_hits"]
+    assert first["radar"]["excluded_summary"]["reasons"][0]["term"] in {"survey", "benchmark-only"}
+    assert first["radar"]["topic_signals"]["top_terms"][0]["term"] in {"ai agents", "materials discovery", "materials"}
+    assert first["intelligence"]["llm_used"] is False
+    assert first["run"]["run_id"]
+    assert second["counts"]["new_count"] == 0
+
+
+def test_paper_mission_run_crawls_when_cache_missing(monkeypatch, tmp_path):
+    db_path = tmp_path / "paperlite.sqlite3"
+    mission = storage.save_research_mission(
+        name="Catalyst mission",
+        topic="catalyst materials",
+        discipline="materials",
+        source_keys=["acs_chem_materials"],
+        path=db_path,
+    )
+    calls = {"exports": 0, "created": None, "ran": None}
+    paper = make_material_paper(1)
+    paper.abstract = "Catalyst materials metadata."
+
+    def fake_export(**kwargs):
+        calls["exports"] += 1
+        assert kwargs["discipline"] == "materials"
+        return [] if calls["exports"] == 1 else [paper]
+
+    monkeypatch.setattr(agent, "daily_cache_export_papers", fake_export)
+    monkeypatch.setattr(
+        agent,
+        "create_daily_crawl",
+        lambda **kwargs: {"run_id": "run-mission", "status": "queued", "reused": False, "source_keys": kwargs["source"]},
+    )
+    monkeypatch.setattr(agent, "run_daily_crawl", lambda run_id, **kwargs: calls.update({"ran": {"run_id": run_id, **kwargs}}))
+    monkeypatch.setattr(
+        agent,
+        "get_crawl_run",
+        lambda run_id, **_kwargs: {"run_id": run_id, "status": "completed", "total_items": 1, "warnings": []},
+    )
+
+    result = agent.paper_mission_run(
+        mission_id=mission["mission_id"],
+        date_value="2024-01-02",
+        use_llm=False,
+        cache_path=db_path,
+    )
+
+    assert result["crawl"]["triggered"] is True
+    assert result["crawl"]["source_keys"] == ["acs_chem_materials"]
+    assert calls["ran"]["run_id"] == "run-mission"
+    assert result["counts"]["candidate_count"] == 1
+
+
+def test_paper_mission_run_use_llm_warning_does_not_fail(monkeypatch, tmp_path):
+    db_path = tmp_path / "paperlite.sqlite3"
+    mission = storage.save_research_mission(
+        name="LLM optional mission",
+        topic="materials",
+        discipline="materials",
+        source_keys=["acs_chem_materials"],
+        path=db_path,
+    )
+    run = storage.create_crawl_run(
+        date_from="2024-01-02",
+        date_to="2024-01-02",
+        discipline_key="materials",
+        source_keys=["acs_chem_materials"],
+        limit_per_source=20,
+        path=db_path,
+    )
+    storage.store_daily_papers(
+        run_id=run["run_id"],
+        entry_date="2024-01-02",
+        discipline_key="materials",
+        source_key="acs_chem_materials",
+        papers=[make_material_paper(1)],
+        path=db_path,
+    )
+    monkeypatch.setattr(
+        agent,
+        "complete_chat",
+        lambda *_args, **_kwargs: {"configured": False, "model": None, "answer": "", "warnings": ["llm_not_configured"]},
+    )
+
+    result = agent.paper_mission_run(
+        mission_id=mission["mission_id"],
+        date_value="2024-01-02",
+        use_llm=True,
+        cache_path=db_path,
+    )
+
+    assert result["status"] == "ok"
+    assert result["intelligence"]["use_llm"] is True
+    assert result["intelligence"]["llm_used"] is False
+    assert result["intelligence"]["warnings"] == ["llm_not_configured"]
+
+
 def test_llm_unconfigured_returns_stable_shape(monkeypatch, tmp_path):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)

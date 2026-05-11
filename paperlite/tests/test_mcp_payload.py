@@ -20,6 +20,10 @@ def test_mcp_registered_tools_are_documented():
         "paper_explain",
         "paper_agent_context",
         "paper_research",
+        "paper_mission_save",
+        "paper_missions",
+        "paper_mission_run",
+        "paper_mission_delete",
         "paper_translate",
         "paper_translation_profiles",
         "paper_filter",
@@ -111,6 +115,26 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     monkeypatch.setattr(mcp_server, "run_paper_ask", lambda **kwargs: {"answer": "Answer [1].", "question": kwargs["question"]})
     monkeypatch.setattr(mcp_server, "run_paper_rag_index", lambda **kwargs: {"indexed": 1, "date_from": kwargs["date_value"]})
     monkeypatch.setattr(mcp_server, "run_paper_research", lambda **kwargs: {"status": "ok", "scope": {"topic": kwargs["topic"]}})
+    monkeypatch.setattr(
+        mcp_server,
+        "run_paper_mission_save",
+        lambda **kwargs: {"status": "ok", "mission": {"mission_id": "mission-1", "name": kwargs["name"]}},
+    )
+    monkeypatch.setattr(
+        mcp_server,
+        "run_paper_missions",
+        lambda **kwargs: {"status": "ok", "count": 1, "missions": [{"mission_id": "mission-1"}], **kwargs},
+    )
+    monkeypatch.setattr(
+        mcp_server,
+        "run_paper_mission_run",
+        lambda **kwargs: {"status": "ok", "mission": {"mission_id": kwargs["mission_id"]}, "radar": {}},
+    )
+    monkeypatch.setattr(
+        mcp_server,
+        "run_paper_mission_delete",
+        lambda **kwargs: {"status": "ok", "deleted": True, "mission_id": kwargs["mission_id"]},
+    )
     monkeypatch.setattr(mcp_server, "run_create_daily_crawl", lambda **kwargs: {"run_id": "run-1", "status": "queued", "reused": False, **kwargs})
     monkeypatch.setattr(mcp_server, "run_daily_crawl", lambda run_id: None)
     monkeypatch.setattr(mcp_server, "get_crawl_run", lambda run_id: {"run_id": run_id, "status": "completed", "total_items": 2})
@@ -147,6 +171,10 @@ def test_mcp_agent_tools_return_json_serializable(monkeypatch):
     assert mcp_server.paper_translation_profiles()["profiles"][0]["key"] == "research_card_cn"
     assert mcp_server.paper_filter(paper.to_dict(), query="useful")["group"] == "recommend"
     assert mcp_server.paper_research(topic="材料", date="2026-04-29")["scope"]["topic"] == "材料"
+    assert mcp_server.paper_mission_save(name="Mission")["mission"]["name"] == "Mission"
+    assert mcp_server.paper_missions()["count"] == 1
+    assert mcp_server.paper_mission_run("mission-1")["mission"]["mission_id"] == "mission-1"
+    assert mcp_server.paper_mission_delete("mission-1")["deleted"] is True
     assert mcp_server.paper_ask("question?", date="2026-04-29")["answer"] == "Answer [1]."
     assert mcp_server.paper_rag_index(date="2026-04-29")["indexed"] == 1
     assert mcp_server.paper_crawl(discipline="energy", source="mdpi_energies", date="2026-04-29")["status"] == "completed"

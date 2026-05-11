@@ -10,6 +10,7 @@ The launch surface is intentionally narrow:
 - `/sources`, `/endpoints`, `/catalog/*`: catalog inspection.
 - `/library/*`, `/preferences/*`: single-user local library and learning state.
 - `/agent/research`: one-shot agent research request: resolve topic/scope, read cache, optionally run one explicit discipline crawl, and return capped paper results.
+- `/agent/missions/*`: agent-first Research Missions with persistent scope, include/exclude/prefer terms, mission run history, and seen-paper memory.
 - `/agent/filter`, `/agent/translate`, `/agent/explain`, `/agent/translation-profiles`: explicit manual LLM actions and server-registered translation formats.
 - `/agent/rag/index`, `/agent/ask`: explicit metadata-only vector RAG over cached papers.
 - `/daily/enrich`, `/zotero/*`: metadata enrichment and Zotero metadata sync/export.
@@ -87,6 +88,9 @@ python -m paperlite.cli mcp
 - `GET|POST /preferences/prompts`, `PATCH|DELETE /preferences/prompts/{prompt_id}`
 - `POST /preferences/rebuild`, `POST /preferences/purify`, `POST /preferences/learning-data/clear`, `GET /preferences/evaluation`, `GET /preferences/training-data`
 - `POST /agent/research`
+- `GET|POST /agent/missions`
+- `GET|DELETE /agent/missions/{mission_id}`
+- `POST /agent/missions/{mission_id}/run`
 - `POST /agent/filter`, `POST /agent/translate`, `POST /agent/explain`, `GET /agent/translation-profiles`
 - `POST /agent/rag/index`, `POST /agent/ask`
 - `GET /zotero/status`, `POST /zotero/items`, `POST /zotero/export?format=ris|bibtex`
@@ -99,6 +103,8 @@ RAG and related-paper scope can include `date`, `date_from`, `date_to`, `discipl
 ## LLM And Learning
 
 LLM calls are explicit. Page load does not trigger filtering, translation, source audit, or health checks.
+
+Research Missions are agent-first and cache-first. They persist mission scope and seen-paper memory in SQLite, then return a metadata-only radar with new papers, important papers, exclusions, topic signals, warnings, and next actions. A mission run may explicitly fill missing cache with one discipline-scoped crawl, but it does not run automatically on page load and does not require PaperLite LLM configuration. Passing `use_llm=true` only asks the configured chat model to add a top-candidate explanation.
 
 Translation prompts and output formats are server-registered profiles. `brief` defaults to `research_card_cn`, `detail` defaults to `detail_cn`, and agents should pass a `translation_profile` key instead of free-form prompts.
 
@@ -173,6 +179,10 @@ Tools:
 
 - `paper_enrich`
 - `paper_research`
+- `paper_mission_save`
+- `paper_missions`
+- `paper_mission_run`
+- `paper_mission_delete`
 - `paper_sources`
 - `paper_explain`
 - `paper_translate`

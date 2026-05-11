@@ -1,0 +1,51 @@
+name: Feature request
+description: Suggest a PaperLite workflow or capability / 提出功能或工作流建议
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / 问题
+      description: What user workflow is hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal / 建议
+      description: Describe the smallest useful version.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area / 范围
+      options:
+        - Research Missions
+        - Agent/MCP workflow
+        - /daily UI
+        - /ops and source maintenance
+        - Export/Zotero
+        - Metadata RAG
+        - Source catalog
+        - Deployment/docs
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered / 其他方案
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Boundary checks / 边界确认
+      options:
+        - label: This proposal keeps PaperLite metadata-only.
+          required: true
+        - label: This proposal does not require hidden page-load crawl, LLM, embedding, source audit, health check, or RAG work.
+          required: true
+        - label: This proposal does not make all-source crawling the default.
+          required: true
+

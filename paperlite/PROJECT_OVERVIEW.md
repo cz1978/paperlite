@@ -13,7 +13,7 @@ PaperLite is now organized around one product path: cache scholarly metadata, re
 - `paperlite/daily_dates.py`: local daily date parsing and crawl window helpers.
 - `paperlite/daily_export.py`: cache/export helper policy for `/daily/cache` and `/daily/export`.
 - `paperlite/daily_crawl.py`: discipline-scoped manual and scheduled cache writer.
-- `paperlite/agent.py`: one-shot agent research workflow, explicit LLM filtering, translation, metadata RAG, and cached related-paper logic.
+- `paperlite/agent.py`: one-shot agent research workflow, Research Mission radar, explicit LLM filtering, translation, metadata RAG, and cached related-paper logic.
 - `paperlite/translation_profiles.py`, `translation_profiles.yaml`: server-owned translation output profiles.
 - `paperlite/cli.py`: local operations CLI, including read-only `paperlite sources` catalog listing.
 - `paperlite/storage.py`: compatibility facade for existing imports.
@@ -21,6 +21,7 @@ PaperLite is now organized around one product path: cache scholarly metadata, re
 - `paperlite/storage_crawl.py`: crawl runs, source results, schedules, and daily cache writes.
 - `paperlite/storage_translation.py`: translation cache.
 - `paperlite/storage_preference_core.py`, `storage_library.py`, `storage_preferences.py`: local library state and preference learning.
+- `paperlite/storage_missions.py`: Research Mission configs, run summaries, and mission-level seen-paper memory.
 - `paperlite/storage_views.py`: saved views.
 - `paperlite/storage_cache.py`: daily cache reads and grouping.
 - `paperlite/ai_filter.py`: LLM-assisted paper filtering with public quality criteria and local preference context.
@@ -38,6 +39,7 @@ Keep:
 - `/ops/*`, `/ops/source-audit/*`
 - `/sources`, `/endpoints`, `/catalog/*`
 - `/agent/research`
+- `/agent/missions`, `/agent/missions/{mission_id}`, `/agent/missions/{mission_id}/run`
 - `/agent/filter`, `/agent/translate`, `/agent/explain`, `/agent/translation-profiles`
 - `/agent/rag/index`, `/agent/ask`
 - `/zotero/status`, `/zotero/items`, `/zotero/export`

@@ -557,10 +557,68 @@ def test_connect_migrates_old_schema_before_marking_version(tmp_path):
         schema_version = connection.execute("SELECT value FROM schema_meta WHERE key = 'schema_version'").fetchone()["value"]
         paper_columns = {row["name"] for row in connection.execute("PRAGMA table_info(paper_items)").fetchall()}
         crawl_columns = {row["name"] for row in connection.execute("PRAGMA table_info(crawl_runs)").fetchall()}
+        mission_columns = {row["name"] for row in connection.execute("PRAGMA table_info(research_missions)").fetchall()}
+        mission_run_columns = {
+            row["name"] for row in connection.execute("PRAGMA table_info(research_mission_runs)").fetchall()
+        }
 
     assert schema_version == str(storage.SCHEMA_VERSION)
     assert {"published_at", "updated_at"} <= paper_columns
     assert {"date_from", "date_to", "discipline_key", "source_keys_json", "warnings_json", "request_key"} <= crawl_columns
+    assert {"mission_id", "topic", "exclude_terms_json", "prefer_terms_json"} <= mission_columns
+    assert {"run_id", "mission_id", "radar_json", "counts_json"} <= mission_run_columns
+
+
+def test_research_missions_store_runs_and_seen_memory(tmp_path):
+    db_path = tmp_path / "paperlite.sqlite3"
+    mission = storage.save_research_mission(
+        name="AI agents for materials discovery",
+        topic="AI agents for materials discovery",
+        discipline="materials",
+        source_keys=["arxiv_cs_lg", "acs_chem_materials"],
+        include_terms=["materials discovery"],
+        exclude_terms=["survey"],
+        prefer_terms=["open source", "reproducible"],
+        instructions="Prefer experimental and reproducible work.",
+        path=db_path,
+    )
+    updated = storage.save_research_mission(
+        mission_id=mission["mission_id"],
+        name=mission["name"],
+        prefer_terms=["open source", "code"],
+        path=db_path,
+    )
+    run = storage.record_research_mission_run(
+        mission_id=mission["mission_id"],
+        status="ok",
+        date_from="2026-04-28",
+        date_to="2026-04-28",
+        scope={"discipline": "materials"},
+        counts={"candidate_count": 1},
+        radar={"topic_signals": {"top_terms": [{"term": "materials", "count": 1}]}},
+        warnings=["partial"],
+        path=db_path,
+    )
+    marked = storage.mark_research_mission_seen(
+        mission_id=mission["mission_id"],
+        run_id=run["run_id"],
+        paper_ids=["paper:1"],
+        path=db_path,
+    )
+    seen = storage.research_mission_seen_paper_ids(mission["mission_id"], ["paper:1", "paper:2"], path=db_path)
+    listed = storage.list_research_missions(path=db_path)
+    runs = storage.list_research_mission_runs(mission["mission_id"], path=db_path)
+    deleted = storage.delete_research_mission(mission["mission_id"], path=db_path)
+
+    assert updated["prefer_terms"] == ["open source", "code"]
+    assert listed[0]["mission_id"] == mission["mission_id"]
+    assert listed[0]["source_keys"] == ["arxiv_cs_lg", "acs_chem_materials"]
+    assert runs[0]["run_id"] == run["run_id"]
+    assert runs[0]["warnings"] == ["partial"]
+    assert marked == 1
+    assert seen == {"paper:1"}
+    assert deleted is True
+    assert storage.get_research_mission(mission["mission_id"], path=db_path) is None
 
 
 def test_list_crawl_runs_filters_by_status_and_discipline(tmp_path):

@@ -4,7 +4,19 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from paperlite.agent import paper_agent_context, paper_ask, paper_explain, paper_rag_index, paper_related, paper_research
+from paperlite.agent import (
+    paper_agent_context,
+    paper_ask,
+    paper_explain,
+    paper_mission_delete,
+    paper_mission_get,
+    paper_mission_run,
+    paper_mission_save,
+    paper_missions,
+    paper_rag_index,
+    paper_related,
+    paper_research,
+)
 from paperlite.ai_filter import filter_paper
 from paperlite.api_agent import router as agent_router
 from paperlite.api_catalog import router as catalog_router
@@ -46,6 +58,11 @@ __all__ = [
     "paper_ask",
     "paper_agent_context",
     "paper_explain",
+    "paper_mission_delete",
+    "paper_mission_get",
+    "paper_mission_run",
+    "paper_mission_save",
+    "paper_missions",
     "paper_rag_index",
     "paper_related",
     "paper_research",

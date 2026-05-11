@@ -82,6 +82,75 @@ def agent_research(payload: dict):
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+@router.get("/agent/missions")
+def agent_missions(status: str | None = "active"):
+    return _api_facade().paper_missions(status=status)
+
+@router.post("/agent/missions")
+def agent_mission_save(payload: dict):
+    try:
+        return _api_facade().paper_mission_save(
+            mission_id=payload.get("mission_id"),
+            name=payload.get("name"),
+            topic=payload.get("topic"),
+            discipline=payload.get("discipline"),
+            source=payload.get("source") or payload.get("source_keys"),
+            q=payload.get("q"),
+            include_terms=payload.get("include_terms"),
+            exclude_terms=payload.get("exclude_terms"),
+            prefer_terms=payload.get("prefer_terms"),
+            instructions=payload.get("instructions"),
+            crawl_if_missing=(
+                payload_bool(payload, "crawl_if_missing", default=True)
+                if "crawl_if_missing" in payload
+                else None
+            ),
+            limit_per_source=(
+                payload_int(payload, "limit_per_source", default=15, minimum=1, maximum=500)
+                if "limit_per_source" in payload
+                else None
+            ),
+            status=payload.get("status"),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+@router.get("/agent/missions/{mission_id}")
+def agent_mission_get(mission_id: str):
+    result = _api_facade().paper_mission_get(mission_id=mission_id)
+    if result.get("status") == "not_found":
+        raise HTTPException(status_code=404, detail="research mission not found")
+    return result
+
+@router.post("/agent/missions/{mission_id}/run")
+def agent_mission_run(mission_id: str, payload: dict | None = None):
+    body = payload or {}
+    crawl_override = (
+        payload_bool(body, "crawl_if_missing", default=True)
+        if "crawl_if_missing" in body
+        else None
+    )
+    try:
+        return _api_facade().paper_mission_run(
+            mission_id=mission_id,
+            date_value=body.get("date"),
+            date_from=body.get("date_from"),
+            date_to=body.get("date_to"),
+            limit=payload_int(body, "limit", default=15, minimum=1, maximum=50),
+            crawl_if_missing=crawl_override,
+            source_limit=payload_int(body, "source_limit", default=15, minimum=1, maximum=50),
+            use_llm=payload_bool(body, "use_llm", default=False),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+@router.delete("/agent/missions/{mission_id}")
+def agent_mission_delete(mission_id: str):
+    result = _api_facade().paper_mission_delete(mission_id=mission_id)
+    if not result.get("deleted"):
+        raise HTTPException(status_code=404, detail="research mission not found")
+    return result
+
 @router.post("/agent/rag/index")
 def agent_rag_index(payload: dict):
     try:

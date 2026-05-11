@@ -1,10 +1,14 @@
 # PaperLite
 
+[![PaperLite CI](https://github.com/cz1978/paperlite/actions/workflows/paperlite-ci.yml/badge.svg)](https://github.com/cz1978/paperlite/actions/workflows/paperlite-ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue.svg)](paperlite/pyproject.toml)
+
 [中文说明](README.zh-CN.md)
 
 PaperLite is a local-first paper metadata workbench for researchers who want a calmer daily reading queue.
 
-Current release: `0.2.9`. See [CHANGELOG.md](CHANGELOG.md).
+Current release: `0.3.0`. See [CHANGELOG.md](CHANGELOG.md).
 
 Give it a discipline and sources; it fetches paper metadata into SQLite, lets you review and export the results in `/daily`, and can optionally use your own LLM or embedding provider for translation, recommendation, and metadata-only RAG.
 
@@ -41,6 +45,12 @@ Agent-only MCP setup does not require Docker or `docker compose up --build`. Ins
 | `/ops` | Operations panel | Doctor checks, run history, schedules, source health, and audit snapshots stay visible. |
 | YAML catalog | Source truth | `sources.yaml`, `endpoints.yaml`, `taxonomy.yaml`, and `profiles.yaml` remain reviewable data files. |
 | SQLite | Local memory | Cache, runs, schedules, library state, saved views, translations, and preference signals are local. |
+
+## Screenshots
+
+![PaperLite daily workbench](docs/assets/paperlite-daily.png)
+
+![PaperLite operations panel](docs/assets/paperlite-ops.png)
 
 ## Quick Start
 
@@ -96,6 +106,7 @@ Before publishing a fork, keep `.env` local and rotate any real keys that were e
 - Library/preferences: `/library/*`, `/preferences/*`
 - Agent/LLM: `/agent/filter`, `/agent/translate`, `/agent/explain`, `/agent/translation-profiles`
 - One-shot agent research: `/agent/research`
+- Research missions: `/agent/missions`, `/agent/missions/{mission_id}/run`
 - Metadata RAG: `/agent/rag/index`, `/agent/ask`
 - CLI RAG: `python -m paperlite.cli rag index ...`, `python -m paperlite.cli rag ask ...`
 - CLI sources: `python -m paperlite.cli sources --format markdown`
@@ -112,11 +123,14 @@ Default MCP mode does not need Docker. The agent runs `python -m paperlite.mcp_s
 
 Default agent workflow: call `paper_research` or `POST /agent/research` for natural-language requests such as "show today's materials papers". It resolves the discipline, checks today's SQLite cache, runs one explicit discipline-scoped crawl only when that cache is missing, requests the `research_card_cn` brief translation by default, and returns papers, count, crawl warnings, and a `result_contract`. Use the host agent's own model to render any missing brief fields.
 
+For long-running interests, save a Research Mission with `paper_mission_save` or `POST /agent/missions`, then run `paper_mission_run` or `POST /agent/missions/{mission_id}/run`. A mission stores topic, discipline, sources, include/exclude/prefer terms, instructions, and mission-level seen-paper memory. Each run is cache-first, may explicitly fill missing cache with one discipline-scoped crawl, and returns a metadata-only radar: new papers, important papers, excluded summary, topic signals, warnings, and next actions.
+
 Agent result rule, short version:
 
 - the user's current prompt wins.
 - Agents should not open `/daily` to crawl or finish by sending users to a `/daily` link. Return the selected papers and summary directly in the agent response.
 - For ordinary topic requests, call `paper_research(topic="材料", date="<today>")`. Use `paper_agent_context` or `POST /agent/context` only for prepared explain/filter/ask messages.
+- For saved long-running research interests, call `paper_mission_run(mission_id="<id>", date="<today>")` and return the radar directly.
 - After crawling, organizing, filtering, or ranking, the agent should state the scope first: discipline, source key/name, date range, query, run status, warnings, and total count.
 - List actual papers. Up to 15 papers: include title, source/venue, date, URL/DOI, reason, and a brief abstract/summary. If more than 15 papers match, list at most 15, state the remaining count, and ask whether to AI-rank/optimize or add keywords.
 - In Chinese brief answers, include both titles and the identifier: Chinese title from `paper.display_title`, `paper.title_zh`, or `paper.brief_translation.title_zh`; English original from `paper.title_original` or `paper.title_en`; ID from `paper.identifier_label` + `paper.identifier`; one-sentence summary from `paper.brief_translation.cn_flash_180` or the host model.
@@ -172,6 +186,10 @@ Useful MCP tools:
 - `paper_enrich`
 - `paper_sources`
 - `paper_research`
+- `paper_mission_save`
+- `paper_missions`
+- `paper_mission_run`
+- `paper_mission_delete`
 - `paper_crawl`
 - `paper_crawl_status`
 - `paper_cache`
@@ -190,11 +208,12 @@ Useful MCP tools:
 Typical agent flow:
 
 1. For natural-language requests, call `paper_research(topic="<topic>", date="<today>")`.
-2. If `papers` is non-empty, reply with the actual paper list first: titles, sources, dates, links, reasons, and brief abstracts/summaries. In Chinese answers, add Chinese title translations and one-sentence Chinese summaries for every paper.
-3. If `remaining_count` is greater than 0, list only the returned papers and ask whether to AI-rank or add keywords.
-4. If `warnings` or `crawl.source_warnings` are present, mention them instead of pretending the crawl fully succeeded.
-5. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback, source-specific requests, or troubleshooting.
-6. Full translation only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
+2. For recurring interests, create or update `paper_mission_save(...)`, then call `paper_mission_run(mission_id="<id>", date="<today>")`.
+3. If `papers` is non-empty, reply with the actual paper list first: titles, sources, dates, links, reasons, and brief abstracts/summaries. In Chinese answers, add Chinese title translations and one-sentence Chinese summaries for every paper.
+4. If `remaining_count` is greater than 0, list only the returned papers and ask whether to AI-rank or add keywords.
+5. If `warnings` or `crawl.source_warnings` are present, mention them instead of pretending the crawl fully succeeded.
+6. Use `paper_sources`, `paper_crawl`, `paper_crawl_status`, and `paper_cache` only for manual fallback, source-specific requests, or troubleshooting.
+7. Full translation only when requested. Run RAG only for explicit questions. Use Zotero only when the user asks to save or export papers.
 
 Zotero flow:
 
@@ -224,6 +243,9 @@ Useful JSON endpoints:
 
 - `POST /agent/context`
 - `POST /agent/research`
+- `GET|POST /agent/missions`
+- `GET|DELETE /agent/missions/{mission_id}`
+- `POST /agent/missions/{mission_id}/run`
 - `GET /sources`
 - `POST /daily/crawl`
 - `GET /daily/crawl/{run_id}`
@@ -265,6 +287,16 @@ python -m paperlite.cli endpoints audit --limit 100 --sample-size 3 --format mar
 Runtime data lives under `.paperlite/` by default and is ignored by Git. Start from `.env.example` for local configuration; when you run from `paperlite/`, PaperLite reads `paperlite/.env` first and falls back to the repository root `.env`.
 
 `GET /preferences/training-data` exports local learning data only when `PAPERLITE_TRAINING_EXPORT_TOKEN` is configured and the request sends `Authorization: Bearer <token>`.
+
+## Contributing And Community
+
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md) / [中文](CONTRIBUTING.zh-CN.md)
+- Security policy: [SECURITY.md](SECURITY.md) / [中文](SECURITY.zh-CN.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) / [中文](CODE_OF_CONDUCT.zh-CN.md)
+- Roadmap: [ROADMAP.md](ROADMAP.md) / [中文](ROADMAP.zh-CN.md)
+- Architecture: [ARCHITECTURE.md](ARCHITECTURE.md) / [中文](ARCHITECTURE.zh-CN.md)
+- Release checklist: [RELEASE.md](RELEASE.md) / [中文](RELEASE.zh-CN.md)
+- Citation metadata: [CITATION.cff](CITATION.cff)
 
 ## Troubleshooting
 

@@ -16,8 +16,16 @@ from paperlite.storage import (
     daily_cache_papers_for_rag,
     get_crawl_run,
     get_paper_embedding,
+    get_research_mission,
+    list_research_mission_runs,
+    list_research_missions,
+    mark_research_mission_seen,
     paper_embedding_hash,
     paper_embedding_text,
+    record_research_mission_run,
+    research_mission_seen_paper_ids,
+    save_research_mission,
+    delete_research_mission,
     upsert_paper_embedding,
 )
 from paperlite.taxonomy import discipline_record, load_taxonomy, taxonomy_key_for_discipline
@@ -26,6 +34,28 @@ RESEARCH_DEFAULT_LIMIT = 15
 RESEARCH_MAX_LIMIT = 50
 RESEARCH_SOURCE_LIMIT = 15
 RESEARCH_CACHE_LIMIT_PER_SOURCE = 500
+MISSION_DEFAULT_LIMIT = 15
+MISSION_MAX_LIMIT = 50
+MISSION_LLM_CANDIDATE_LIMIT = 5
+
+_MISSION_TOPIC_STOPWORDS = {
+    "about",
+    "after",
+    "agent",
+    "agents",
+    "and",
+    "are",
+    "for",
+    "from",
+    "into",
+    "paper",
+    "papers",
+    "research",
+    "study",
+    "the",
+    "this",
+    "with",
+}
 
 _RESEARCH_QUERY_HINTS: tuple[tuple[str, str], ...] = (
     ("新能源材料", "renewable energy"),
@@ -879,6 +909,668 @@ def paper_research(
             scope=scope,
             warnings=unique_warnings,
         ),
+    }
+
+
+def _mission_terms(value: str | Iterable[str] | None) -> list[str]:
+    if value is None:
+        return []
+    raw = value.split(",") if isinstance(value, str) else list(value)
+    return list(dict.fromkeys(str(item).strip() for item in raw if str(item).strip()))
+
+
+def _mission_topic_terms(topic: str | None) -> list[str]:
+    text = str(topic or "").replace("_", " ").replace("-", " ")
+    terms = []
+    for raw in text.split():
+        clean = raw.strip(" \t\r\n.,:;!?()[]{}\"'").lower()
+        if len(clean) < 3 or clean in _MISSION_TOPIC_STOPWORDS:
+            continue
+        terms.append(clean)
+    return list(dict.fromkeys(terms))
+
+
+def _mission_paper_text(paper: Paper) -> str:
+    values: list[str] = [
+        paper.title,
+        paper.abstract,
+        paper.source,
+        paper.source_type,
+        paper.journal or "",
+        paper.venue or "",
+        paper.publisher or "",
+        " ".join(paper.authors),
+        " ".join(paper.categories),
+        " ".join(paper.concepts),
+    ]
+    return _scope_text(" ".join(value for value in values if value))
+
+
+def _mission_hits(terms: Iterable[str], paper_text: str) -> list[str]:
+    hits: list[str] = []
+    compact_text = paper_text.replace(" ", "")
+    for term in terms:
+        clean = _scope_text(term)
+        if not clean:
+            continue
+        compact = clean.replace(" ", "")
+        if clean in paper_text or (compact and compact in compact_text):
+            hits.append(str(term))
+    return list(dict.fromkeys(hits))
+
+
+def _mission_display_names() -> dict[str, str]:
+    return {
+        str(item.get("name") or ""): str(item.get("display_name") or item.get("name") or "")
+        for item in list_sources()
+    }
+
+
+def _mission_source_counts(papers: list[Paper]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for paper in papers:
+        source = str(paper.source or "")
+        counts[source] = counts.get(source, 0) + 1
+    return counts
+
+
+def _mission_score_paper(
+    paper: Paper,
+    *,
+    mission: dict[str, Any],
+    seen_ids: set[str],
+    topic_terms: list[str],
+) -> dict[str, Any]:
+    text = _mission_paper_text(paper)
+    exclude_hits = _mission_hits(mission.get("exclude_terms") or [], text)
+    include_hits = _mission_hits(mission.get("include_terms") or [], text)
+    prefer_hits = _mission_hits(mission.get("prefer_terms") or [], text)
+    q_hits = _mission_hits([mission.get("q")] if mission.get("q") else [], text)
+    topic_hits = _mission_hits(topic_terms, text)
+    is_new = str(paper.id or "") not in seen_ids
+    score = 10
+    if is_new:
+        score += 30
+    if q_hits:
+        score += 24
+    score += min(30, 12 * len(topic_hits))
+    score += min(30, 15 * len(include_hits))
+    score += min(36, 12 * len(prefer_hits))
+    if paper.abstract:
+        score += 8
+    if paper.doi or arxiv_id_from_url(paper.url):
+        score += 6
+    if paper.venue or paper.journal:
+        score += 5
+    if paper.citation_count:
+        score += min(20, max(0, int(paper.citation_count)) // 10)
+    if exclude_hits:
+        score = 0
+    reasons = []
+    if is_new:
+        reasons.append("new to this mission")
+    if q_hits:
+        reasons.append(f"query hit: {', '.join(q_hits)}")
+    if topic_hits:
+        reasons.append(f"topic hit: {', '.join(topic_hits[:4])}")
+    if include_hits:
+        reasons.append(f"include hit: {', '.join(include_hits[:4])}")
+    if prefer_hits:
+        reasons.append(f"preference hit: {', '.join(prefer_hits[:4])}")
+    if paper.citation_count:
+        reasons.append(f"citation count {paper.citation_count}")
+    return {
+        "paper": paper,
+        "score": score,
+        "is_new": is_new,
+        "exclude_hits": exclude_hits,
+        "include_hits": include_hits,
+        "prefer_hits": prefer_hits,
+        "topic_hits": topic_hits,
+        "q_hits": q_hits,
+        "reasons": reasons or ["matches mission metadata scope"],
+    }
+
+
+def _mission_result_contract() -> dict[str, Any]:
+    return {
+        **agent_result_policy(),
+        "mission_fields": [
+            "mission",
+            "scope",
+            "crawl",
+            "counts",
+            "radar",
+            "papers",
+            "intelligence",
+            "warnings",
+            "next_actions",
+            "result_contract",
+        ],
+        "mission_policy": (
+            "For long-running research requests, prefer paper_mission_run. "
+            "Return the mission radar directly: new papers, important papers, "
+            "excluded summary, topic signals, warnings, and next actions. "
+            "Do not send users to /daily as the final answer unless they asked "
+            "for the human UI."
+        ),
+    }
+
+
+def _mission_item(
+    scored: dict[str, Any],
+    *,
+    scope: dict[str, Any],
+    display_names: dict[str, str],
+) -> dict[str, Any]:
+    item = _research_paper_item(
+        scored["paper"],
+        scope=scope,
+        display_names=display_names,
+        brief_translation=_empty_research_brief_translation(
+            requested=False,
+            target_language="zh-CN",
+            translation_profile=None,
+            status="disabled",
+        ),
+    )
+    item.update(
+        {
+            "mission_score": scored["score"],
+            "is_new_for_mission": scored["is_new"],
+            "mission_reason": "; ".join(scored["reasons"]),
+            "include_hits": scored["include_hits"],
+            "prefer_hits": scored["prefer_hits"],
+            "topic_hits": scored["topic_hits"],
+            "exclude_hits": scored["exclude_hits"],
+        }
+    )
+    return item
+
+
+def _mission_excluded_summary(excluded: list[dict[str, Any]]) -> dict[str, Any]:
+    term_counts: dict[str, int] = {}
+    examples: list[dict[str, Any]] = []
+    for scored in excluded:
+        for term in scored["exclude_hits"]:
+            term_counts[term] = term_counts.get(term, 0) + 1
+        if len(examples) < 5:
+            paper = scored["paper"]
+            examples.append(
+                {
+                    "paper_id": paper.id,
+                    "title": paper.title,
+                    "source": paper.source,
+                    "exclude_hits": scored["exclude_hits"],
+                }
+            )
+    return {
+        "count": len(excluded),
+        "reasons": [
+            {"term": term, "count": count}
+            for term, count in sorted(term_counts.items(), key=lambda item: (-item[1], item[0]))
+        ],
+        "examples": examples,
+    }
+
+
+def _mission_topic_signals(
+    papers: list[Paper],
+    *,
+    previous_runs: list[dict[str, Any]],
+) -> dict[str, Any]:
+    counts: dict[str, int] = {}
+    for paper in papers:
+        for term in [*paper.concepts, *paper.categories]:
+            clean = _scope_text(term)
+            if not clean:
+                continue
+            counts[clean] = counts.get(clean, 0) + 1
+    top_terms = [
+        {"term": term, "count": count}
+        for term, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:10]
+    ]
+    previous_terms: set[str] = set()
+    if previous_runs:
+        previous = previous_runs[0].get("radar", {}).get("topic_signals", {})
+        previous_terms = {
+            str(item.get("term") or "")
+            for item in previous.get("top_terms", [])
+            if isinstance(item, dict)
+        }
+    emerging = [item for item in top_terms if item["term"] not in previous_terms]
+    return {
+        "top_terms": top_terms,
+        "emerging_terms": emerging[:5],
+        "source_counts": _mission_source_counts(papers),
+        "compared_to_previous_run": bool(previous_runs),
+    }
+
+
+def _mission_radar_summary(radar: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "new_paper_ids": [item.get("paper_id") for item in radar.get("new_papers", []) if item.get("paper_id")],
+        "important_paper_ids": [
+            item.get("paper_id") for item in radar.get("important_papers", []) if item.get("paper_id")
+        ],
+        "maybe_paper_ids": [item.get("paper_id") for item in radar.get("maybe_papers", []) if item.get("paper_id")],
+        "excluded_summary": radar.get("excluded_summary", {}),
+        "topic_signals": radar.get("topic_signals", {}),
+    }
+
+
+def _mission_llm_summary(
+    *,
+    enabled: bool,
+    mission: dict[str, Any],
+    items: list[dict[str, Any]],
+) -> dict[str, Any]:
+    if not enabled:
+        return {
+            "mode": "hybrid",
+            "use_llm": False,
+            "llm_used": False,
+            "processed_count": 0,
+            "answer": "",
+            "model": None,
+            "warnings": [],
+        }
+    candidates = items[:MISSION_LLM_CANDIDATE_LIMIT]
+    evidence = "\n\n".join(
+        "\n".join(
+            [
+                f"Title: {item.get('title_original') or item.get('title') or ''}",
+                f"Source: {item.get('source') or ''}",
+                f"Date: {item.get('date') or ''}",
+                f"Reason: {item.get('mission_reason') or ''}",
+                f"Abstract: {_clip(str(item.get('paper', {}).get('abstract') or ''), 700)}",
+            ]
+        )
+        for item in candidates
+    )
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You help rank scholarly metadata for a saved research mission. "
+                "Use only the supplied metadata. Do not infer full-text details."
+            ),
+        },
+        {
+            "role": "user",
+            "content": (
+                f"Mission: {mission.get('name')}\n"
+                f"Topic: {mission.get('topic')}\n"
+                f"Instructions: {mission.get('instructions') or ''}\n\n"
+                "Briefly explain why the top candidates matter and suggest next actions.\n\n"
+                f"{evidence}"
+            ),
+        },
+    ]
+    try:
+        result = complete_chat(messages, temperature=0.1, max_tokens=700)
+    except LLMRequestError as exc:
+        return {
+            "mode": "hybrid",
+            "use_llm": True,
+            "llm_used": False,
+            "processed_count": len(candidates),
+            "answer": "",
+            "model": None,
+            "warnings": [str(exc)],
+        }
+    return {
+        "mode": "hybrid",
+        "use_llm": True,
+        "llm_used": bool(result.get("configured")),
+        "processed_count": len(candidates),
+        "answer": result.get("answer") or "",
+        "model": result.get("model"),
+        "warnings": list(result.get("warnings") or []),
+    }
+
+
+def _mission_next_actions(
+    *,
+    counts: dict[str, Any],
+    mission: dict[str, Any],
+    warnings: list[str],
+) -> list[str]:
+    actions: list[str] = []
+    if counts.get("important_count"):
+        actions.append("Ask whether to export or send the important papers to Zotero.")
+    if counts.get("new_count"):
+        actions.append("Ask whether to save the new high-signal papers as today's reading queue.")
+    if not counts.get("candidate_count"):
+        actions.append("Widen the date range, add sources, or loosen include/exclude terms.")
+    if counts.get("excluded_count"):
+        actions.append("Mention excluded papers briefly so the user can adjust mission exclusions if needed.")
+    if not mission.get("q") and not mission.get("include_terms"):
+        actions.append("Consider adding mission include terms for tighter future runs.")
+    if warnings:
+        actions.append("Surface mission/source warnings before presenting the radar as complete.")
+    return actions
+
+
+def paper_mission_save(
+    *,
+    mission_id: str | None = None,
+    name: str | None = None,
+    topic: str | None = None,
+    discipline: str | None = None,
+    source: str | Iterable[str] | None = None,
+    q: str | None = None,
+    include_terms: str | Iterable[str] | None = None,
+    exclude_terms: str | Iterable[str] | None = None,
+    prefer_terms: str | Iterable[str] | None = None,
+    instructions: str | None = None,
+    crawl_if_missing: bool | None = None,
+    limit_per_source: int | str | None = None,
+    status: str | None = None,
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    mission = save_research_mission(
+        mission_id=mission_id,
+        name=name,
+        topic=topic,
+        discipline=discipline,
+        source_keys=source,
+        q=q,
+        include_terms=include_terms,
+        exclude_terms=exclude_terms,
+        prefer_terms=prefer_terms,
+        instructions=instructions,
+        crawl_if_missing=crawl_if_missing,
+        limit_per_source=limit_per_source,
+        status=status,
+        path=cache_path,
+    )
+    return {"status": "ok", "mission": mission, "result_contract": _mission_result_contract()}
+
+
+def paper_missions(
+    *,
+    status: str | None = "active",
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    missions = list_research_missions(status=status, path=cache_path)
+    return {"status": "ok", "count": len(missions), "missions": missions}
+
+
+def paper_mission_get(
+    *,
+    mission_id: str,
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    mission = get_research_mission(mission_id, path=cache_path)
+    if mission is None:
+        return {
+            "status": "not_found",
+            "mission": None,
+            "runs": [],
+            "result_contract": _mission_result_contract(),
+        }
+    return {
+        "status": "ok",
+        "mission": mission,
+        "runs": list_research_mission_runs(str(mission["mission_id"]), path=cache_path),
+        "result_contract": _mission_result_contract(),
+    }
+
+
+def paper_mission_delete(
+    *,
+    mission_id: str,
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    deleted = delete_research_mission(mission_id, path=cache_path)
+    return {"status": "ok" if deleted else "not_found", "deleted": deleted, "mission_id": mission_id}
+
+
+def paper_mission_run(
+    *,
+    mission_id: str,
+    date_value: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    limit: int = MISSION_DEFAULT_LIMIT,
+    crawl_if_missing: bool | None = None,
+    source_limit: int = RESEARCH_SOURCE_LIMIT,
+    use_llm: bool = False,
+    cache_path: str | None = None,
+) -> dict[str, Any]:
+    mission = get_research_mission(mission_id, path=cache_path)
+    if mission is None:
+        return {
+            "status": "error",
+            "error": "research_mission_not_found",
+            "mission": None,
+            "scope": {},
+            "crawl": {"triggered": False, "run": None, "error": None},
+            "counts": {},
+            "radar": {},
+            "papers": [],
+            "intelligence": {
+                "mode": "hybrid",
+                "use_llm": use_llm,
+                "llm_used": False,
+                "warnings": [],
+            },
+            "warnings": ["research_mission_not_found"],
+            "next_actions": ["Create the mission with paper_mission_save first."],
+            "result_contract": _mission_result_contract(),
+        }
+    if mission.get("status") != "active":
+        return {
+            "status": "paused",
+            "error": "research_mission_paused",
+            "mission": mission,
+            "scope": {},
+            "crawl": {"triggered": False, "run": None, "error": None},
+            "counts": {},
+            "radar": {},
+            "papers": [],
+            "intelligence": {
+                "mode": "hybrid",
+                "use_llm": use_llm,
+                "llm_used": False,
+                "warnings": [],
+            },
+            "warnings": ["research_mission_paused"],
+            "next_actions": ["Set the mission status to active before running it."],
+            "result_contract": _mission_result_contract(),
+        }
+
+    scope = resolve_research_scope(
+        topic=mission.get("topic"),
+        discipline=mission.get("discipline"),
+        q=mission.get("q"),
+        date_value=date_value,
+        date_from=date_from,
+        date_to=date_to,
+    )
+    if not scope["resolved"]:
+        return {
+            "status": "error",
+            "error": "research_scope_unresolved",
+            "mission": mission,
+            "scope": scope,
+            "crawl": {"triggered": False, "run": None, "error": None},
+            "counts": {},
+            "radar": {},
+            "papers": [],
+            "intelligence": {
+                "mode": "hybrid",
+                "use_llm": use_llm,
+                "llm_used": False,
+                "warnings": [],
+            },
+            "warnings": ["research_scope_unresolved"],
+            "next_actions": ["Add an explicit mission discipline or a topic PaperLite can resolve."],
+            "result_contract": _mission_result_contract(),
+        }
+
+    selected_limit = _bounded_int(limit, default=MISSION_DEFAULT_LIMIT, minimum=1, maximum=MISSION_MAX_LIMIT)
+    selected_crawl_limit = _bounded_int(
+        mission.get("limit_per_source"),
+        default=MISSION_DEFAULT_LIMIT,
+        minimum=1,
+        maximum=500,
+    )
+    read_limit = max(RESEARCH_CACHE_LIMIT_PER_SOURCE, selected_limit)
+    source_keys = list(mission.get("source_keys") or [])
+    before = _research_cache_papers(
+        scope=scope,
+        source=source_keys,
+        limit_per_source=read_limit,
+        cache_path=cache_path,
+    )
+    effective_crawl_if_missing = bool(mission.get("crawl_if_missing")) if crawl_if_missing is None else bool(crawl_if_missing)
+    crawl_triggered = False
+    crawl_error: str | None = None
+    crawl_run: dict[str, Any] | None = None
+    selected_sources: dict[str, Any] = {
+        "source_keys": source_keys,
+        "source_count": len(source_keys),
+        "source_strategy": "mission",
+        "truncated": False,
+    }
+    warnings: list[str] = []
+    if not before and effective_crawl_if_missing:
+        selected_sources = _research_source_selection(
+            discipline=str(scope["discipline"]),
+            source=source_keys,
+            source_limit=source_limit,
+        )
+        if selected_sources["source_keys"]:
+            crawl_triggered = True
+            try:
+                run = create_daily_crawl(
+                    date_from=str(scope["date_from"]),
+                    date_to=str(scope["date_to"]),
+                    discipline=str(scope["discipline"]),
+                    source=selected_sources["source_keys"],
+                    limit_per_source=selected_crawl_limit,
+                    db_path=cache_path,
+                )
+                if not run.get("reused") and run.get("status") == "queued":
+                    run_daily_crawl(str(run["run_id"]), db_path=cache_path)
+                crawl_run = get_crawl_run(str(run["run_id"]), path=cache_path) or run
+            except ValueError as exc:
+                crawl_error = str(exc)
+                warnings.append(crawl_error)
+        else:
+            warnings.append("no_latest_capable_sources_found")
+
+    after = _research_cache_papers(
+        scope=scope,
+        source=source_keys,
+        limit_per_source=read_limit,
+        cache_path=cache_path,
+    )
+    crawl_warnings, source_warnings = _research_crawl_warnings(crawl_run)
+    warnings.extend(crawl_warnings)
+    if crawl_error:
+        warnings.append(crawl_error)
+    if not after:
+        warnings.append("mission_no_cached_papers")
+
+    previous_runs = list_research_mission_runs(str(mission["mission_id"]), limit=1, path=cache_path)
+    seen_ids = research_mission_seen_paper_ids(
+        str(mission["mission_id"]),
+        [str(paper.id) for paper in after],
+        path=cache_path,
+    )
+    topic_terms = _mission_terms([mission.get("q")] if mission.get("q") else [])
+    topic_terms.extend(_mission_topic_terms(mission.get("topic")))
+    topic_terms.extend(_mission_terms(mission.get("include_terms") or []))
+    scored = [
+        _mission_score_paper(
+            paper,
+            mission=mission,
+            seen_ids=seen_ids,
+            topic_terms=list(dict.fromkeys(topic_terms)),
+        )
+        for paper in after
+    ]
+    excluded = [item for item in scored if item["exclude_hits"]]
+    candidates = [item for item in scored if not item["exclude_hits"]]
+    candidates.sort(key=lambda item: (-int(item["score"]), not bool(item["is_new"]), str(item["paper"].title or "")))
+    display_names = _mission_display_names()
+    selected = candidates[:selected_limit]
+    all_important = [item for item in candidates if item["score"] >= 45]
+    important = all_important[:selected_limit]
+    important_ids = {str(item["paper"].id) for item in all_important}
+    all_maybe = [item for item in candidates if str(item["paper"].id) not in important_ids]
+    maybe = all_maybe[:selected_limit]
+    all_new_items = [item for item in candidates if item["is_new"]]
+    new_items = all_new_items[:selected_limit]
+    selected_items = [_mission_item(item, scope=scope, display_names=display_names) for item in selected]
+    important_items = [_mission_item(item, scope=scope, display_names=display_names) for item in important]
+    maybe_items = [_mission_item(item, scope=scope, display_names=display_names) for item in maybe]
+    new_paper_items = [_mission_item(item, scope=scope, display_names=display_names) for item in new_items]
+    included_papers = [item["paper"] for item in candidates]
+    topic_signals = _mission_topic_signals(included_papers, previous_runs=previous_runs)
+    radar = {
+        "new_papers": new_paper_items,
+        "important_papers": important_items,
+        "maybe_papers": maybe_items,
+        "excluded_summary": _mission_excluded_summary(excluded),
+        "topic_signals": topic_signals,
+    }
+    counts = {
+        "cache_before_count": len(before),
+        "cache_after_count": len(after),
+        "candidate_count": len(candidates),
+        "excluded_count": len(excluded),
+        "new_count": len(all_new_items),
+        "important_count": len(all_important),
+        "maybe_count": len(all_maybe),
+        "returned_count": len(selected_items),
+    }
+    intelligence = _mission_llm_summary(enabled=use_llm, mission=mission, items=selected_items)
+    unique_warnings = list(dict.fromkeys(warnings))
+    run_record = record_research_mission_run(
+        mission_id=str(mission["mission_id"]),
+        status="ok",
+        date_from=str(scope["date_from"]),
+        date_to=str(scope["date_to"]),
+        scope=scope,
+        crawl_run_id=str(crawl_run.get("run_id")) if crawl_run and crawl_run.get("run_id") else None,
+        counts=counts,
+        radar=_mission_radar_summary(radar),
+        warnings=unique_warnings,
+        path=cache_path,
+    )
+    mark_research_mission_seen(
+        mission_id=str(mission["mission_id"]),
+        run_id=str(run_record["run_id"]),
+        paper_ids=[str(item["paper"].id) for item in scored],
+        path=cache_path,
+    )
+    return {
+        "status": "ok",
+        "mission": mission,
+        "scope": scope,
+        "crawl": {
+            "triggered": crawl_triggered,
+            "run": crawl_run,
+            "error": crawl_error,
+            "source_keys": selected_sources["source_keys"],
+            "source_count": selected_sources["source_count"],
+            "source_strategy": selected_sources["source_strategy"],
+            "sources_truncated": selected_sources["truncated"],
+            "source_warnings": source_warnings,
+            "warnings": crawl_warnings,
+        },
+        "counts": counts,
+        "radar": radar,
+        "papers": selected_items,
+        "intelligence": intelligence,
+        "run": run_record,
+        "warnings": unique_warnings,
+        "next_actions": _mission_next_actions(counts=counts, mission=mission, warnings=unique_warnings),
+        "result_contract": _mission_result_contract(),
     }
 
 

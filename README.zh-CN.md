@@ -1,8 +1,12 @@
 # PaperLite 中文说明
 
+[![PaperLite CI](https://github.com/cz1978/paperlite/actions/workflows/paperlite-ci.yml/badge.svg)](https://github.com/cz1978/paperlite/actions/workflows/paperlite-ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue.svg)](paperlite/pyproject.toml)
+
 PaperLite 是给科研人用的本地优先论文元数据工作台：每天打开 `/daily`，选学科和来源，把新论文元数据抓到 SQLite，再筛选、翻译、导出或同步到 Zotero。
 
-当前版本：`0.2.9`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.3.0`。更新记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 第一次几分钟就能做：
 
@@ -46,6 +50,12 @@ http://127.0.0.1:8000/daily
 5. 抓取结束后点 `刷新`，或直接用页面筛选当前本地缓存。
 
 如果抓取完成但 0 条，不一定是故障。常见原因是日期窗口没有新元数据、来源临时不可用、上游超时。去 `/ops` 看运行状态和来源警告，再决定是否放宽日期或换来源。
+
+## 截图
+
+![PaperLite 每日论文工作台](docs/assets/paperlite-daily.png)
+
+![PaperLite 运行面板](docs/assets/paperlite-ops.png)
 
 ## 本地 Python 运行
 
@@ -114,11 +124,14 @@ PaperLite 给 agent 的入口有两种：MCP 和 HTTP API。agent 不访问 `/da
 
 默认 agent 用法：普通自然语言请求先调用 `paper_research` 或 `POST /agent/research`，例如“看一下今天关于材料的文章”。它会确定学科、检查当天 SQLite 缓存；如果该学科今天还没有缓存，会执行一次明确的学科抓取，并默认请求 `research_card_cn` brief 翻译，然后返回论文、数量、抓取 warning 和 `result_contract`；缺失的 brief 字段由宿主 agent 用自己的大模型生成答案并补齐。
 
+长期关注方向用 Research Mission：先用 `paper_mission_save` 或 `POST /agent/missions` 保存 topic、学科、来源、include/exclude/prefer terms 和 instructions，再用 `paper_mission_run` 或 `POST /agent/missions/{mission_id}/run` 运行。Mission 会记住已见论文；每次运行先读 SQLite cache，缺数据时才明确补一次学科范围 crawl，并返回 metadata-only 研究雷达：新增论文、重要论文、排除摘要、主题信号、warning 和下一步建议。
+
 agent 输出规则，短版：
 
 - 用户当次 prompt 优先。
 - agent 抓取不要打开 `/daily`，也不要用 `/daily` 链接当最终答案；最终回复要直接给论文标题、来源、日期、链接和筛选理由。
 - 普通主题请求直接 `paper_research(topic="材料", date="<today>")`。`paper_agent_context` 或 `POST /agent/context` 只用于 explain/filter/ask 这类 messages 场景。
+- 长期研究任务直接 `paper_mission_run(mission_id="<id>", date="<today>")`，把返回的研究雷达作为最终答案主体。
 - 用户没有指定其他格式时，必须先说明本次范围：学科、来源 key/来源名、日期范围、关键词 q、run 状态、warning 和总数。
 - 然后发真实论文清单。15 篇以内全列；超过 15 篇时，只先列最多 15 篇，说明还剩多少篇，并询问要不要 AI 优化排序或追加关键词。
 - 中文 brief 里的标题要中英都在，也要有身份号：中文题目用 `paper.display_title`、`paper.title_zh` 或 `paper.brief_translation.title_zh`；英文原题用 `paper.title_original` 或 `paper.title_en`；身份号用 `paper.identifier_label` + `paper.identifier`；一句中文摘要/要点优先用 `paper.brief_translation.cn_flash_180`，缺失时由宿主 agent 补；没有摘要时写“摘要未提供”。
@@ -174,6 +187,10 @@ python -m pip install -e ".[mcp]"
 - `paper_enrich`
 - `paper_sources`
 - `paper_research`
+- `paper_mission_save`
+- `paper_missions`
+- `paper_mission_run`
+- `paper_mission_delete`
 - `paper_crawl`
 - `paper_crawl_status`
 - `paper_cache`
@@ -192,11 +209,12 @@ python -m pip install -e ".[mcp]"
 agent 典型流程：
 
 1. 普通自然语言请求先 `paper_research(topic="<主题>", date="<today>")`。
-2. 有 `papers` 时，先给真实论文清单：标题、来源、日期、链接、筛选理由、简短中文译名和一句中文摘要/要点。
-3. `remaining_count > 0` 时，只列返回的最多 15 篇，并询问要 AI 优化排序还是加关键词继续筛选。
-4. 有 `warnings` 或 `crawl.source_warnings` 时，必须说明，不要假装完整成功。
-5. 只有排错、指定来源或指定 run 时，才手动用 `paper_sources`、`paper_crawl`、`paper_crawl_status`、`paper_cache`。
-6. 完整翻译只有用户明确要求时才做；只有用户要问答时才 RAG；只有用户要保存时才走 Zotero。
+2. 长期关注方向先 `paper_mission_save(...)`，之后 `paper_mission_run(mission_id="<id>", date="<today>")`。
+3. 有 `papers` 时，先给真实论文清单：标题、来源、日期、链接、筛选理由、简短中文译名和一句中文摘要/要点。
+4. `remaining_count > 0` 时，只列返回的最多 15 篇，并询问要 AI 优化排序还是加关键词继续筛选。
+5. 有 `warnings` 或 `crawl.source_warnings` 时，必须说明，不要假装完整成功。
+6. 只有排错、指定来源或指定 run 时，才手动用 `paper_sources`、`paper_crawl`、`paper_crawl_status`、`paper_cache`。
+7. 完整翻译只有用户明确要求时才做；只有用户要问答时才 RAG；只有用户要保存时才走 Zotero。
 
 Zotero 用法：
 
@@ -230,6 +248,9 @@ https://your-domain.example
 
 - `POST /agent/context`
 - `POST /agent/research`
+- `GET|POST /agent/missions`
+- `GET|DELETE /agent/missions/{mission_id}`
+- `POST /agent/missions/{mission_id}/run`
 - `GET /sources`
 - `POST /daily/crawl`
 - `GET /daily/crawl/{run_id}`
@@ -264,3 +285,13 @@ python -m paperlite.cli endpoints health --source arxiv_cs_lg --timeout 15 --for
 - 默认运行数据在 `.paperlite/`，已被 Git 忽略。
 - SQLite 存论文元数据缓存、抓取记录、收藏/已读状态、保存视图、翻译缓存和本地偏好信号。
 - PaperLite 只处理元数据和外部链接，不缓存 PDF 或全文。
+
+## 贡献和社区
+
+- 贡献指南：[CONTRIBUTING.md](CONTRIBUTING.md) / [中文](CONTRIBUTING.zh-CN.md)
+- 安全策略：[SECURITY.md](SECURITY.md) / [中文](SECURITY.zh-CN.md)
+- 行为准则：[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) / [中文](CODE_OF_CONDUCT.zh-CN.md)
+- 路线图：[ROADMAP.md](ROADMAP.md) / [中文](ROADMAP.zh-CN.md)
+- 架构说明：[ARCHITECTURE.md](ARCHITECTURE.md) / [中文](ARCHITECTURE.zh-CN.md)
+- 发布 checklist：[RELEASE.md](RELEASE.md) / [中文](RELEASE.zh-CN.md)
+- 引用元数据：[CITATION.cff](CITATION.cff)

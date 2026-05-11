@@ -127,6 +127,64 @@ def test_agent_research_endpoint(monkeypatch):
     assert calls[0]["translation_profile"] == "research_card_cn"
 
 
+def test_agent_mission_endpoints(monkeypatch):
+    calls = {"save": [], "run": [], "delete": []}
+    mission = {
+        "mission_id": "mission-1",
+        "name": "AI agents for materials discovery",
+        "topic": "AI agents for materials discovery",
+    }
+
+    def fake_save(**kwargs):
+        calls["save"].append(kwargs)
+        return {"status": "ok", "mission": mission}
+
+    def fake_run(**kwargs):
+        calls["run"].append(kwargs)
+        return {"status": "ok", "mission": mission, "radar": {"new_papers": []}, "papers": []}
+
+    def fake_delete(**kwargs):
+        calls["delete"].append(kwargs)
+        return {"status": "ok", "deleted": True, "mission_id": kwargs["mission_id"]}
+
+    monkeypatch.setattr(api, "paper_mission_save", fake_save)
+    monkeypatch.setattr(api, "paper_missions", lambda **kwargs: {"status": "ok", "count": 1, "missions": [mission], **kwargs})
+    monkeypatch.setattr(api, "paper_mission_get", lambda **kwargs: {"status": "ok", "mission": mission, "runs": []})
+    monkeypatch.setattr(api, "paper_mission_run", fake_run)
+    monkeypatch.setattr(api, "paper_mission_delete", fake_delete)
+    client = TestClient(api.create_app())
+
+    saved = client.post(
+        "/agent/missions",
+        json={
+            "name": mission["name"],
+            "topic": mission["topic"],
+            "discipline": "materials",
+            "source": ["arxiv_cs_lg"],
+            "exclude_terms": ["survey"],
+            "prefer_terms": ["open source"],
+            "crawl_if_missing": True,
+        },
+    )
+    listed = client.get("/agent/missions")
+    fetched = client.get("/agent/missions/mission-1")
+    ran = client.post("/agent/missions/mission-1/run", json={"date": "2026-04-30", "use_llm": True})
+    deleted = client.delete("/agent/missions/mission-1")
+
+    assert saved.status_code == 200
+    assert listed.status_code == 200
+    assert fetched.status_code == 200
+    assert ran.status_code == 200
+    assert deleted.status_code == 200
+    assert calls["save"][0]["discipline"] == "materials"
+    assert calls["save"][0]["source"] == ["arxiv_cs_lg"]
+    assert calls["save"][0]["exclude_terms"] == ["survey"]
+    assert calls["run"][0]["mission_id"] == "mission-1"
+    assert calls["run"][0]["date_value"] == "2026-04-30"
+    assert calls["run"][0]["use_llm"] is True
+    assert calls["delete"][0]["mission_id"] == "mission-1"
+
+
 def test_agent_rag_endpoints(monkeypatch):
     index_calls = []
     ask_calls = []

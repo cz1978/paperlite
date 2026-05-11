@@ -26,6 +26,8 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert manifest["interfaces"]["agent_default"]["mcp_tool"] == "paper_research"
     assert manifest["interfaces"]["agent_default"]["rest"] == "http://paperlite.local/agent/research"
     assert manifest["interfaces"]["agent_default"]["context_tool"] == "paper_agent_context"
+    assert manifest["interfaces"]["agent_default"]["long_running_mcp_tool"] == "paper_mission_run"
+    assert manifest["interfaces"]["agent_default"]["long_running_rest"] == "http://paperlite.local/agent/missions/{mission_id}/run"
     assert "Return results in chat/tool output" in manifest["interfaces"]["agent_default"]["note"]
     result_policy = manifest["interfaces"]["agent_result_policy"]
     assert result_policy == agent_result_policy()
@@ -66,6 +68,9 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert manifest["interfaces"]["rest"]["agent_context"] == "http://paperlite.local/agent/context"
     assert manifest["interfaces"]["rest"]["agent_filter"] == "http://paperlite.local/agent/filter"
     assert manifest["interfaces"]["rest"]["agent_research"] == "http://paperlite.local/agent/research"
+    assert manifest["interfaces"]["rest"]["agent_missions"] == "http://paperlite.local/agent/missions"
+    assert manifest["interfaces"]["rest"]["agent_mission"] == "http://paperlite.local/agent/missions/{mission_id}"
+    assert manifest["interfaces"]["rest"]["agent_mission_run"] == "http://paperlite.local/agent/missions/{mission_id}/run"
     assert manifest["interfaces"]["rest"]["agent_ask"] == "http://paperlite.local/agent/ask"
     assert manifest["interfaces"]["rest"]["agent_rag_index"] == "http://paperlite.local/agent/rag/index"
     assert manifest["interfaces"]["rest"]["agent_translation_profiles"] == "http://paperlite.local/agent/translation-profiles"
@@ -93,6 +98,7 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "doctor_diagnostics" in manifest["capabilities"]
     assert "host_agent_model_context" in manifest["capabilities"]
     assert "one_shot_research" in manifest["capabilities"]
+    assert "research_missions" in manifest["capabilities"]
     assert "optional_llm_filter" in manifest["capabilities"]
     assert "metadata_rag" in manifest["capabilities"]
     assert "vector_cache_search" in manifest["capabilities"]
@@ -106,6 +112,10 @@ def test_agent_manifest_declares_reserved_interfaces():
     assert "paper_cache" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_agent_context" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_research" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_mission_save" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_missions" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_mission_run" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_mission_delete" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_zotero_export" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_filter" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_ask" in manifest["interfaces"]["mcp"]["tools"]
@@ -127,6 +137,8 @@ def test_agent_manifest_rest_endpoint():
     assert response.json()["interfaces"]["rest"]["agent_translate"].endswith("/agent/translate")
     assert response.json()["interfaces"]["rest"]["agent_context"].endswith("/agent/context")
     assert response.json()["interfaces"]["rest"]["agent_research"].endswith("/agent/research")
+    assert response.json()["interfaces"]["rest"]["agent_missions"].endswith("/agent/missions")
+    assert response.json()["interfaces"]["rest"]["agent_mission_run"].endswith("/agent/missions/{mission_id}/run")
     assert response.json()["interfaces"]["rest"]["agent_translation_profiles"].endswith("/agent/translation-profiles")
     assert response.json()["interfaces"]["rest"]["agent_filter"].endswith("/agent/filter")
     assert response.json()["interfaces"]["rest"]["agent_ask"].endswith("/agent/ask")
@@ -163,6 +175,7 @@ def test_mcp_agent_manifest_tool():
     assert "paper_cache" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_agent_context" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_research" in manifest["interfaces"]["mcp"]["tools"]
+    assert "paper_mission_run" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_zotero_export" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_translation_profiles" in manifest["interfaces"]["mcp"]["tools"]
     assert "paper_filter" in manifest["interfaces"]["mcp"]["tools"]

@@ -5,6 +5,10 @@ from typing import Any
 from paperlite.agent import paper_agent_context as run_paper_agent_context
 from paperlite.agent import paper_ask as run_paper_ask
 from paperlite.agent import paper_explain as run_paper_explain
+from paperlite.agent import paper_mission_delete as run_paper_mission_delete
+from paperlite.agent import paper_mission_run as run_paper_mission_run
+from paperlite.agent import paper_mission_save as run_paper_mission_save
+from paperlite.agent import paper_missions as run_paper_missions
 from paperlite.agent import paper_rag_index as run_paper_rag_index
 from paperlite.agent import paper_research as run_paper_research
 from paperlite.ai_filter import DEFAULT_AI_FILTER_QUERY, filter_paper as run_filter_paper
@@ -290,6 +294,68 @@ def paper_research(
     )
 
 
+def paper_mission_save(
+    name: str,
+    topic: str | None = None,
+    discipline: str | None = None,
+    source: str | list[str] | None = None,
+    q: str | None = None,
+    include_terms: str | list[str] | None = None,
+    exclude_terms: str | list[str] | None = None,
+    prefer_terms: str | list[str] | None = None,
+    instructions: str | None = None,
+    crawl_if_missing: bool | str | None = None,
+    limit_per_source: int | str | None = None,
+    status: str | None = None,
+    mission_id: str | None = None,
+) -> dict[str, Any]:
+    return run_paper_mission_save(
+        mission_id=mission_id,
+        name=name,
+        topic=topic,
+        discipline=discipline,
+        source=source,
+        q=q,
+        include_terms=include_terms,
+        exclude_terms=exclude_terms,
+        prefer_terms=prefer_terms,
+        instructions=instructions,
+        crawl_if_missing=_as_bool(crawl_if_missing) if crawl_if_missing not in (None, "") else None,
+        limit_per_source=limit_per_source,
+        status=status,
+    )
+
+
+def paper_missions(status: str | None = "active") -> dict[str, Any]:
+    return run_paper_missions(status=status)
+
+
+def paper_mission_run(
+    mission_id: str,
+    date: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    limit: int = 15,
+    crawl_if_missing: bool | str | None = None,
+    source_limit: int = 15,
+    use_llm: bool | str = False,
+) -> dict[str, Any]:
+    return run_paper_mission_run(
+        mission_id=mission_id,
+        date_value=date,
+        date_from=date_from,
+        date_to=date_to,
+        limit=_bounded_limit(limit, default=15, maximum=50),
+        crawl_if_missing=_as_bool(crawl_if_missing) if crawl_if_missing not in (None, "") else None,
+        source_limit=_bounded_limit(source_limit, default=15, maximum=50),
+        use_llm=_as_bool(use_llm, default=False),
+    )
+
+
+def paper_mission_delete(mission_id: str) -> dict[str, Any]:
+    return run_paper_mission_delete(mission_id=mission_id)
+
+
 def paper_filter(
     paper: dict,
     query: str | None = None,
@@ -415,6 +481,10 @@ def build_mcp():
     mcp.tool(name="paper_explain")(paper_explain)
     mcp.tool(name="paper_agent_context")(paper_agent_context)
     mcp.tool(name="paper_research")(paper_research)
+    mcp.tool(name="paper_mission_save")(paper_mission_save)
+    mcp.tool(name="paper_missions")(paper_missions)
+    mcp.tool(name="paper_mission_run")(paper_mission_run)
+    mcp.tool(name="paper_mission_delete")(paper_mission_delete)
     mcp.tool(name="paper_translate")(paper_translate)
     mcp.tool(name="paper_translation_profiles")(paper_translation_profiles)
     mcp.tool(name="paper_filter")(paper_filter)

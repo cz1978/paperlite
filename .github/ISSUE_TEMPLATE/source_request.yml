@@ -1,0 +1,56 @@
+name: Source request or source issue
+description: Request a scholarly source or report a broken source / 新增来源或报告来源失效
+title: "[Source]: "
+labels: ["source"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        PaperLite source work should remain metadata-only and discipline-scoped.
+
+        PaperLite 来源工作应保持 metadata-only，并且保持学科范围抓取。
+  - type: input
+    id: source_name
+    attributes:
+      label: Source name / 来源名称
+      placeholder: "Journal, preprint server, publisher feed, or metadata API"
+    validations:
+      required: true
+  - type: input
+    id: source_url
+    attributes:
+      label: Source URL / 来源 URL
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Request type / 请求类型
+      options:
+        - New source
+        - Broken existing source
+        - Source metadata correction
+        - Endpoint health issue
+    validations:
+      required: true
+  - type: input
+    id: discipline
+    attributes:
+      label: Discipline / 学科
+      placeholder: "materials, computer_science, chemistry, medicine, ..."
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Metadata endpoint evidence / 元数据端点证据
+      description: Link to RSS, Atom, API docs, Crossref/OpenAlex identifiers, or stable metadata endpoints when possible.
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Boundary checks / 边界确认
+      options:
+        - label: I am requesting metadata only, not PDF or full-text crawling.
+          required: true
+        - label: I understand new crawls should stay discipline-scoped and source-scoped.
+          required: true
+

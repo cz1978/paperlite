@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+## 0.3.0 - 2026-05-11
+
+- Added agent-first Research Missions: saved long-running research scopes with include/exclude/prefer terms, mission run history, seen-paper memory, and metadata-only radar output.
+- Added REST and MCP mission tools for saving, listing, running, and deleting missions. Mission runs stay cache-first and only fill missing cache through explicit discipline-scoped crawls.
+- Added open-source community polish: bilingual contribution, security, conduct, roadmap, architecture, release, and citation docs, GitHub issue/PR templates, Dependabot config, README badges, and product screenshots.
+
 ## 0.2.9 - 2026-04-30
 
 - Fixed agent paper identifiers for arXiv sources whose local `paper_id` is a `url:<hash>` fallback. `paper_research` now derives the visible `arXiv` identifier from `paper.url`, so host agents can display entries such as `arXiv: 2604.25817` instead of local hash IDs.

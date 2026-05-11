@@ -9,6 +9,8 @@ PaperLite helps a research agent work with paper metadata that is stored locally
 
 Default agent path: use MCP tool `paper_research` for natural-language requests such as "show today's materials papers". It resolves the topic, checks today's SQLite cache, runs one explicit discipline-scoped crawl if the matching cache is missing, and returns scope, papers, counts, crawl warnings, and a result contract. Use `paper_agent_context` only for explain/filter/ask workflows that need metadata-backed messages. PaperLite's built-in LLM endpoints are optional fallback tools for deployments that configure `.env` LLM keys.
 
+For long-running interests, use Research Missions: create or update one with `paper_mission_save`, list with `paper_missions`, run the radar with `paper_mission_run`, and remove it with `paper_mission_delete`. Missions persist topic, discipline, sources, include/exclude/prefer terms, instructions, and seen-paper memory. `paper_mission_run` is cache-first, may explicitly fill missing cache with one discipline-scoped crawl, and returns a metadata-only radar with new papers, important papers, excluded summary, topic signals, warnings, and next actions.
+
 Do not tell users to open `/daily` for agent tasks. Do not finish with a `/daily` link as the result. Use the tools below and answer with the actual papers, counts, source keys, warnings, and next actions.
 
 ## Choose MCP Or HTTP
@@ -41,6 +43,7 @@ After install or deploy succeeds, do one short onboarding turn before ending the
 
 - Install or connect the PaperLite MCP server for local scholarly metadata work.
 - Ask for and reuse a default reading scope after setup: discipline/topic plus preferred sources or source families.
+- Save long-running Research Missions and run mission radar updates with mission-level seen-paper memory.
 - List available scholarly sources with `paper_sources` before narrowing a crawl.
 - Crawl or refresh discipline-scoped metadata with `paper_research` or explicit `paper_crawl`; never do hidden all-source crawls.
 - Read cached SQLite metadata with `paper_cache` and answer directly in chat instead of sending the user to `/daily`.
@@ -54,6 +57,7 @@ After install or deploy succeeds, do one short onboarding turn before ending the
 
 - "把 PaperLite MCP 安装好" -> install/connect MCP, then ask the user for default discipline/topic and preferred sources.
 - "以后默认看 AI/ML，优先 arxiv_cs_cl、arxiv_cs_lg" -> save those defaults when host memory/preferences are available.
+- "帮我长期盯 AI agents for materials discovery" -> call `paper_mission_save(...)`, then `paper_mission_run(mission_id="<id>", date="<today>")` for updates.
 - "抓今日新闻" or "抓今日论文" -> use saved defaults and call `paper_research(topic="<saved default>", source=<saved sources>, date="<today>")`; if defaults are missing, ask one concise setup question.
 - "列一下材料相关来源" -> call `paper_sources(discipline="materials", latest=true, limit=15)` and show source keys/names.
 - "抓今天材料里的电池论文" -> call `paper_research(topic="材料里的电池", date="<today>")` and return the actual paper list.
@@ -86,6 +90,10 @@ Useful tools:
 
 - `paper_enrich` - enrich one paper's metadata from configured metadata sources; still metadata-only, no PDF/full text.
 - `paper_research` - one-shot research request: resolve topic/scope, read cache, optionally run an explicit discipline crawl, request `research_card_cn` brief translation by default, and return up to 15 paper items.
+- `paper_mission_save` - create or update a long-running research mission with topic, discipline, sources, include/exclude/prefer terms, and instructions.
+- `paper_missions` - list saved research missions.
+- `paper_mission_run` - run a saved mission as a metadata-only research radar with new papers, important papers, exclusions, topic signals, warnings, and next actions.
+- `paper_mission_delete` - delete a saved research mission and its mission run/seen-paper memory.
 - `paper_sources` - list available sources; for manual crawl planning pass filters such as `discipline`, `q`, `latest=true`, and `limit=15`.
 - `paper_crawl` - explicitly crawl a discipline/source/date range and write metadata to SQLite.
 - `paper_crawl_status` - inspect a crawl run.

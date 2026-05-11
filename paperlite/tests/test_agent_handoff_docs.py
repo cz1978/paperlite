@@ -18,6 +18,30 @@ def test_agent_handoff_docs_cover_current_runtime():
     sources_doc = (ROOT / "SOURCES.md").read_text(encoding="utf-8")
     source_catalog_pointer = (ROOT / "paperlite" / "SOURCE_CATALOG.md").read_text(encoding="utf-8")
     pyproject = tomllib.loads((ROOT / "paperlite" / "pyproject.toml").read_text(encoding="utf-8"))
+    community_docs = [
+        "CONTRIBUTING.md",
+        "CONTRIBUTING.zh-CN.md",
+        "SECURITY.md",
+        "SECURITY.zh-CN.md",
+        "CODE_OF_CONDUCT.md",
+        "CODE_OF_CONDUCT.zh-CN.md",
+        "ROADMAP.md",
+        "ROADMAP.zh-CN.md",
+        "ARCHITECTURE.md",
+        "ARCHITECTURE.zh-CN.md",
+        "RELEASE.md",
+        "RELEASE.zh-CN.md",
+        "CITATION.cff",
+    ]
+    for doc in community_docs:
+        assert (ROOT / doc).exists()
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    contributing = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
+    security = (ROOT / "SECURITY.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "ARCHITECTURE.md").read_text(encoding="utf-8")
+    roadmap = (ROOT / "ROADMAP.md").read_text(encoding="utf-8")
+    release_doc = (ROOT / "RELEASE.md").read_text(encoding="utf-8")
+    conduct = (ROOT / "CODE_OF_CONDUCT.md").read_text(encoding="utf-8")
 
     assert "PaperLite Agent Handoff" in agents
     assert "python -m uvicorn main:app" in agents
@@ -32,8 +56,21 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not wire new work into old" in agents
 
     assert "## At A Glance" in readme
+    assert "PaperLite CI" in readme
+    assert "License-MIT" in readme
+    assert "Python-3.11%20%7C%203.12" in readme
+    assert "![PaperLite daily workbench](docs/assets/paperlite-daily.png)" in readme
+    assert "![PaperLite operations panel](docs/assets/paperlite-ops.png)" in readme
+    assert "## Contributing And Community" in readme
+    assert "[CONTRIBUTING.md](CONTRIBUTING.md)" in readme
+    assert "[SECURITY.md](SECURITY.md)" in readme
+    assert "[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)" in readme
+    assert "[ROADMAP.md](ROADMAP.md)" in readme
+    assert "[ARCHITECTURE.md](ARCHITECTURE.md)" in readme
+    assert "[RELEASE.md](RELEASE.md)" in readme
+    assert "[CITATION.cff](CITATION.cff)" in readme
     assert "local-first paper metadata workbench for researchers" in readme
-    assert "Current release: `0.2.9`" in readme
+    assert "Current release: `0.3.0`" in readme
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme
     assert "In the first few minutes, you can:" in readme
     assert "No API key is required for browsing, crawling, filtering, export" in readme
@@ -124,8 +161,21 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "stdio MCP server" in readme
 
     assert "PaperLite 中文说明" in readme_zh
+    assert "PaperLite CI" in readme_zh
+    assert "License-MIT" in readme_zh
+    assert "Python-3.11%20%7C%203.12" in readme_zh
+    assert "![PaperLite 每日论文工作台](docs/assets/paperlite-daily.png)" in readme_zh
+    assert "![PaperLite 运行面板](docs/assets/paperlite-ops.png)" in readme_zh
+    assert "## 贡献和社区" in readme_zh
+    assert "[CONTRIBUTING.md](CONTRIBUTING.md)" in readme_zh
+    assert "[SECURITY.md](SECURITY.md)" in readme_zh
+    assert "[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)" in readme_zh
+    assert "[ROADMAP.md](ROADMAP.md)" in readme_zh
+    assert "[ARCHITECTURE.md](ARCHITECTURE.md)" in readme_zh
+    assert "[RELEASE.md](RELEASE.md)" in readme_zh
+    assert "[CITATION.cff](CITATION.cff)" in readme_zh
     assert "给科研人用的本地优先论文元数据工作台" in readme_zh
-    assert "当前版本：`0.2.9`" in readme_zh
+    assert "当前版本：`0.3.0`" in readme_zh
     assert "[CHANGELOG.md](CHANGELOG.md)" in readme_zh
     assert "第一次几分钟就能做" in readme_zh
     assert "普通浏览、抓取、筛选、导出都不需要 API key" in readme_zh
@@ -302,6 +352,7 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "Do not download, cache, upload, or parse PDFs or full text" in skill_doc
     assert "DEEPSEEK_API_KEY=" in skill_doc
 
+    assert "## 0.3.0 - 2026-05-11" in changelog
     assert "## 0.2.9 - 2026-04-30" in changelog
     assert "derives the visible `arXiv` identifier from `paper.url`" in changelog
     assert "agent-style Chinese brief render" in changelog
@@ -317,6 +368,8 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "`/daily/crawl` is a JSON API endpoint" in changelog
     assert "## 0.2.5 - 2026-04-30" in changelog
     assert "current user prompt overrides default skill formatting rules" in changelog
+    assert "open-source community polish" in changelog
+    assert "bilingual contribution, security, conduct, roadmap, architecture, release, and citation docs" in changelog
     assert "one-sentence abstract/summary" in changelog
     assert "manifest and `paper_agent_context` policy fields" in changelog
     assert "## 0.2.4 - 2026-04-30" in changelog
@@ -372,6 +425,21 @@ def test_agent_handoff_docs_cover_current_runtime():
     assert "does not ship a default login system" in deployment
     assert "rotate any real keys" in deployment
 
+    assert "Project Boundaries" in contributing
+    assert "PaperLite handles paper metadata, not PDFs or full text" in contributing
+    assert "GitHub Security Advisories" in security
+    assert "Do not open a public issue for secrets" in security
+    assert "Code of Conduct" in conduct
+    assert "Architecture" in architecture
+    assert "external work is explicit, local reading is cache-first" in architecture
+    assert "v0.3: Research Missions" in roadmap
+    assert "Release Checklist" in release_doc
+    assert "version: \"0.3.0\"" in citation
+    assert "date-released: \"2026-05-11\"" in citation
+    assert "PaperLite Contributors" in citation
+    assert (ROOT / "docs" / "assets" / "paperlite-daily.png").exists()
+    assert (ROOT / "docs" / "assets" / "paperlite-ops.png").exists()
+
     assert "Copy this file to .env" in env_example
     assert "reverse proxy auth layer" in env_example
     assert "PAPERLITE_TRANSLATION_PROFILES_PATH" in env_example
@@ -392,6 +460,13 @@ def test_deployment_templates_are_present_and_localhost_bound():
     ci = (ROOT / ".github" / "workflows" / "paperlite-ci.yml").read_text(encoding="utf-8")
     dockerignore = (ROOT / ".dockerignore").read_text(encoding="utf-8")
     gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
+    dependabot = (ROOT / ".github" / "dependabot.yml").read_text(encoding="utf-8")
+    pr_template = (ROOT / ".github" / "pull_request_template.md").read_text(encoding="utf-8")
+    issue_template_dir = ROOT / ".github" / "ISSUE_TEMPLATE"
+    bug_template = (issue_template_dir / "bug_report.yml").read_text(encoding="utf-8")
+    source_template = (issue_template_dir / "source_request.yml").read_text(encoding="utf-8")
+    feature_template = (issue_template_dir / "feature_request.yml").read_text(encoding="utf-8")
+    issue_config = (issue_template_dir / "config.yml").read_text(encoding="utf-8")
 
     assert "uvicorn" in dockerfile
     assert "PAPERLITE_DB_PATH=/data/paperlite.sqlite3" in dockerfile
@@ -404,12 +479,33 @@ def test_deployment_templates_are_present_and_localhost_bound():
     assert "python -m paperlite.cli catalog validate --format markdown" in ci
     assert "docker build -t paperlite-ci-smoke:local ." in ci
     assert "ruff check paperlite tests" in ci
+    assert ".github/dependabot.yml" in ci
+    assert ".github/ISSUE_TEMPLATE/**" in ci
+    assert ".github/pull_request_template.md" in ci
+    assert "docs/**" in ci
+    assert "CONTRIBUTING.md" in ci
+    assert "SECURITY.md" in ci
+    assert "CODE_OF_CONDUCT.md" in ci
+    assert "ROADMAP.md" in ci
+    assert "ARCHITECTURE.md" in ci
+    assert "RELEASE.md" in ci
+    assert "CITATION.cff" in ci
     assert "CHANGELOG.md" in ci
     assert "README.zh-CN.md" in ci
     assert "SKILL.md" in ci
     assert "TODO.md" not in ci
     assert ".env" in dockerignore
     assert "TODO.md" in dockerignore
+    assert ".github/" in dockerignore
     assert "paperlite/tests/" in dockerignore
     assert ".env" in gitignore
     assert "TODO.md" in gitignore
+
+    assert 'package-ecosystem: "pip"' in dependabot
+    assert 'package-ecosystem: "github-actions"' in dependabot
+    assert "Boundary checks" in pr_template
+    assert "No PDF/full-text" in pr_template
+    assert "Bug report" in bug_template
+    assert "Source request or source issue" in source_template
+    assert "Feature request" in feature_template
+    assert "blank_issues_enabled: false" in issue_config
